@@ -6,6 +6,10 @@ public class User {
     private String name;
     private String image;
 
+    User(){
+
+
+    }
 
     User(String userId, String name, String image) {
         this.userId = userId;
