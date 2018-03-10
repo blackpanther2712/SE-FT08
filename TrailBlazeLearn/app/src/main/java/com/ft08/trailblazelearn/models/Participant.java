@@ -10,5 +10,5 @@ public class Participant extends User{
 
     public void setTrailId(String trailId) { this.trailId = trailId; }
 
-    public void joinTrail(String trailId) {}git
+    public void joinTrail(String trailId) {}
 }
