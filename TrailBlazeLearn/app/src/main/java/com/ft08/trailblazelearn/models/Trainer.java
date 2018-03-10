@@ -6,7 +6,7 @@ public class Trainer extends User {
 
     private ArrayList<Trail> trailList;
 
-    Trainer(String userId, String name, byte[] image) {
+    Trainer(String userId, String name, String image) {
         super(userId, name, image);
         trailList = new ArrayList<>();
     }
