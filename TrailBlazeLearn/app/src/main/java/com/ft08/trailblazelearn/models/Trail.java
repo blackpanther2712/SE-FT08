@@ -7,27 +7,20 @@ import java.util.List;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by keerthanadevi on 08,March,2018
- */
 public class Trail {
-    private String trailName;
     private String module;
     private Date trailDate;
     private String trailID;
-    private ArrayList<Station> stations;
+    private String trailName;
     private int sequenceNum;
-
-
-
+    private ArrayList<Station> stations;
 
     public Trail(String trailName, String module, Date trailDate) {
         this.trailName = trailName;
         this.module = module;
         this.trailDate = trailDate;
-        DateFormat form = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        Date d=trailDate;
-        this.trailID = form.format(d)+trailName;
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        this.trailID = formatter.format(trailDate) + trailName;
         stations = new ArrayList<Station> ();
     }
 
@@ -64,30 +57,22 @@ public class Trail {
     }
 
     public List<Station> getStations() {
-        return new ArrayList<Station>(stations);
+        return stations;
     }
 
     public void setStations(ArrayList<Station> stations) {
         this.stations = stations;
     }
 
-//    public int getTrailNum() {
-//        return trailNum;
-//    }
-//
-//    public void setTrailNum(int trailNum) {
-//        this.trailNum = trailNum;
-//    }
-
     public Station addStation(String stationName, String instructions, String gps){
-        Station station = new Station(++sequenceNum,stationName,instructions,gps);
+        Station station = new Station(++sequenceNum, stationName, instructions, gps);
         stations.add(station);
         return station;
     }
 
     public void removeStation(String stationID){
         Station station = getStation(stationID);
-        if(station!=null){
+        if(station != null) {
             stations.remove(station);
         }
     }
@@ -115,9 +100,9 @@ public class Trail {
         setTrailDate(trailDate);
         return this;
     }
+
     @Override
     public String toString() {
         return getTrailName();
     }
-
 }
