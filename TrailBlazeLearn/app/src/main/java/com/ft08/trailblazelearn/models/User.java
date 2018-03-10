@@ -4,10 +4,10 @@ public class User {
 
     private String userId;
     private String name;
-    private byte[] image;
+    private String image;
 
 
-    User(String userId, String name, byte[] image) {
+    User(String userId, String name, String image) {
         this.userId = userId;
         this.name = name;
         this.image = image;
@@ -21,7 +21,7 @@ public class User {
         return name;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -33,7 +33,7 @@ public class User {
         this.name = name;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }
