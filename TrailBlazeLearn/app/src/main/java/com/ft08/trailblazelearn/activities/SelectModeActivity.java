@@ -2,6 +2,7 @@ package com.ft08.trailblazelearn.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ft08.trailblazelearn.R;
+import com.ft08.trailblazelearn.models.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.Serializable;
 
 public class SelectModeActivity extends AppCompatActivity {
 
@@ -53,7 +57,8 @@ public class SelectModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent trails = new Intent(SelectModeActivity.this,TrailActivity.class);
-                startActivity(trails);
+                Trainer trainer1 =new Trainer(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
+                trails.putExtra("TrainerObj", (Serializable) trainer1);
 
             }
         });

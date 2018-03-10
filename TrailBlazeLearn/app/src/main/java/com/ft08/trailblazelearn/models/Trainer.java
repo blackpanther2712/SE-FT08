@@ -1,25 +1,41 @@
 package com.ft08.trailblazelearn.models;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Trainer extends User {
 
-    private ArrayList<Trail> trailList;
 
-    Trainer(String userId, String name, String image) {
+
+    public Trainer(String userId, String name, String image) {
         super(userId, name, image);
-        trailList = new ArrayList<>();
+        trails = new ArrayList<>();
     }
 
-    public void addTrail(Trail newTrail) {
-        trailList.add(newTrail);
+    public List<Trail> getTrails() {
+        return trails;
     }
 
-    public void deleteTrail(Trail trail) {
-        trailList.remove(trail);
+    public Trail addTrail(String trailName, String module, Date trailDate){
+        Trail trail = new Trail(trailName,module,trailDate);
+        trails.add(trail);
+        return trail;
+    }
+    public void removeTrail(String trailID){
+        Trail trail = getTrail(trailID);
+        if(trail!=null){
+            trails.remove(trail);
+        }
     }
 
-    public ArrayList<Trail> getTrailList() {
-        return trailList;
+    public Trail editTrail(String trailName, String module, Date trailDate,String trailID){
+        Trail trail = getTrail(trailID);
+        return trail.editTrail(trailName,module,trailDate);
+
     }
+
+
+
+
 }

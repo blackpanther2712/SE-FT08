@@ -1,10 +1,14 @@
 package com.ft08.trailblazelearn.models;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class User {
 
     private String userId;
     private String name;
     private String image;
+    public ArrayList<Trail> trails;
 
     User(){
 
@@ -40,4 +44,14 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public Trail getTrail(String trailID) {
+        for (Trail trail : trails) {
+            if (trail.getTrailID().equals(trailID)) {
+                return trail;
+            }
+        }
+        return null;
+    }
+
 }
