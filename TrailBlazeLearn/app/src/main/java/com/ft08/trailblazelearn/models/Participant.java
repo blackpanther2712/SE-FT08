@@ -1,6 +1,6 @@
 package com.ft08.trailblazelearn.models;
 
-public class Participant extends User{
+public class Participant extends User {
 
     private String trailId;
 
