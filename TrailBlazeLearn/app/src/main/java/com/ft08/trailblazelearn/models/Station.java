@@ -1,8 +1,5 @@
 package com.ft08.trailblazelearn.models;
 
-/**
- * Created by keerthanadevi on 08,March,2018
- */
 public class Station {
 
     private int seqNum;
@@ -11,18 +8,12 @@ public class Station {
     private String gps;
     private String stationID;
 
-
-    public Station(){
-
-    }
-
     public Station(int seqNum, String stationName, String instructions, String gps) {
         this.seqNum = seqNum;
         this.stationName = stationName;
         this.instructions = instructions;
         this.gps = gps;
     }
-
 
     public String getStationName() {
         return stationName;
