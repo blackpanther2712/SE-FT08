@@ -22,8 +22,4 @@ public class Trainer extends User {
     public ArrayList<Trail> getTrailList() {
         return trailList;
     }
-
-    public void updateTrail(Trail trail) {
-        //trail.updateTrail()
-    }
 }
