@@ -61,7 +61,7 @@ public class SelectModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent trails = new Intent(SelectModeActivity.this,TrailActivity.class);
-                Trainer trainer1 =new Trainer(users.getUserId(),users.getName(),users.getImage());
+                Trainer trainer1 =new Trainer();
                 startActivity(trails);
 
             }

@@ -17,6 +17,8 @@ import com.ft08.trailblazelearn.activities.EditTrailActivity;
 import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,41 +37,43 @@ import java.util.List;
 public class TrailAdapter extends ArrayAdapter<Trail> {
 
     private Context context;
-    private List<Trail> trails = new ArrayList<Trail>();
+    private ArrayList<Trail> trails = new ArrayList<Trail>();
     private Trainer trainer;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference();
+    FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference myRef = database.getReference("Users").child(refUser.getUid());
+
+
 
 
     public TrailAdapter(Context context) {
         super(context, R.layout.trail_row_layout);
         this.context=context;
+
         refreshTrails();
     }
 
     public void refreshTrails() {
 
         trails.clear();
-//        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot i:dataSnapshot.getChildren()) {
-//                    trails.add(i.getValue(Trail.class));
-//                    notifyDataSetChanged();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+       myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot i:dataSnapshot.getChildren()) {
+                    trails.add(i.getValue(Trail.class));
+                    notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+       });
 
 
 
-        trails.addAll(trainer .getTrails()); //need to use currentuser ref from firebase
-        notifyDataSetChanged();
 
 
     }

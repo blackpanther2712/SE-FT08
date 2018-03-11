@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
@@ -35,8 +37,10 @@ public class AddTrailActivity extends AppCompatActivity  {
     private Calendar calendar;
     private Date startDate;
     private Trainer trainer;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference();
+    private DatabaseReference dRef;
+    private FirebaseUser refUser;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,9 @@ public class AddTrailActivity extends AppCompatActivity  {
         module = (EditText) findViewById(R.id.et_module);
         calendar = Calendar.getInstance();
         trailDate = (EditText)findViewById(R.id.et_date);
+        refUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        dRef = FirebaseDatabase.getInstance().getReference().child(refUser.getUid());
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -83,21 +89,21 @@ public class AddTrailActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 if (isValid()) {
 
-                    Trail trail = trainer.addTrail(trailName.getText().toString().trim(),
+                    /*Trail trail = new  Trail(trailName.getText().toString().trim(),
                             module.getText().toString().trim(), startDate);
 
-                    DatabaseReference ref = myRef.child("Trails").push();
-                    ref.child("Trail ID").setValue(trail.getTrailID());
-                    ref.child("Trail Name").setValue(trail.getTrailName());
+                    DatabaseReference ref = dRef.child("Trails").push();
+                    ref.child("TrailID").setValue(trail.getTrailID());
+                    ref.child("TrailName").setValue(trail.getTrailName());
                     ref.child("Module").setValue(trail.getModule());
                     DateFormat form = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                     Date d=trail.getTrailDate();
-                    ref.child("Trail Date").setValue(form.format(d));
-
+                    ref.child("TrailDate").setValue(form.format(d));
+*/
                     DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
                     Date d1=new Date();
                     Timestamp t =new Timestamp(d1.getTime());
-                    ref.child("TimeStamp").setValue(form1.format(t));
+                    //ref.child("TimeStamp").setValue(form1.format(t));
 
                     //ref.child("TimeStamp").setValue(ServerValue.TIMESTAMP);
 

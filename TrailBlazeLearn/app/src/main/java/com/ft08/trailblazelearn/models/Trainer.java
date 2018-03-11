@@ -6,11 +6,12 @@ import java.util.List;
 
 public class Trainer extends User {
     public ArrayList<Trail> trails;
-
-    public Trainer(String userId, String name, String image) {
-        super(userId, name, image);
+    public Trainer(){
         trails = new ArrayList<>();
     }
+
+
+
 
     public List<Trail> getTrails() {
         return trails;
@@ -25,8 +26,8 @@ public class Trainer extends User {
         return null;
     }
 
-    public Trail addTrail(String trailName, String module, Date trailDate) {
-        Trail trail = new Trail(trailName,module,trailDate);
+    public Trail addTrail(String trailName, String trailCode,String module, Date trailDate) {
+        Trail trail = new Trail(trailName,trailCode,module,trailDate);
         trails.add(trail);
         return trail;
     }
