@@ -64,13 +64,13 @@ public class Trail {
         this.stations = stations;
     }
 
-    public Station addStation(String stationName, String instructions, String gps){
+    public Station addStation(String stationName, String instructions, String gps) {
         Station station = new Station(++sequenceNum, stationName, instructions, gps);
         stations.add(station);
         return station;
     }
 
-    public void removeStation(String stationID){
+    public void removeStation(String stationID) {
         Station station = getStation(stationID);
         if(station != null) {
             stations.remove(station);
@@ -86,7 +86,7 @@ public class Trail {
         return null;
     }
 
-    public Station editStation(int seqNum,String stationName, String instructions, String gps,String stationID){
+    public Station editStation(int seqNum,String stationName, String instructions, String gps,String stationID) {
         Station station = getStation(stationID);
         if (station != null) {
             station.editStation(seqNum,stationName,instructions,gps);
@@ -94,7 +94,7 @@ public class Trail {
         return station;
     }
 
-    public Trail editTrail(String trailName, String module, Date trailDate){
+    public Trail editTrail(String trailName, String module, Date trailDate) {
         setTrailName(trailName);
         setModule(module);
         setTrailDate(trailDate);
