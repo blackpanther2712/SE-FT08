@@ -9,12 +9,12 @@ public class User {
     private String name;
     private String image;
 
-    User(){
+    public User(){
 
 
     }
 
-    User(String userId, String name, String image) {
+    public User(String userId, String name, String image) {
         this.userId = userId;
         this.name = name;
         this.image = image;

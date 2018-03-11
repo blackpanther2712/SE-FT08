@@ -4,7 +4,7 @@ public class Participant extends User {
 
     private String trailId;
 
-    Participant() {}
+    public Participant() {}
 
     public String getTrailId() { return trailId; }
 
