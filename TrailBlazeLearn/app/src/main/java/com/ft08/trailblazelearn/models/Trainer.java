@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Trainer extends User {
-
+    public ArrayList<Trail> trails;
     public Trainer(String userId, String name, String image) {
         super(userId, name, image);
         trails = new ArrayList<>();
@@ -13,6 +13,15 @@ public class Trainer extends User {
 
     public List<Trail> getTrails() {
         return trails;
+    }
+
+    public Trail getTrail(String trailID) {
+        for (Trail trail : trails) {
+            if (trail.getTrailID().equals(trailID)) {
+                return trail;
+            }
+        }
+        return null;
     }
 
     public Trail addTrail(String trailName, String module, Date trailDate) {

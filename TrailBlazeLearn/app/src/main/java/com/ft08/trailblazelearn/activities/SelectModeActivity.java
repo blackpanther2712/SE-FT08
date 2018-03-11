@@ -58,7 +58,7 @@ public class SelectModeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent trails = new Intent(SelectModeActivity.this,TrailActivity.class);
                 Trainer trainer1 =new Trainer(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
-                trails.putExtra("TrainerObj", (Serializable) trainer1);
+                startActivity(trails);
 
             }
         });

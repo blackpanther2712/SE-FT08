@@ -17,10 +17,16 @@ import com.ft08.trailblazelearn.activities.EditTrailActivity;
 import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,19 +37,38 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     private Context context;
     private List<Trail> trails = new ArrayList<Trail>();
     private Trainer trainer;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference();
 
 
-    public TrailAdapter(Context context,Trainer trainer) {
+    public TrailAdapter(Context context) {
         super(context, R.layout.trail_row_layout);
         this.context=context;
-        this.trainer=trainer;
         refreshTrails();
     }
 
     public void refreshTrails() {
 
         trails.clear();
-        trails.addAll(trainer.getTrails());
+//        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot i:dataSnapshot.getChildren()) {
+//                    trails.add(i.getValue(Trail.class));
+//                    notifyDataSetChanged();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
+
+        trails.addAll(trainer .getTrails()); //need to use currentuser ref from firebase
         notifyDataSetChanged();
 
 
@@ -75,7 +100,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getContext(), StationActivity.class);
-                intent.putExtra("userobj", (Serializable) trainer);
                 intent.putExtra("trailId",trail.getTrailID());
                 getContext().startActivity(intent);
             }
@@ -83,6 +107,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 trainer.removeTrail(trail.getTrailID());
+                //need to include code to remove trail obj in firebase
                 refreshTrails();
             }
         });
@@ -90,7 +115,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditTrailActivity.class);
-                intent.putExtra("userobj", (Serializable) trainer);
                 intent.putExtra("trailId",trail.getTrailID());
                 getContext().startActivity(intent);
                 refreshTrails();

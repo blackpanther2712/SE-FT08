@@ -36,7 +36,7 @@ public class AddTrailActivity extends AppCompatActivity  {
     private Date startDate;
     private Trainer trainer;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Trainers/Trails");
+    DatabaseReference myRef = database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class AddTrailActivity extends AppCompatActivity  {
         module = (EditText) findViewById(R.id.et_module);
         calendar = Calendar.getInstance();
         trailDate = (EditText)findViewById(R.id.et_date);
-        trainer=(Trainer) getIntent().getSerializableExtra("Trainerobj");
+
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -57,7 +57,6 @@ public class AddTrailActivity extends AppCompatActivity  {
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                 trailDate.setText(sdf.format(calendar.getTime()));
-                //DateFormat df = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                 try {
                     startDate = sdf.parse(trailDate.getText().toString().trim());
                 } catch (ParseException e) {
@@ -87,7 +86,7 @@ public class AddTrailActivity extends AppCompatActivity  {
                     Trail trail = trainer.addTrail(trailName.getText().toString().trim(),
                             module.getText().toString().trim(), startDate);
 
-                    DatabaseReference ref = myRef.push();
+                    DatabaseReference ref = myRef.child("Trails").push();
                     ref.child("Trail ID").setValue(trail.getTrailID());
                     ref.child("Trail Name").setValue(trail.getTrailName());
                     ref.child("Module").setValue(trail.getModule());

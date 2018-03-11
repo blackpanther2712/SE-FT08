@@ -21,20 +21,18 @@ public class TrailActivity extends AppCompatActivity {
 
     private TextView trailEmpty;
     private TrailAdapter trailAdapter;
-    private FirebaseUser userref;
-    private Trainer user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail);
 
-        user=(Trainer)getIntent().getSerializableExtra("TrainerObj");
-        userref = FirebaseAuth.getInstance().getCurrentUser();
         ListView trailList = (ListView) findViewById(R.id.trail_list);
         trailEmpty = (TextView) findViewById(R.id.empty_value);
-        trailAdapter = new TrailAdapter(this,user);
+        trailAdapter = new TrailAdapter(this);
         trailList.setAdapter(trailAdapter);
+
 
 
         FloatingActionButton floatingActionButton =
@@ -42,12 +40,9 @@ public class TrailActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent=new Intent(TrailActivity.this, AddTrailActivity.class);
-                intent.putExtra("Trainerobj",(Serializable) user);
                 startActivity(intent);
             }
         });
-
-        floatingActionButton.setVisibility(getIntent().getSerializableExtra("TrainerObj")instanceof Trainer ? View.VISIBLE : View.GONE);
 
 
 
