@@ -24,8 +24,8 @@ public class Trail {
         this.trailCode = trailCode;
         this.module = module;
         this.trailDate = trailDate;
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        this.trailID = formatter.format(trailDate) + trailCode;
+        DateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+        this.trailID = formatter.format(trailDate)+"-"+trailCode;
         stations = new ArrayList<Station> ();
     }
 

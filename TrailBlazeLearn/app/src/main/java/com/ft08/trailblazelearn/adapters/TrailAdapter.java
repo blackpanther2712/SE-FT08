@@ -72,10 +72,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             }
        });
 
-
-
-
-
     }
 
     @NonNull
@@ -96,7 +92,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final Trail trail = trails.get(position);
+        final Trail trail = getItem(position);
         viewHolder.trailName.setText(trail.toString());
 
         viewHolder.trailName.setOnClickListener(new View.OnClickListener() {

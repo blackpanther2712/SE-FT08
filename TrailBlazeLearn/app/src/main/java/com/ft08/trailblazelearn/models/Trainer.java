@@ -6,10 +6,14 @@ import java.util.List;
 
 public class Trainer extends User {
     public ArrayList<Trail> trails;
-    public Trainer(){
-        trails = new ArrayList<>();
-    }
+//   public Trainer(){
+//        trails = new ArrayList<>();
+//    }
 
+     public Trainer(String userId, String name, String image) {
+         super(userId, name, image);
+         trails= new ArrayList<Trail>();
+     }
 
 
 

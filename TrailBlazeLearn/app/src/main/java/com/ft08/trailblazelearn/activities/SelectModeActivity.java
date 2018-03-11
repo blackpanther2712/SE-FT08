@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ft08.trailblazelearn.R;
+import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.ft08.trailblazelearn.models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,8 @@ public class SelectModeActivity extends AppCompatActivity {
 
     private FirebaseUser user;
     private User users;
+    private Trainer userTrainer;
+    private Participant userParticipant;
 
 
     private FirebaseAuth.AuthStateListener mListener;
@@ -49,7 +52,7 @@ public class SelectModeActivity extends AppCompatActivity {
         participant =(Button)findViewById(R.id.ParticipantBtn);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        users = new User(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
+        //users = new User(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
 
 
 
@@ -61,7 +64,7 @@ public class SelectModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent trails = new Intent(SelectModeActivity.this,TrailActivity.class);
-                Trainer trainer1 =new Trainer();
+                userTrainer =new Trainer(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
                 startActivity(trails);
 
             }

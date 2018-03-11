@@ -128,9 +128,24 @@ public class TrailActivity extends AppCompatActivity {
                             DateFormat form = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
 
 
-                            Trail trails = new Trail(name, code, moduletxt,startDate);
+                            Trail trail = new Trail(name, code, moduletxt,startDate);
 
-                            dRef.child("Trails").push().setValue(trails);
+                            DatabaseReference tref=dRef.child("Trails").push();
+
+                            tref.child("Trail Name").setValue(trail.getTrailName());
+                            tref.child("Trail Code").setValue(trail.getTrailCode());
+                            tref.child("Module").setValue(trail.getModule());
+                            tref.child("TrailID").setValue(trail.getTrailID());
+                            DateFormat format = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
+                            Date d=trail.getTrailDate();
+                            tref.child("Trail Date").setValue(form.format(d));
+
+                            DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
+                            Date d1=new Date();
+                            Timestamp t =new Timestamp(d1.getTime());
+                            tref.child("TimeStamp").setValue(form1.format(t));
+
+
                             Intent intent = getIntent();
                             finish();
                             startActivity(intent);

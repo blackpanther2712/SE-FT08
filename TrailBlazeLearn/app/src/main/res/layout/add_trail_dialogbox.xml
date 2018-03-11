@@ -5,77 +5,185 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="450dp"-->
+        <!--android:layout_marginBottom="20dp">-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--tools:layout_editor_absoluteX="0dp"-->
+        <!--tools:layout_editor_absoluteY="0dp"-->
+        <!--tools:ignore="MissingConstraints">-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/TrailNametxt"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/TrailCodetxt"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_marginBottom="43dp"-->
+            <!--android:layout_marginLeft="55dp"-->
+            <!--android:layout_marginStart="55dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Enter the Trail name"-->
+            <!--android:inputType="textPersonName" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/TrailCodetxt"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/Moduletxt"-->
+            <!--android:layout_alignLeft="@+id/TrailNametxt"-->
+            <!--android:layout_alignStart="@+id/TrailNametxt"-->
+            <!--android:layout_marginBottom="57dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Enter the trail code"-->
+            <!--android:inputType="textPersonName" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/Moduletxt"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/datetxt"-->
+            <!--android:layout_alignLeft="@+id/TrailCodetxt"-->
+            <!--android:layout_alignStart="@+id/TrailCodetxt"-->
+            <!--android:layout_marginBottom="51dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Enter the module name"-->
+            <!--android:inputType="textPersonName" />-->
+
+    <!--</RelativeLayout>-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/datetxt"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_above="@+id/CreateBtn"-->
+            <!--android:layout_alignLeft="@+id/Moduletxt"-->
+            <!--android:layout_alignStart="@+id/Moduletxt"-->
+            <!--android:layout_marginBottom="14dp"-->
+            <!--android:clickable="true"-->
+            <!--android:ems="10"-->
+            <!--android:focusable="false"-->
+            <!--android:hint="Enter your date"-->
+            <!--android:inputType="date" />-->
+
+    <!--</ScrollView>-->
+
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        android:layout_height="450dp"
+        android:layout_marginBottom="20dp">
 
-        <EditText
-            android:id="@+id/TrailNametxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/TrailCodetxt"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="43dp"
-            android:layout_marginLeft="55dp"
-            android:layout_marginStart="55dp"
-            android:ems="10"
-            android:hint="Enter the Trail name"
-            android:inputType="textPersonName" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp">
 
-        <EditText
-            android:id="@+id/TrailCodetxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/Moduletxt"
-            android:layout_alignLeft="@+id/TrailNametxt"
-            android:layout_alignStart="@+id/TrailNametxt"
-            android:layout_marginBottom="57dp"
-            android:ems="10"
-            android:hint="Enter the trail code"
-            android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/Moduletxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/datetxt"
-            android:layout_alignLeft="@+id/TrailCodetxt"
-            android:layout_alignStart="@+id/TrailCodetxt"
-            android:layout_marginBottom="51dp"
-            android:ems="10"
-            android:hint="Enter the module name"
-            android:inputType="textPersonName" />
+            <TextView
+                android:id="@+id/trailname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/trail_name" />
 
-        <EditText
-            android:id="@+id/datetxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/CreateBtn"
-            android:layout_alignLeft="@+id/Moduletxt"
-            android:layout_alignStart="@+id/Moduletxt"
-            android:layout_marginBottom="14dp"
-            android:ems="10"
-            android:focusable="false"
-            android:clickable="true"
-            android:hint="Enter your date"
-            android:inputType="date" />
+            <EditText
+                android:id="@+id/TrailNametxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/trailname"
+                android:hint="@string/trail_name"
+                android:inputType="" />
+            <TextView
+                android:id="@+id/trailcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/TrailNametxt"
+                android:text="Trail Code" />
 
-        <Button
-            android:id="@+id/CreateBtn"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/datetxt"
-            android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/datetxt"
-            android:layout_marginEnd="54dp"
-            android:layout_marginRight="54dp"
-            android:text="Create" />
+            <EditText
+                android:id="@+id/TrailCodetxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/trailcode"
+                android:hint="Trail Code"
+                android:inputType="" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/mod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/TrailCodetxt"
+                android:text="@string/module"
+
+                />
+
+            <EditText
+                android:id="@+id/Moduletxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/mod"
+                android:hint="@string/module"
+                android:inputType="" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/Moduletxt"
+                android:text="@string/date"
+
+                />
+            <EditText
+                android:id="@+id/datetxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/date"
+                android:hint="@string/date"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="" />
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/CreateBtn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:text="Create" />
+
+
 
 </RelativeLayout>
