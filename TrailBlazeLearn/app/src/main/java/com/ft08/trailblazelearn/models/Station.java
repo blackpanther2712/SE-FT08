@@ -1,8 +1,5 @@
 package com.ft08.trailblazelearn.models;
 
-/**
- * Created by keerthanadevi on 08,March,2018
- */
 public class Station {
 
     private int seqNum;
