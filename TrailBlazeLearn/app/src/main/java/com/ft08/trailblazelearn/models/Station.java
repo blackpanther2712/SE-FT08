@@ -38,7 +38,7 @@ public class Station {
 
     public void setStationID(String stationID) { this.stationID = stationID; }
 
-    public void editStation(int seqNum, String stationName, String instructions, String gps){
+    public void editStation(int seqNum, String stationName, String instructions, String gps) {
         setSeqNum(seqNum);
         setStationName(stationName);
         setInstructions(instructions);
