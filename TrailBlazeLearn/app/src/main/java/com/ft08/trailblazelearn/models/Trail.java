@@ -11,16 +11,21 @@ public class Trail {
     private String module;
     private Date trailDate;
     private String trailID;
+    private String trailCode;
     private String trailName;
     private int sequenceNum;
     private ArrayList<Station> stations;
 
-    public Trail(String trailName, String module, Date trailDate) {
+    public Trail(){
+
+    }
+    public Trail(String trailName,String trailCode, String module, Date trailDate) {
         this.trailName = trailName;
+        this.trailCode = trailCode;
         this.module = module;
         this.trailDate = trailDate;
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        this.trailID = formatter.format(trailDate) + trailName;
+        DateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+        this.trailID = formatter.format(trailDate)+"-"+trailCode;
         stations = new ArrayList<Station> ();
     }
 
@@ -34,6 +39,14 @@ public class Trail {
 
     public String getModule() {
         return module;
+    }
+
+    public String getTrailCode() {
+        return trailCode;
+    }
+
+    public void setTrailCode(String trailCode) {
+        this.trailCode = trailCode;
     }
 
     public void setModule(String module) {

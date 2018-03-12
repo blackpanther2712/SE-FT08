@@ -8,14 +8,13 @@ public class User {
     private String userId;
     private String name;
     private String image;
-    public ArrayList<Trail> trails;
 
-    User(){
+    public User(){
 
 
     }
 
-    User(String userId, String name, String image) {
+    public User(String userId, String name, String image) {
         this.userId = userId;
         this.name = name;
         this.image = image;
@@ -45,13 +44,6 @@ public class User {
         this.image = image;
     }
 
-    public Trail getTrail(String trailID) {
-        for (Trail trail : trails) {
-            if (trail.getTrailID().equals(trailID)) {
-                return trail;
-            }
-        }
-        return null;
-    }
+
 
 }

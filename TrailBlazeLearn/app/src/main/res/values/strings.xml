@@ -25,5 +25,7 @@
     <string name="date">Date</string>
     <string name="module">Module</string>
     <string name="trail_name">Trail Name</string>
+    <string name="trail_code">Trail Code</string>
+
 
 </resources>

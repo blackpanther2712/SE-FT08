@@ -6,17 +6,36 @@ import java.util.List;
 
 public class Trainer extends User {
 
-    public Trainer(String userId, String name, String image) {
-        super(userId, name, image);
-        trails = new ArrayList<>();
+
+    public ArrayList<Trail> trails;
+//   public Trainer(){
+//        trails = new ArrayList<>();
+//    }
+
+     public Trainer(String userId, String name, String image) {
+         super(userId, name, image);
+         trails= new ArrayList<Trail>();
+     }
+
+    public void setTrails(ArrayList<Trail> trails) {
+        this.trails = trails;
     }
 
     public List<Trail> getTrails() {
         return trails;
     }
 
-    public Trail addTrail(String trailName, String module, Date trailDate) {
-        Trail trail = new Trail(trailName,module,trailDate);
+    public Trail getTrail(String trailID) {
+        for (Trail trail : trails) {
+            if (trail.getTrailID().equals(trailID)) {
+                return trail;
+            }
+        }
+        return null;
+    }
+
+    public Trail addTrail(String trailName, String trailCode,String module, Date trailDate) {
+        Trail trail = new Trail(trailName,trailCode,module,trailDate);
         trails.add(trail);
         return trail;
     }
