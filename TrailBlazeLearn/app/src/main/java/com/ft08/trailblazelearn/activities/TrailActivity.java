@@ -154,9 +154,7 @@ public class TrailActivity extends AppCompatActivity {
                             tref.child("TimeStamp").setValue(form1.format(t));
 
 
-                            Intent intent = getIntent();
-                            finish();
-                            startActivity(intent);
+
                             dialog.dismiss();
                             Toast.makeText(TrailActivity.this,getString(R.string.saved_successfully),
                                     Toast.LENGTH_SHORT).show();

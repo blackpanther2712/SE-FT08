@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ft08.trailblazelearn.R;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 
 
 import java.io.Serializable;
@@ -114,8 +116,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             convertView = inflater != null ? inflater.inflate(R.layout.trail_row_layout, parent, false) : null;
             viewHolder = new ViewHolder();
             viewHolder.trailName = (TextView) convertView.findViewById(R.id.trail_name);
-            viewHolder.btnRemove = (Button) convertView.findViewById(R.id.btn_remove);
-            viewHolder.btnEdit = (Button) convertView.findViewById(R.id.btn_edit);
+            viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
+            viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -136,13 +138,25 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
 
-                trainer.removeTrail(trail.getTrailID());
-                //need to include code to remove trail obj in firebase
-                refreshTrails();
-
-
+//                final Query query=myRef.orderByChild("trailID").equalTo(trail.getTrailID());
+//                query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
+//                            dataSnap.getRef().removeValue();
+//                            notifyDataSetChanged();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+                //refreshTrails();
             }
         });
+
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,8 +188,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
     static class ViewHolder {
         TextView trailName;
-        Button btnRemove;
-        Button btnEdit;
+        ImageButton btnRemove;
+        ImageButton btnEdit;
 
     }
 

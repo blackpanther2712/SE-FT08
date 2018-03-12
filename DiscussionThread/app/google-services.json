@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "913164086627",
+    "firebase_url": "https://discussionthread-87c56.firebaseio.com",
+    "project_id": "discussionthread-87c56",
+    "storage_bucket": "discussionthread-87c56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913164086627:android:a17efc8e7f04e009",
+        "android_client_info": {
+          "package_name": "com.ft08.discussionthread"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913164086627-e95sfuqb3frj35co88qg9tm3db2d1o97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ft08.discussionthread",
+            "certificate_hash": "e7dc7ccf92bd8039d54d7c660cbbbb81ad53cd43"
+          }
+        },
+        {
+          "client_id": "913164086627-l3uolrm8uf2r0dgboh1gr2d8cvbs33ts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD24jKoKfi4aKFynG0mRjiUP9-Zd8nosc8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913164086627-l3uolrm8uf2r0dgboh1gr2d8cvbs33ts.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
