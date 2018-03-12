@@ -107,11 +107,14 @@ public class TrailActivity extends AppCompatActivity {
                 trailDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new DatePickerDialog(TrailActivity.this, date, calendar.get(Calendar.YEAR),
-                                calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                       DatePickerDialog dpd = new DatePickerDialog(TrailActivity.this, date, calendar.get(Calendar.YEAR),
+                                calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                       dpd.show();
+                       dpd.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
 
                     }
                 });
+
 
 
 
