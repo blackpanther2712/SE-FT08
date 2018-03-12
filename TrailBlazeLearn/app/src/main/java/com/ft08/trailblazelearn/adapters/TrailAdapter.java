@@ -1,6 +1,8 @@
 package com.ft08.trailblazelearn.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -139,21 +141,41 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
 
-                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
-                            dataSnap.getRef().removeValue();
-                            notifyDataSetChanged();
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
+                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
+                                            dataSnap.getRef().removeValue();
+                                            notifyDataSetChanged();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                                dialog.dismiss();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.dismiss();
+                                break;
                         }
                     }
+                };
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want to delete "+trail.getTrailName()).setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
 
-                    }
-                });
+
                 refreshTrails();
             }
         });
