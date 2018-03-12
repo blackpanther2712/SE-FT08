@@ -21,7 +21,7 @@
         <activity android:name=".activities.AddTrailActivity" />
         <activity android:name=".activities.StationActivity" />
         <activity android:name=".activities.EditTrailActivity" />
-        <activity android:name=".activities.Trail2Activity"></activity>
+
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@
     <string name="trail_name_validation_ms">Please fill in trail name</string>
     <string name="module_validation_ms">Please fill in module</string>
     <string name="date_validation_ms">Please select the date</string>
+    <string name="code_validation_ms">Please fill in trail code</string>
     <string name="station_name_validation_ms">Please fill in station name</string>
     <string name="latitude_validation_ms">Please fill in latitude</string>
     <string name="longitude_validation_ms">Please fill in longitude</string>
@@ -26,6 +27,7 @@
     <string name="module">Module</string>
     <string name="trail_name">Trail Name</string>
     <string name="trail_code">Trail Code</string>
+
 
 
 </resources>

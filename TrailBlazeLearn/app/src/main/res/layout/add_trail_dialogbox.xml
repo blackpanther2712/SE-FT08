@@ -3,77 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="450dp"-->
-        <!--android:layout_marginBottom="20dp">-->
-
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginBottom="20dp"-->
-        <!--tools:layout_editor_absoluteX="0dp"-->
-        <!--tools:layout_editor_absoluteY="0dp"-->
-        <!--tools:ignore="MissingConstraints">-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/TrailNametxt"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_above="@+id/TrailCodetxt"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_marginBottom="43dp"-->
-            <!--android:layout_marginLeft="55dp"-->
-            <!--android:layout_marginStart="55dp"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Enter the Trail name"-->
-            <!--android:inputType="textPersonName" />-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/TrailCodetxt"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_above="@+id/Moduletxt"-->
-            <!--android:layout_alignLeft="@+id/TrailNametxt"-->
-            <!--android:layout_alignStart="@+id/TrailNametxt"-->
-            <!--android:layout_marginBottom="57dp"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Enter the trail code"-->
-            <!--android:inputType="textPersonName" />-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/Moduletxt"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_above="@+id/datetxt"-->
-            <!--android:layout_alignLeft="@+id/TrailCodetxt"-->
-            <!--android:layout_alignStart="@+id/TrailCodetxt"-->
-            <!--android:layout_marginBottom="51dp"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Enter the module name"-->
-            <!--android:inputType="textPersonName" />-->
-
-    <!--</RelativeLayout>-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/datetxt"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_above="@+id/CreateBtn"-->
-            <!--android:layout_alignLeft="@+id/Moduletxt"-->
-            <!--android:layout_alignStart="@+id/Moduletxt"-->
-            <!--android:layout_marginBottom="14dp"-->
-            <!--android:clickable="true"-->
-            <!--android:ems="10"-->
-            <!--android:focusable="false"-->
-            <!--android:hint="Enter your date"-->
-            <!--android:inputType="date" />-->
-
-    <!--</ScrollView>-->
-
+    android:layout_height="match_parent"
+   >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -182,7 +113,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
-        android:text="Create" />
+        android:text="@string/save" />
 
 
 

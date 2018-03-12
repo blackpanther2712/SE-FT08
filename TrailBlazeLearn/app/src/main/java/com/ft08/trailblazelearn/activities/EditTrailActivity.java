@@ -55,13 +55,13 @@ public class EditTrailActivity extends AppCompatActivity {
         module = (EditText) findViewById(R.id.et_module);
         calendar = Calendar.getInstance();
         trailDate = (EditText) findViewById(R.id.et_date);
-        SimpleDateFormat sdfh = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-        try {
-            startDate = sdfh.parse(trailDate.getText().toString().trim());
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        SimpleDateFormat sdfh = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+//        try {
+//            startDate = sdfh.parse(trailDate.getText().toString().trim());
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override

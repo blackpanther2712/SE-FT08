@@ -207,6 +207,10 @@ public class TrailActivity extends AppCompatActivity {
             module.setError(getString(R.string.module_validation_ms));
             isValid = false;
         }
+        if (TextUtils.isEmpty(trailCode.getText().toString().trim())) {
+            trailCode.setError(getString(R.string.code_validation_ms));
+            isValid = false;
+        }
 
         if (TextUtils.isEmpty(trailDate.getText().toString().trim())) {
             trailDate.setError(getString(R.string.date_validation_ms));
