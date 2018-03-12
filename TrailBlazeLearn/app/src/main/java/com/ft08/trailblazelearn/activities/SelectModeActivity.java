@@ -58,9 +58,7 @@ public class SelectModeActivity extends AppCompatActivity {
         participant =(Button)findViewById(R.id.ParticipantBtn);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        //users = new User(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
-
-
+        users = new User(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
 
 
         currentUser= (TextView)findViewById(R.id.CurrentUser);
@@ -70,7 +68,7 @@ public class SelectModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent trails = new Intent(SelectModeActivity.this,TrailActivity.class);
-                userTrainer =new Trainer(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
+                userTrainer =new Trainer();
                 startActivity(trails);
 
             }

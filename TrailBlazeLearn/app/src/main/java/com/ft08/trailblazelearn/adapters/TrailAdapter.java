@@ -48,8 +48,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     Date stdate;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference myRef = database.getReference("Users").child(refUser.getUid());
-
+    DatabaseReference myRef = database.getReference("Users").child(refUser.getUid()).child("Trails");
 
 
 
@@ -58,7 +57,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         this.context=context;
         //this.trails=traillist;
         refreshTrails();
-
     }
 
     public void refreshTrails() {
@@ -76,7 +74,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                getData(dataSnapshot);
             }
 
             @Override
@@ -89,7 +87,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
             }
         });
-
 
     }
 
@@ -138,7 +135,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         });
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                //trainer.removeTrail(trail.getTrailID());
+
+                trainer.removeTrail(trail.getTrailID());
                 //need to include code to remove trail obj in firebase
                 refreshTrails();
 

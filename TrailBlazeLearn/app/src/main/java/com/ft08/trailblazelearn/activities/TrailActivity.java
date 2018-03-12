@@ -44,7 +44,7 @@ public class TrailActivity extends AppCompatActivity {
 
     private DatabaseReference dRef;
     private FirebaseUser user;
-    private Calendar calendar= Calendar.getInstance();;
+    private Calendar calendar= Calendar.getInstance();
     private Date startDate;
     //private TrailHelper store;
 
@@ -64,11 +64,10 @@ public class TrailActivity extends AppCompatActivity {
         final ListView trailList = (ListView) findViewById(R.id.trail_list);
         trailEmpty = (TextView) findViewById(R.id.empty_value);
         //trailAdapter = new TrailAdapter(this,store.retrieveData());
+
         trailAdapter = new TrailAdapter(this);
         trailList.setAdapter(trailAdapter);
-
-
-
+        trailList.setEmptyView(trailEmpty);
 
         FloatingActionButton floatingActionButton =
                 (FloatingActionButton) findViewById(R.id.fab);
