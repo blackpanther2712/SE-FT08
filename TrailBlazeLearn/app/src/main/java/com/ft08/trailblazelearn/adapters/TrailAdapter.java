@@ -50,7 +50,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     Date stdate;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference myRef = database.getReference("Users").child(refUser.getUid()).child("Trails");
+    DatabaseReference myRef = database.getReference("Users").child(refUser.getUid());
+    DatabaseReference rRef = myRef.child("Trails");
 
 
 
@@ -138,7 +139,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
 
-//                final Query query=myRef.orderByChild("trailID").equalTo(trail.getTrailID());
+//                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
 //                query.addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
 //                    public void onDataChange(DataSnapshot dataSnapshot) {
