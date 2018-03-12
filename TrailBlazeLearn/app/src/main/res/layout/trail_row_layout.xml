@@ -16,7 +16,7 @@ android:layout_height="match_parent"
     tools:ignore="RelativeOverlap" />
 
 <ImageButton
-    android:id="@+id/btn_remove"
+    android:id="@+id/btn_edit"
     android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:layout_marginRight="132dp"
@@ -25,7 +25,7 @@ android:layout_height="match_parent"
     android:src="@drawable/editor_icon"/>
 
 <ImageButton
-    android:id="@+id/btn_edit"
+    android:id="@+id/btn_remove"
     android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:layout_marginRight="49dp"
