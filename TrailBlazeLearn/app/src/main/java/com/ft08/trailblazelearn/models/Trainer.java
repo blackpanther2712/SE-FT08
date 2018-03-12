@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Trainer extends User {
+
+
     public ArrayList<Trail> trails;
 //   public Trainer(){
 //        trails = new ArrayList<>();
@@ -15,7 +17,9 @@ public class Trainer extends User {
          trails= new ArrayList<Trail>();
      }
 
-
+    public void setTrails(ArrayList<Trail> trails) {
+        this.trails = trails;
+    }
 
     public List<Trail> getTrails() {
         return trails;

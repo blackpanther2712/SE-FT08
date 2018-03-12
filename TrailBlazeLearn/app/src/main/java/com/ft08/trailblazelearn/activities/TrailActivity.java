@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.TrailAdapter;
+import com.ft08.trailblazelearn.helpers.TrailHelper;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.ft08.trailblazelearn.models.User;
@@ -45,6 +46,7 @@ public class TrailActivity extends AppCompatActivity {
     private FirebaseUser user;
     private Calendar calendar= Calendar.getInstance();;
     private Date startDate;
+    //private TrailHelper store;
 
 
 
@@ -55,14 +57,17 @@ public class TrailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail);
 
-        ListView trailList = (ListView) findViewById(R.id.trail_list);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+        //store = new TrailHelper(dRef);
+
+        final ListView trailList = (ListView) findViewById(R.id.trail_list);
         trailEmpty = (TextView) findViewById(R.id.empty_value);
+        //trailAdapter = new TrailAdapter(this,store.retrieveData());
         trailAdapter = new TrailAdapter(this);
         trailList.setAdapter(trailAdapter);
 
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
 
 
         FloatingActionButton floatingActionButton =
@@ -132,16 +137,17 @@ public class TrailActivity extends AppCompatActivity {
 
 
                             Trail trail = new Trail(name, code, moduletxt,startDate);
+//                            if (store.saveTrail(trail)){
+//                                trailAdapter =new TrailAdapter(TrailActivity.this,store.retrieveData());
+//                                trailList.setAdapter(trailAdapter);
+//                            }
 
-                            DatabaseReference tref=dRef.child("Trails").push();
 
-                            tref.child("Trail Name").setValue(trail.getTrailName());
-                            tref.child("Trail Code").setValue(trail.getTrailCode());
-                            tref.child("Module").setValue(trail.getModule());
-                            tref.child("TrailID").setValue(trail.getTrailID());
-                            DateFormat format = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
+                            DatabaseReference tref =dRef.child("Trails").push();
+                            tref.setValue(trail);
+                            DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                             Date d=trail.getTrailDate();
-                            tref.child("Trail Date").setValue(form.format(d));
+                            tref.child("Trail Date").setValue(ft.format(d));
 
                             DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
                             Date d1=new Date();
@@ -174,6 +180,7 @@ public class TrailActivity extends AppCompatActivity {
             public void onResume() {
                 super.onResume();
                 trailAdapter.refreshTrails();
+                //store.retrieveData();
                 trailEmpty.setVisibility(trailAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
             }
 
@@ -181,6 +188,15 @@ public class TrailActivity extends AppCompatActivity {
             public void onStop() {
                 super.onStop();
                 trailAdapter.refreshTrails();
+                //store.retrieveData();
+                trailEmpty.setVisibility(trailAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            protected void onStart() {
+                super.onStart();
+                trailAdapter.refreshTrails();
+                //store.retrieveData();
                 trailEmpty.setVisibility(trailAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
             }
 

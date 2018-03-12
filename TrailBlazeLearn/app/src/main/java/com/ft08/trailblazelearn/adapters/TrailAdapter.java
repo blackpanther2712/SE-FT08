@@ -19,6 +19,7 @@ import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,9 +28,14 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by keerthanadevi on 10,March,2018
@@ -39,6 +45,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     private Context context;
     private ArrayList<Trail> trails = new ArrayList<Trail>();
     private Trainer trainer;
+    Date stdate;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference myRef = database.getReference("Users").child(refUser.getUid());
@@ -49,20 +56,31 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     public TrailAdapter(Context context) {
         super(context, R.layout.trail_row_layout);
         this.context=context;
-
+        //this.trails=traillist;
         refreshTrails();
+
     }
 
     public void refreshTrails() {
 
-        trails.clear();
-       myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot i:dataSnapshot.getChildren()) {
-                    trails.add(i.getValue(Trail.class));
-                    notifyDataSetChanged();
-                }
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                getData(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                getData(dataSnapshot);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -70,9 +88,23 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-       });
+        });
+
 
     }
+
+    public void getData(DataSnapshot dataSnapshot){
+        trails.clear();
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            Trail trail1=(Trail) ds.getValue(Trail.class);
+            trails.add(trail1);
+            notifyDataSetChanged();
+        }
+
+    }
+
+
+
 
     @NonNull
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
@@ -106,9 +138,11 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         });
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                trainer.removeTrail(trail.getTrailID());
+                //trainer.removeTrail(trail.getTrailID());
                 //need to include code to remove trail obj in firebase
                 refreshTrails();
+
+
             }
         });
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {

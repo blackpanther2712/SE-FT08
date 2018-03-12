@@ -17,13 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SelectModeActivity" />
-        <activity
-            android:name=".activities.TrailActivity"
-            android:label="@string/title_activity_trail"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.TrailActivity" />
         <activity android:name=".activities.AddTrailActivity" />
         <activity android:name=".activities.StationActivity" />
-        <activity android:name=".activities.EditTrailActivity"></activity>
+        <activity android:name=".activities.EditTrailActivity" />
+        <activity android:name=".activities.Trail2Activity"></activity>
     </application>
 
 </manifest>
