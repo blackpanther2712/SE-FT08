@@ -15,26 +15,22 @@ android:layout_height="match_parent"
     android:id="@+id/trail_name"
     tools:ignore="RelativeOverlap" />
 
-<Button
+<ImageButton
     android:id="@+id/btn_remove"
     android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:layout_marginRight="132dp"
     android:layout_alignParentRight="true"
     android:layout_centerVertical="true"
-    android:background="@android:color/holo_orange_light"
-    android:text="@string/remove"
-    android:textColor="@android:color/white" />
+    android:src="@drawable/editor_icon"/>
 
-<Button
+<ImageButton
     android:id="@+id/btn_edit"
     android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:layout_marginRight="49dp"
     android:layout_alignParentRight="true"
     android:layout_centerVertical="true"
-    android:background="@android:color/holo_orange_light"
-    android:text="@string/edit"
-    android:textColor="@android:color/white" />
+    android:src="@drawable/delete_icon"/>
 
 </RelativeLayout>
