@@ -139,22 +139,22 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
 
-//                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
-//                query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
-//                            dataSnap.getRef().removeValue();
-//                            notifyDataSetChanged();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//
-//                    }
-//                });
-                //refreshTrails();
+                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
+                            dataSnap.getRef().removeValue();
+                            notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                refreshTrails();
             }
         });
 
