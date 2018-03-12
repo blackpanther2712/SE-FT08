@@ -137,7 +137,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                 getContext().startActivity(intent);
             }
         });
-        viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
+      /*  viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 //trainer.removeTrail(trail.getTrailID());
                 //need to include code to remove trail obj in firebase
@@ -145,8 +145,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
 
             }
-        });
-        viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditTrailActivity.class);
@@ -154,7 +154,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                 getContext().startActivity(intent);
                 refreshTrails();
             }
-        });
+        });*/
 
         return convertView;
     }
