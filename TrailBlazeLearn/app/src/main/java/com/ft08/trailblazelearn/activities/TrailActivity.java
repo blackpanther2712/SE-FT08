@@ -88,8 +88,6 @@ public class TrailActivity extends AppCompatActivity {
                 final  AlertDialog dialog = mBuilder.create();
 
 
-
-
                 final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -168,6 +166,8 @@ public class TrailActivity extends AppCompatActivity {
 
             }
         });
+        //set visibility for add button
+        //floatingActionButton.setVisibility(user instanceof Trainer? View.VISIBLE : View.GONE);
     }
 
 
@@ -190,7 +190,7 @@ public class TrailActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onStart() {
+            public void onStart() {
                 super.onStart();
                 trailAdapter.refreshTrails();
                 //store.retrieveData();

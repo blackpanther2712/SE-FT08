@@ -17,16 +17,17 @@
     <string name="module_validation_ms">Please fill in module</string>
     <string name="date_validation_ms">Please select the date</string>
     <string name="code_validation_ms">Please fill in trail code</string>
-    <string name="station_name_validation_ms">Please fill in station name</string>
-    <string name="latitude_validation_ms">Please fill in latitude</string>
-    <string name="longitude_validation_ms">Please fill in longitude</string>
-    <string name="instruction_validation_ms">Please fill in instruction</string>
-    <string name="seq_num_validation_ms">Please fill in sequence number</string>
     <string name="save">Save</string>
     <string name="date">Date</string>
     <string name="module">Module</string>
     <string name="trail_name">Trail Name</string>
     <string name="trail_code">Trail Code</string>
+    <string name="station_name">Station Name</string>
+    <string name="station_name_validation_ms">Please fill in station name</string>
+    <string name="seq_num_validation_ms">Please fill in sequence number</string>
+    <string name="location_validation_ms">Please fill in location</string>
+    <string name="instruction_validation_ms">Please fill in instructions</string>
+
 
 
 

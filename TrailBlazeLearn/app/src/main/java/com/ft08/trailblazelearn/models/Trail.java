@@ -78,7 +78,7 @@ public class Trail {
     }
 
     public Station addStation(String stationName, String instructions, String gps) {
-        Station station = new Station(++sequenceNum, stationName, instructions, gps);
+        Station station = new Station(++sequenceNum,stationName, instructions, gps);
         stations.add(station);
         return station;
     }

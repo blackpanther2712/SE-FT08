@@ -8,7 +8,11 @@ public class Station {
     private String gps;
     private String stationID;
 
-    public Station(int seqNum, String stationName, String instructions, String gps) {
+    public Station(){
+
+    }
+
+    public Station(int seqNum,String stationName, String instructions, String gps) {
         this.seqNum = seqNum;
         this.stationName = stationName;
         this.instructions = instructions;

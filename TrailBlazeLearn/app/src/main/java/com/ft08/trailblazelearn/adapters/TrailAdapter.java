@@ -2,7 +2,6 @@ package com.ft08.trailblazelearn.adapters;
 
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
-import com.ft08.trailblazelearn.activities.EditTrailActivity;
 import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
@@ -38,18 +36,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.Query;
 
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Created by keerthanadevi on 10,March,2018
@@ -74,6 +68,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         super(context, R.layout.trail_row_layout);
         this.context=context;
         //this.trails=traillist;
+        Log.d("trail",myRef.getKey());
         refreshTrails();
     }
 
@@ -196,10 +191,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), EditTrailActivity.class);
-//                intent.putExtra("trailId",trail.getTrailID());
-//                getContext().startActivity(intent);
-
 
                 final AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater1 =
