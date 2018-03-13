@@ -200,29 +200,30 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 //                intent.putExtra("trailId",trail.getTrailID());
 //                getContext().startActivity(intent);
 
-                final Dialog dialog = new Dialog(getContext());
+
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater1 =
                         (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = inflater1.inflate(R.layout.add_trail_dialogbox, null);
 
-                dialog.setContentView(R.layout.add_trail_dialogbox);
-                dialog.setTitle("Edit Trail Details");
+                View view = inflater1.inflate(R.layout.add_trail_dialogbox, null);
+                mBuilder.setView(view);
+                final AlertDialog dialog = mBuilder.create();
 
                 Trail editTrail =getItem(position);
                 Log.d("trail",editTrail.getTrailName());
 
-                ((EditText) v.findViewById(R.id.TrailNametxt)).setText(editTrail.getTrailName());
-                ((EditText) v.findViewById(R.id.TrailCodetxt)).setText(editTrail.getTrailCode());
-                ((EditText) v.findViewById(R.id.Moduletxt)).setText(editTrail.getModule());
-                 Date tdate=editTrail.getTrailDate();
+                ((EditText) view.findViewById(R.id.TrailNametxt)).setText(editTrail.getTrailName());
+                ((EditText) view.findViewById(R.id.TrailCodetxt)).setText(editTrail.getTrailCode());
+                ((EditText) view.findViewById(R.id.Moduletxt)).setText(editTrail.getModule());
+                Date tdate=editTrail.getTrailDate();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-                ((EditText) v.findViewById(R.id.datetxt)).setText(sdf.format(tdate));
+                ((EditText) view.findViewById(R.id.datetxt)).setText(sdf.format(tdate));
 
-                trailName = (EditText) v.findViewById(R.id.TrailNametxt);
-                trailCode = (EditText) v.findViewById(R.id.TrailCodetxt);
-                module = (EditText) v.findViewById(R.id.Moduletxt);
-                trailDate = (EditText) v.findViewById(R.id.datetxt);
-                addtrailBtn = (Button) v.findViewById(R.id.CreateBtn);
+                trailName = (EditText) view.findViewById(R.id.TrailNametxt);
+                trailCode = (EditText) view.findViewById(R.id.TrailCodetxt);
+                module = (EditText) view.findViewById(R.id.Moduletxt);
+                trailDate = (EditText) view.findViewById(R.id.datetxt);
+                addtrailBtn = (Button) view.findViewById(R.id.CreateBtn);
                 calendar = Calendar.getInstance();
 
 
@@ -264,39 +265,60 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                             final String code = trailCode.getText().toString().trim();
                             final String moduletxt = module.getText().toString().trim();
 
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                            trailDate.setText(sdf.format(calendar.getTime()));
+                            try {
+                                stdate = sdf.parse(trailDate.getText().toString().trim());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
                             DateFormat form = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
 
 
                             final Trail trail1 = new Trail(name, code, moduletxt,stdate);
-//                            if (store.saveTrail(trail)){
-//                                trailAdapter =new TrailAdapter(TrailActivity.this,store.retrieveData());
-//                                trailList.setAdapter(trailAdapter);
-//                            }
 
                             final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
-                            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                               query.addChildEventListener(new ChildEventListener() {
+                                   @Override
+                                   public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                       Log.d("previous ",trail.getTrailName()+"-"+trail.getTrailID());
+                                       Log.d("previous key",dataSnapshot.getKey());
 
-                                        String key=dataSnapshot.getKey();
-                                        rRef.child(key).setValue(trail1);
-                                        DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
-                                        Date d=trail1.getTrailDate();
-                                        rRef.child(key).child("Trail Date").setValue(ft.format(d));
-                                        DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
-                                        Date d1=new Date();
-                                        Timestamp t =new Timestamp(d1.getTime());
-                                        rRef.child(key).child("TimeStamp").setValue(form1.format(t));
+                                       String key=dataSnapshot.getKey();
+                                       rRef.child(key).setValue(trail1);
+                                       DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
+                                       Date d=trail1.getTrailDate();
+                                       rRef.child(key).child("Trail Date").setValue(ft.format(d));
+                                       DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
+                                       Date d1=new Date();
+                                       Timestamp t =new Timestamp(d1.getTime());
+                                       rRef.child(key).child("TimeStamp").setValue(form1.format(t));
+                                       notifyDataSetChanged();
 
-                                        notifyDataSetChanged();
 
-                                }
+                                   }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                                   @Override
+                                   public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                                }
-                            });
+                                   }
+
+                                   @Override
+                                   public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                   }
+
+                                   @Override
+                                   public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                   }
+
+                                   @Override
+                                   public void onCancelled(DatabaseError databaseError) {
+
+                                   }
+                               });
 
                             dialog.dismiss();
                             Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
