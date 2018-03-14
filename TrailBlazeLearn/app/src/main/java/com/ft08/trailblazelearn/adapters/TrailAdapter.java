@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.StationActivity;
+import com.ft08.trailblazelearn.activities.TrailActivity;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
@@ -100,7 +101,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
             }
         });
-
     }
 
     public void getData(DataSnapshot dataSnapshot){
@@ -129,6 +129,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             viewHolder.trailName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
+            viewHolder.trailModule = (TextView) convertView.findViewById(R.id.trail_mod);
+            viewHolder.trailDate = (TextView) convertView.findViewById(R.id.trail_date);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -136,11 +138,15 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
         final Trail trail = getItem(position);
         viewHolder.trailName.setText(trail.toString());
+        viewHolder.trailModule.setText(trail.getModule());
+        Date tdate = trail.getTrailDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        viewHolder.trailDate.setText(sdf.format(tdate));
 
         if(position % 2 == 0) {
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.dot_light_screen2));
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.cardview_shadow_start_color));
         } else {
-          convertView.setBackgroundColor(context.getResources().getColor(R.color.dot_light_screen3));
+          convertView.setBackgroundColor(context.getResources().getColor(R.color.cardview_shadow_end_color));
         }
 
         viewHolder.trailName.setOnClickListener(new View.OnClickListener() {
@@ -387,7 +393,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
 
     static class ViewHolder {
-        TextView trailName;
+        TextView trailName,trailModule,trailDate;
         ImageButton btnRemove;
         ImageButton btnEdit;
 

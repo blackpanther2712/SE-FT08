@@ -41,7 +41,7 @@ public class TrailActivity extends AppCompatActivity {
     private Button addtrailBtn;
     private TextView trailEmpty;
     private TrailAdapter trailAdapter;
-
+    public ListView trailList;
     private DatabaseReference dRef;
     private FirebaseUser user;
     private Calendar calendar= Calendar.getInstance();
@@ -61,7 +61,7 @@ public class TrailActivity extends AppCompatActivity {
         dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
         //store = new TrailHelper(dRef);
 
-        final ListView trailList = (ListView) findViewById(R.id.trail_list);
+        trailList = (ListView) findViewById(R.id.trail_list);
         trailEmpty = (TextView) findViewById(R.id.empty_value);
         //trailAdapter = new TrailAdapter(this,store.retrieveData());
 
