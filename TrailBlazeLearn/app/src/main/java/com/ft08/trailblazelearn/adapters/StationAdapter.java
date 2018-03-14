@@ -68,7 +68,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
         tkref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                //getData(dataSnapshot.child("Stations"));
+                getData(dataSnapshot.child("Stations"));
             }
 
             @Override
@@ -78,7 +78,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
@@ -177,6 +176,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         sref.child(station.getStationID()).removeValue();
                                         notifyDataSetChanged();
+
                                     }
 
                                     @Override
@@ -184,6 +184,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
                                     }
                                 });
+
                                 dialog.dismiss();
                                 break;
 

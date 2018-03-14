@@ -96,7 +96,7 @@ public class StationFragment extends Fragment {
                             String stId=sref.getKey();
                             station.setStationID(stId);
                             sref.setValue(station);
-
+                            stationAdapter.refreshStations();
                             dialog.dismiss();
                             Toast.makeText(getContext(),getString(R.string.saved_successfully),
                                     Toast.LENGTH_SHORT).show();
@@ -105,6 +105,7 @@ public class StationFragment extends Fragment {
                     }
                 });
                 dialog.show();
+
 
             }
         });

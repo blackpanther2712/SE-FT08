@@ -137,6 +137,12 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         final Trail trail = getItem(position);
         viewHolder.trailName.setText(trail.toString());
 
+        if(position % 2 == 0) {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.dot_light_screen2));
+        } else {
+          convertView.setBackgroundColor(context.getResources().getColor(R.color.dot_light_screen3));
+        }
+
         viewHolder.trailName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +162,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                             case DialogInterface.BUTTON_POSITIVE:
 
                                   rRef.child(trail.getTrailID()).removeValue();
+                                  trails.remove(trail);
                                   notifyDataSetChanged();
 //                                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
 //                                query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -273,7 +280,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                             final Trail trail1 = new Trail(name, code, moduletxt,stdate);
 
                                rRef.child(trail.getTrailID()).removeValue();
-                               rRef.child(trail1.getTrailID()).setValue(trail1);
+                               DatabaseReference tref =myRef.child("Trails").child(trail1.getTrailID());
+                               tref.setValue(trail1);
                                DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                                Date d=trail1.getTrailDate();
                                rRef.child(trail1.getTrailID()).child("Trail Date").setValue(ft.format(d));
@@ -285,7 +293,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
 //                            final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
 //                               query.addChildEventListener(new ChildEventListener() {
-//                                   @Override
+//                                       @Override
 //                                   public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 //                                       Log.d("previous ",trail.getTrailName()+"-"+trail.getTrailID());
 //                                       Log.d("previous key",dataSnapshot.getKey());
