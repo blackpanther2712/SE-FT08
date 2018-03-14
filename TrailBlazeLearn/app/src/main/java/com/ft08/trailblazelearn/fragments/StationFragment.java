@@ -39,16 +39,14 @@ public class StationFragment extends Fragment {
     private Button addstationBtn;
     private StationAdapter stationAdapter;
     private TextView stationEmpty;
-    private static String trailKey;
+    private static String trailid;
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference dRef= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
-    private DatabaseReference tref=dRef.child(trailKey);
+    private DatabaseReference tref=dRef.child(trailid);
     private static int sequenceNum=0;
 
     public static void newInstance(String data) {
-        Log.d("station frag trail key",data);
-        trailKey=data;
-        Log.d("station frag aft",trailKey);
+        trailid=data;
     }
 
     @Override
@@ -62,8 +60,8 @@ public class StationFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.activity_trail, container, false);
         ListView stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
-        Log.d("frag tkey",trailKey);
-        stationAdapter = new StationAdapter(getContext(),trailKey);
+        Log.d("frag tkey",trailid);
+        stationAdapter = new StationAdapter(getContext(),trailid);
         stationList.setAdapter(stationAdapter);
         stationList.setEmptyView(stationEmpty);
 

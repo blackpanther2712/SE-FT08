@@ -45,7 +45,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     private List<Station> stations = new ArrayList<Station>();
     private EditText stationName,GPS,instructions,sequenceNum;
     private Button addstationBtn;
-    private String trailid,trailKey;
+    private String trailid;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference myRef  = database.getReference("Users").child(refUser.getUid()).child("Trails");
@@ -57,8 +57,8 @@ public class StationAdapter extends ArrayAdapter<Station> {
     public StationAdapter(Context context,String data) {
         super(context, R.layout.trail_row_layout);
         this.context = context;
-        this.trailKey=data;
-        tkref = myRef.child(trailKey);
+        this.trailid=data;
+        tkref = myRef.child(trailid);
         sref = tkref.child("Stations");
         refreshStations();
     }
@@ -68,7 +68,8 @@ public class StationAdapter extends ArrayAdapter<Station> {
         tkref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                //getData(dataSnapshot);
+                getData(dataSnapshot.child("Stations"));
+
             }
 
             @Override
@@ -143,6 +144,24 @@ public class StationAdapter extends ArrayAdapter<Station> {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
+
+//                                final Query query=sref.orderByChild("stationID").equalTo(station.getStationID());
+//                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
+//                                            dataSnap.getRef().removeValue();
+//                                            notifyDataSetChanged();
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                    }
+//                                });
+
+
                                 sref.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -215,7 +234,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
                             sref.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
+
                                     sref.child(station.getStationID()).setValue(edstation);
+                                    sref.child(station.getStationID()).child("stationID").setValue(station.getStationID());
                                     notifyDataSetChanged();
                                 }
 

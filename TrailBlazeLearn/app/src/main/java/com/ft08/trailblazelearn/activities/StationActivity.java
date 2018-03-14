@@ -37,38 +37,37 @@ public class StationActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
 
-        Query query = dRef.orderByChild("trailID").equalTo(trailID);
+//        Query query = dRef.orderByChild("trailID").equalTo(trailID);
+//
+//        query.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                trailKey = dataSnapshot.getKey();
+//                StationFragment.newInstance(trailKey);
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                trailKey = dataSnapshot.getKey();
-                StationFragment.newInstance(trailKey);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
+        StationFragment.newInstance(trailID);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 2);

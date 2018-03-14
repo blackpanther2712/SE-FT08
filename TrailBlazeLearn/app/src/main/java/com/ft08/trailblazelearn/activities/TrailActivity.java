@@ -140,7 +140,7 @@ public class TrailActivity extends AppCompatActivity {
 //                            }
 
 
-                            DatabaseReference tref =dRef.child("Trails").push();
+                            DatabaseReference tref =dRef.child("Trails").child(trail.getTrailID());
                             tref.setValue(trail);
                             DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                             Date d=trail.getTrailDate();

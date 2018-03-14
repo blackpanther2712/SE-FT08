@@ -154,21 +154,24 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
-                                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
-                                            dataSnap.getRef().removeValue();
-                                            notifyDataSetChanged();
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
+                                  rRef.child(trail.getTrailID()).removeValue();
+                                  notifyDataSetChanged();
+//                                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
+//                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
+//                                            dataSnap.getRef().removeValue();
+//                                            notifyDataSetChanged();
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                    }
+//                                });
                                 dialog.dismiss();
                                 break;
 
@@ -269,47 +272,58 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
                             final Trail trail1 = new Trail(name, code, moduletxt,stdate);
 
-                            final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
-                               query.addChildEventListener(new ChildEventListener() {
-                                   @Override
-                                   public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                       Log.d("previous ",trail.getTrailName()+"-"+trail.getTrailID());
-                                       Log.d("previous key",dataSnapshot.getKey());
+                               rRef.child(trail.getTrailID()).removeValue();
+                               rRef.child(trail1.getTrailID()).setValue(trail1);
+                               DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
+                               Date d=trail1.getTrailDate();
+                               rRef.child(trail1.getTrailID()).child("Trail Date").setValue(ft.format(d));
+                               DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
+                               Date d1=new Date();
+                               Timestamp t =new Timestamp(d1.getTime());
+                               rRef.child(trail1.getTrailID()).child("TimeStamp").setValue(form1.format(t));
+                               notifyDataSetChanged();
 
-                                       String key=dataSnapshot.getKey();
-                                       rRef.child(key).setValue(trail1);
-                                       DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
-                                       Date d=trail1.getTrailDate();
-                                       rRef.child(key).child("Trail Date").setValue(ft.format(d));
-                                       DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
-                                       Date d1=new Date();
-                                       Timestamp t =new Timestamp(d1.getTime());
-                                       rRef.child(key).child("TimeStamp").setValue(form1.format(t));
-                                       notifyDataSetChanged();
-
-
-                                   }
-
-                                   @Override
-                                   public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                                   }
-
-                                   @Override
-                                   public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                                   }
-
-                                   @Override
-                                   public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                                   }
-
-                                   @Override
-                                   public void onCancelled(DatabaseError databaseError) {
-
-                                   }
-                               });
+//                            final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
+//                               query.addChildEventListener(new ChildEventListener() {
+//                                   @Override
+//                                   public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                                       Log.d("previous ",trail.getTrailName()+"-"+trail.getTrailID());
+//                                       Log.d("previous key",dataSnapshot.getKey());
+//
+//                                       String key=dataSnapshot.getKey();
+//                                       rRef.child(key).setValue(trail1);
+//                                       DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
+//                                       Date d=trail1.getTrailDate();
+//                                       rRef.child(key).child("Trail Date").setValue(ft.format(d));
+//                                       DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
+//                                       Date d1=new Date();
+//                                       Timestamp t =new Timestamp(d1.getTime());
+//                                       rRef.child(key).child("TimeStamp").setValue(form1.format(t));
+//                                       notifyDataSetChanged();
+//
+//
+//                                   }
+//
+//                                   @Override
+//                                   public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                                   }
+//
+//                                   @Override
+//                                   public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//                                   }
+//
+//                                   @Override
+//                                   public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                                   }
+//
+//                                   @Override
+//                                   public void onCancelled(DatabaseError databaseError) {
+//
+//                                   }
+//                               });
 
                             dialog.dismiss();
                             Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
