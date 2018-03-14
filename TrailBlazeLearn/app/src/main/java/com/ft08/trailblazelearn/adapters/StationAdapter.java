@@ -68,23 +68,33 @@ public class StationAdapter extends ArrayAdapter<Station> {
         tkref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                getData(dataSnapshot.child("Stations"));
-
+                //getData(dataSnapshot.child("Stations"));
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                getData(dataSnapshot);
+                 getData(dataSnapshot);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                getData(dataSnapshot);
+
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        sref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getData(dataSnapshot);
             }
 
             @Override

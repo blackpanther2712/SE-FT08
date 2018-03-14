@@ -43,11 +43,13 @@ public class StationFragment extends Fragment {
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference dRef= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
     private DatabaseReference tref=dRef.child(trailid);
-    private static int sequenceNum=0;
+    //private static int sequenceNum=0;
 
     public static void newInstance(String data) {
         trailid=data;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,7 @@ public class StationFragment extends Fragment {
                             final String gps = GPS.getText().toString().trim();
                             final String info = instructions.getText().toString().trim();
 
-                            Station station = new Station(++sequenceNum,name,info,gps);
+                            Station station = new Station(stationAdapter.getCount()+1,name,info,gps);
 
                             DatabaseReference sref = tref.child("Stations").push();
                             String stId=sref.getKey();
