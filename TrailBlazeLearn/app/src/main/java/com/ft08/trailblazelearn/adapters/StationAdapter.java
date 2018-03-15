@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.StationActivity;
+import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.Station;
 import com.ft08.trailblazelearn.models.Trail;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +43,7 @@ import java.util.List;
 public class StationAdapter extends ArrayAdapter<Station> {
 
     private Context context;
-    private List<Station> stations = new ArrayList<Station>();
+    private ArrayList<Station> adaptstations = new ArrayList<Station>();
     private EditText stationName,GPS,instructions,sequenceNum;
     private Button addstationBtn;
     private String trailid;
@@ -105,12 +106,15 @@ public class StationAdapter extends ArrayAdapter<Station> {
     }
 
     public void getData(DataSnapshot dataSnapshot){
-        stations.clear();
+        Trail trail = App.trainer.getTrail(trailid);
+        trail.getStations().clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Station station1=(Station) ds.getValue(Station.class);
-            stations.add(station1);
+            adaptstations.add(station1);
             notifyDataSetChanged();
         }
+        trail.setStations(adaptstations);
+        notifyDataSetChanged();
 
     }
 
@@ -279,7 +283,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     @Nullable
     @Override
     public Station getItem(int position) {
-        return stations.get(position);
+        return adaptstations.get(position);
     }
 
     @Override
@@ -288,7 +292,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     }
 
     @Override public int getCount() {
-        return stations.size();
+        return adaptstations.size();
     }
 
 

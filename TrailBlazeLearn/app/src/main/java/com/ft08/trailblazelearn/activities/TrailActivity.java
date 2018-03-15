@@ -17,14 +17,18 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.TrailAdapter;
+import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.helpers.TrailHelper;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.ft08.trailblazelearn.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -59,15 +63,19 @@ public class TrailActivity extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+
         //store = new TrailHelper(dRef);
 
         trailList = (ListView) findViewById(R.id.trail_list);
         trailEmpty = (TextView) findViewById(R.id.empty_value);
         //trailAdapter = new TrailAdapter(this,store.retrieveData());
 
-        trailAdapter = new TrailAdapter(this);
-        trailList.setAdapter(trailAdapter);
-        trailList.setEmptyView(trailEmpty);
+
+                trailAdapter = new TrailAdapter(this);
+                trailList.setAdapter(trailAdapter);
+                trailList.setEmptyView(trailEmpty);
+
+
 
         FloatingActionButton floatingActionButton =
                 (FloatingActionButton) findViewById(R.id.fab);
@@ -76,7 +84,6 @@ public class TrailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final AlertDialog.Builder mBuilder = new AlertDialog.Builder(TrailActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.add_trail_dialogbox, null);
-
 
 
                 trailName = (EditText) mView.findViewById(R.id.TrailNametxt);
@@ -132,18 +139,22 @@ public class TrailActivity extends AppCompatActivity {
 
                             DateFormat form = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
 
+                            final Trail trail11 = App.trainer.addTrail(name, code, moduletxt,startDate);
 
-                            Trail trail = new Trail(name, code, moduletxt,startDate);
+
+                            //(working ver)Trail trail = new Trail(name, code, moduletxt,startDate);
+
+
 //                            if (store.saveTrail(trail)){
 //                                trailAdapter =new TrailAdapter(TrailActivity.this,store.retrieveData());
 //                                trailList.setAdapter(trailAdapter);
 //                            }
 
 
-                            DatabaseReference tref =dRef.child("Trails").child(trail.getTrailID());
-                            tref.setValue(trail);
+                            DatabaseReference tref =dRef.child("Trails").child(trail11.getTrailID());
+                            tref.setValue(trail11);
                             DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
-                            Date d=trail.getTrailDate();
+                            Date d=trail11.getTrailDate();
                             tref.child("Trail Date").setValue(ft.format(d));
 
                             DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);

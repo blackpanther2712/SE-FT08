@@ -7,7 +7,7 @@ import java.util.List;
 public class Trainer extends User {
 
 
-    public ArrayList<Trail> trails;
+    private ArrayList<Trail> trails;
 
      public Trainer(){
         trails = new ArrayList<>();
@@ -47,9 +47,10 @@ public class Trainer extends User {
         }
     }
 
-    public Trail editTrail(String trailName, String module, Date trailDate,String trailID) {
-        Trail trail = getTrail(trailID);
-        return trail.editTrail(trailName,module,trailDate);
+    public Trail editTrail(String trailName,String code, String module, Date trailDate,String trailID) {
+         removeTrail(trailID);
+         Trail trail = addTrail(trailName,code,module,trailDate);
+         return trail;
 
     }
 }

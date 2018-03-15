@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.StationAdapter;
+import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.Station;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -51,12 +52,10 @@ public class StationFragment extends Fragment {
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference dRef= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
     private DatabaseReference tref=dRef.child(trailid);
-    //private static int sequenceNum=0;
 
     public static void newInstance(String data) {
         trailid=data;
     }
-
 
 
     @Override
@@ -117,7 +116,9 @@ public class StationFragment extends Fragment {
                             final String gps = latLong;
                             final String info = instructions.getText().toString().trim();
 
-                            Station station = new Station(stationAdapter.getCount()+1,name,info,gps);
+                            //Station station = new Station(stationAdapter.getCount()+1,name,info,gps);
+
+                            Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,gps);
 
                             DatabaseReference sref = tref.child("Stations").push();
                             String stId=sref.getKey();

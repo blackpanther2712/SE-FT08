@@ -13,11 +13,11 @@ public class Trail {
     private String trailID;
     private String trailCode;
     private String trailName;
-    private int sequenceNum;
+    //private int sequenceNum;
     private ArrayList<Station> stations;
 
     public Trail(){
-
+        stations = new ArrayList<Station> ();
     }
     public Trail(String trailName,String trailCode, String module, Date trailDate) {
         this.trailName = trailName;
@@ -77,8 +77,8 @@ public class Trail {
         this.stations = stations;
     }
 
-    public Station addStation(String stationName, String instructions, String gps) {
-        Station station = new Station(++sequenceNum,stationName, instructions, gps);
+    public Station addStation(int sequenceNum,String stationName, String instructions, String gps) {
+        Station station = new Station(sequenceNum,stationName, instructions, gps);
         stations.add(station);
         return station;
     }
@@ -107,12 +107,13 @@ public class Trail {
         return station;
     }
 
-    public Trail editTrail(String trailName, String module, Date trailDate) {
-        setTrailName(trailName);
-        setModule(module);
-        setTrailDate(trailDate);
-        return this;
-    }
+//    public Trail editTrail(String trailName,String code, String module, Date trailDate) {
+//        setTrailName(trailName);
+//        setModule(module);
+//        setTrailCode(code);
+//        setTrailDate(trailDate);
+//        return this;
+//    }
 
     @Override
     public String toString() {

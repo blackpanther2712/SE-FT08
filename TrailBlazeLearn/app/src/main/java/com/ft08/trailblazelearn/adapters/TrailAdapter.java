@@ -18,12 +18,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.activities.TrailActivity;
+import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,7 +54,7 @@ import java.util.Date;
 public class TrailAdapter extends ArrayAdapter<Trail> {
 
     private Context context;
-    private ArrayList<Trail> trails = new ArrayList<Trail>();
+    private ArrayList<Trail> adapttrailList = new ArrayList<Trail>();
     private Trainer trainer;
     Date stdate;
     private Calendar calendar;
@@ -65,10 +67,9 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
 
 
-    public TrailAdapter(Context context) {
+    public TrailAdapter(Context context)  {
         super(context, R.layout.trail_row_layout);
         this.context=context;
-        //this.trails=traillist;
         Log.d("trail",myRef.getKey());
         refreshTrails();
     }
@@ -104,12 +105,15 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     }
 
     public void getData(DataSnapshot dataSnapshot){
-        trails.clear();
+        App.trainer.getTrails().clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Trail trail1=(Trail) ds.getValue(Trail.class);
-            trails.add(trail1);
+            adapttrailList.add(trail1);
             notifyDataSetChanged();
         }
+
+        App.trainer.setTrails(adapttrailList);
+        notifyDataSetChanged();
 
     }
 
@@ -124,7 +128,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             LayoutInflater inflater =
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            convertView = inflater != null ? inflater.inflate(R.layout.trail_row_layout, parent, false) : null;
+            convertView =inflater!=null ? inflater.inflate(R.layout.trail_row_layout, parent, false) : null;
             viewHolder = new ViewHolder();
             viewHolder.trailName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
@@ -167,10 +171,18 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
 
-                                  rRef.child(trail.getTrailID()).removeValue();
-                                  //refreshTrails();
-                                  trails.remove(trail);
+                                rRef.child(trail.getTrailID()).removeValue();
+
+                                App.trainer.removeTrail(trail.getTrailID());
+
+                                  refreshTrails();
+
                                   notifyDataSetChanged();
+
+
+//                                Intent refresh = new Intent(getContext(), TrailActivity.class);
+//                                startActivity(refresh);
+//                                this.finish();
 //                                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
 //                                query.addListenerForSingleValueEvent(new ValueEventListener() {
 //                                    @Override
@@ -199,7 +211,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Are you sure you want to delete "+trail.getTrailName()).setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
-
 
                 refreshTrails();
             }
@@ -284,18 +295,20 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                             DateFormat form = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
 
 
-                            final Trail trail1 = new Trail(name, code, moduletxt,stdate);
+                           //final Trail trail1 = new Trail(name, code, moduletxt,stdate);
+                            final Trail trail12 = App.trainer.editTrail(name,code,moduletxt,stdate,trail.getTrailID());
 
-                               rRef.child(trail.getTrailID()).removeValue();
-                               DatabaseReference tref =myRef.child("Trails").child(trail1.getTrailID());
-                               tref.setValue(trail1);
+                            rRef.child(trail.getTrailID()).removeValue();
+
+                               DatabaseReference tref =myRef.child("Trails").child(trail12.getTrailID());
+                               tref.setValue(trail12);
                                DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
-                               Date d=trail1.getTrailDate();
-                               rRef.child(trail1.getTrailID()).child("Trail Date").setValue(ft.format(d));
+                               Date d=trail12.getTrailDate();
+                               rRef.child(trail12.getTrailID()).child("Trail Date").setValue(ft.format(d));
                                DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
                                Date d1=new Date();
                                Timestamp t =new Timestamp(d1.getTime());
-                               rRef.child(trail1.getTrailID()).child("TimeStamp").setValue(form1.format(t));
+                               rRef.child(trail12.getTrailID()).child("TimeStamp").setValue(form1.format(t));
                                notifyDataSetChanged();
 
 //                            final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
@@ -380,7 +393,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     @Nullable
     @Override
     public Trail getItem(int position) {
-        return trails.get(position);
+
+        return adapttrailList.get(position);
     }
 
     @Override
@@ -389,7 +403,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     }
 
     @Override public int getCount() {
-        return trails.size();
+
+        return adapttrailList.size();
     }
 
 
