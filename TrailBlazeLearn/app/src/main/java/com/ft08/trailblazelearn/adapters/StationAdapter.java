@@ -219,14 +219,14 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 mBuilder.setView(sview);
                 final AlertDialog dialog = mBuilder.create();
 
-                Station editstation =getItem(position);
+                //final Station editstation =getItem(position);
 
-                String seq=Integer.toString(editstation.getSeqNum());
+                String seq=Integer.toString(station.getSeqNum());
 
                 ((EditText) sview.findViewById(R.id.seqNumtxt)).setText(seq);
-                ((EditText) sview.findViewById(R.id.stationNametxt)).setText(editstation.getStationName());
-                ((EditText) sview.findViewById(R.id.gpstxt)).setText(editstation.getGps());
-                ((EditText) sview.findViewById(R.id.instructionsTxt)).setText(editstation.getInstructions());
+                ((EditText) sview.findViewById(R.id.stationNametxt)).setText(station.getStationName());
+                ((EditText) sview.findViewById(R.id.gpstxt)).setText(station.getGps());
+                ((EditText) sview.findViewById(R.id.instructionsTxt)).setText(station.getInstructions());
 
                 sequenceNum = (EditText) sview.findViewById(R.id.seqNumtxt);
                 stationName = (EditText) sview.findViewById(R.id.stationNametxt);
@@ -247,22 +247,28 @@ public class StationAdapter extends ArrayAdapter<Station> {
                             final String location = GPS.getText().toString().trim();
                             final String instinfo = instructions.getText().toString().trim();
 
-                            final Station edstation = new Station(seqno,stName,instinfo,location);
+                            final Station edstation =(App.trainer.getTrail(trailid)).editStation(seqno,stName,instinfo,location,station.getStationID());
 
-                            sref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                            sref.child(station.getStationID()).removeValue();
 
-                                    sref.child(station.getStationID()).setValue(edstation);
-                                    sref.child(station.getStationID()).child("stationID").setValue(station.getStationID());
-                                    notifyDataSetChanged();
-                                }
+                            DatabaseReference stRef = sref.child(edstation.getStationID());
+                            stRef.setValue(edstation);
+                            notifyDataSetChanged();
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
+//                            sref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                                    sref.child(station.getStationID()).setValue(edstation);
+//                                    sref.child(station.getStationID()).child("stationID").setValue(station.getStationID());
+//                                    notifyDataSetChanged();
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(DatabaseError databaseError) {
+//
+//                                }
+//                            });
 
                             dialog.dismiss();
                             Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();

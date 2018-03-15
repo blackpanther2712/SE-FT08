@@ -120,8 +120,8 @@ public class StationFragment extends Fragment {
 
                             Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,gps);
 
-                            DatabaseReference sref = tref.child("Stations").child(trailid+station.getStationName());
-                            station.setStationID(trailid+station.getStationName());
+                            DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
+                            station.setStationID(station.getSeqNum()+station.getStationName());
                             sref.setValue(station);
                             stationAdapter.refreshStations();
                             dialog.dismiss();

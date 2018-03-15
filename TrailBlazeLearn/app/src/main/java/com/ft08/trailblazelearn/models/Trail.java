@@ -100,20 +100,10 @@ public class Trail {
     }
 
     public Station editStation(int seqNum,String stationName, String instructions, String gps,String stationID) {
-        Station station = getStation(stationID);
-        if (station != null) {
-            station.editStation(seqNum,stationName,instructions,gps);
-        }
+        removeStation(stationID);
+        Station station = addStation(seqNum,stationName,instructions,gps);
         return station;
     }
-
-//    public Trail editTrail(String trailName,String code, String module, Date trailDate) {
-//        setTrailName(trailName);
-//        setModule(module);
-//        setTrailCode(code);
-//        setTrailDate(trailDate);
-//        return this;
-//    }
 
     @Override
     public String toString() {

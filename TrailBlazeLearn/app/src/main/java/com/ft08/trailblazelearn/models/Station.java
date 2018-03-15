@@ -17,6 +17,7 @@ public class Station {
         this.stationName = stationName;
         this.instructions = instructions;
         this.gps = gps;
+        this.stationID = seqNum+"-"+stationName;
     }
 
     public String getStationName() { return stationName; }
@@ -39,12 +40,6 @@ public class Station {
 
     public void setStationID(String stationID) { this.stationID = stationID; }
 
-    public void editStation(int seqNum, String stationName, String instructions, String gps) {
-        setSeqNum(seqNum);
-        setStationName(stationName);
-        setInstructions(instructions);
-        setGps(gps);
-    }
 
     @Override
     public String toString() {
