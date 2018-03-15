@@ -22,6 +22,10 @@ import android.widget.Toast;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.StationAdapter;
 import com.ft08.trailblazelearn.models.Station;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -33,6 +37,8 @@ import com.google.firebase.database.Query;
 
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class StationFragment extends Fragment {
     private EditText stationName,GPS,instructions;
@@ -40,6 +46,8 @@ public class StationFragment extends Fragment {
     private StationAdapter stationAdapter;
     private TextView stationEmpty;
     private static String trailid;
+
+    private String latLong;
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference dRef= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
     private DatabaseReference tref=dRef.child(trailid);
@@ -82,12 +90,31 @@ public class StationFragment extends Fragment {
                 mBuilder.setView(sview);
                 final  AlertDialog dialog = mBuilder.create();
 
+                GPS.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                                               try {
+                                                   Intent intent;
+                                                   intent = builder.build(getActivity());
+                                                   startActivityForResult(intent, 1);
+                                               } catch (GooglePlayServicesRepairableException e) {
+                                                   e.printStackTrace();
+                                               } catch (GooglePlayServicesNotAvailableException e) {
+                                                   e.printStackTrace();
+                                               }
+
+
+                                           }
+                                       });
+
                 addstationBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(isValid()){
                             final String name = stationName.getText().toString().trim();
-                            final String gps = GPS.getText().toString().trim();
+                            final String gps = latLong;
                             final String info = instructions.getText().toString().trim();
 
                             Station station = new Station(stationAdapter.getCount()+1,name,info,gps);
@@ -152,6 +179,17 @@ public class StationFragment extends Fragment {
         super.onStart();
         stationAdapter.refreshStations();
         stationEmpty.setVisibility(stationAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
+    }
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data){
+        if(requestCode==1){
+            if(resultCode==RESULT_OK){
+
+                Place place = PlacePicker.getPlace(getActivity(),data);
+                latLong = place.getLatLng().toString();
+                GPS.setText(place.getAddress().toString());
+            }
+        }
     }
 
 

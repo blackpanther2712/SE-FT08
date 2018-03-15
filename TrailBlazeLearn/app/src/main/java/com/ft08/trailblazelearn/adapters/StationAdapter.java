@@ -230,6 +230,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 instructions = (EditText) sview.findViewById(R.id.instructionsTxt);
                 addstationBtn = (Button) sview.findViewById(R.id.CreateBtn);
 
+
+
+
                 addstationBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
