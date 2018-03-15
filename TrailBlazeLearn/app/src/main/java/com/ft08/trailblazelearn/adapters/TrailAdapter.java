@@ -168,6 +168,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                             case DialogInterface.BUTTON_POSITIVE:
 
                                   rRef.child(trail.getTrailID()).removeValue();
+                                  //refreshTrails();
                                   trails.remove(trail);
                                   notifyDataSetChanged();
 //                                final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());
