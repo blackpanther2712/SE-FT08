@@ -3,11 +3,9 @@ package com.ft08.trailblazelearn.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +17,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
-import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.application.App;
+import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Station;
 import com.ft08.trailblazelearn.models.Trail;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by keerthanadevi on 13/3/18.
@@ -49,7 +44,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     private String trailid;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference myRef  = database.getReference("Users").child(refUser.getUid()).child("Trails");
+    DatabaseReference myRef  = database.getReference("Trails");
     DatabaseReference tkref;
     DatabaseReference sref;
 
@@ -66,32 +61,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
     public void refreshStations() {
 
-        tkref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                getData(dataSnapshot.child("Stations"));
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                 getData(dataSnapshot);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        sref.addListenerForSingleValueEvent(new ValueEventListener() {
+        sref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getData(dataSnapshot);
@@ -103,11 +73,49 @@ public class StationAdapter extends ArrayAdapter<Station> {
             }
         });
 
+//        tkref.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                getData(dataSnapshot.child("Stations"));
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                 getData(dataSnapshot);
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//        sref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                getData(dataSnapshot);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
     }
 
     public void getData(DataSnapshot dataSnapshot){
         Trail trail = App.trainer.getTrail(trailid);
         trail.getStations().clear();
+        adaptstations.clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Station station1=(Station) ds.getValue(Station.class);
             adaptstations.add(station1);
@@ -131,6 +139,10 @@ public class StationAdapter extends ArrayAdapter<Station> {
             viewHolder.stationName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
+
+            viewHolder.btnEdit.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
+            viewHolder.btnRemove.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (StationAdapter.ViewHolder) convertView.getTag();
@@ -175,19 +187,28 @@ public class StationAdapter extends ArrayAdapter<Station> {
 //                                });
 
 
-                                sref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        sref.child(station.getStationID()).removeValue();
-                                        notifyDataSetChanged();
+//                                sref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                                        sref.child(station.getStationID()).removeValue();
+//                                        notifyDataSetChanged();
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                    }
+//                                });
 
-                                    }
+                                sref.child(station.getStationID()).removeValue();
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
+                                (App.trainer.getTrail(trailid)).removeStation(station.getStationID());
+                                refreshStations();
 
-                                    }
-                                });
+                                notifyDataSetChanged();
+
+
 
                                 dialog.dismiss();
                                 break;

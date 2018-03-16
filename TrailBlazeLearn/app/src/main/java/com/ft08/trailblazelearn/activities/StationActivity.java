@@ -35,8 +35,8 @@ public class StationActivity extends AppCompatActivity {
         final String trailID = bundle.getString("trailId");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
-
+        //dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
+        dRef = FirebaseDatabase.getInstance().getReference("Trails");
 //        Query query = dRef.orderByChild("trailID").equalTo(trailID);
 //
 //        query.addChildEventListener(new ChildEventListener() {

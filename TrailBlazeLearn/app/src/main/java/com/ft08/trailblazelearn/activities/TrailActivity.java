@@ -62,7 +62,9 @@ public class TrailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trail);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+        //dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+
+        dRef = FirebaseDatabase.getInstance().getReference("Trails");
 
         //store = new TrailHelper(dRef);
 
@@ -151,7 +153,8 @@ public class TrailActivity extends AppCompatActivity {
 //                            }
 
 
-                            DatabaseReference tref =dRef.child("Trails").child(trail11.getTrailID());
+                            //DatabaseReference tref =dRef.child("Trails").child(trail11.getTrailID());
+                            DatabaseReference tref =dRef.child(trail11.getTrailID());
                             tref.setValue(trail11);
                             DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                             Date d=trail11.getTrailDate();
@@ -161,6 +164,10 @@ public class TrailActivity extends AppCompatActivity {
                             Date d1=new Date();
                             Timestamp t =new Timestamp(d1.getTime());
                             tref.child("TimeStamp").setValue(form1.format(t));
+                            tref.child("UserID").setValue(user.getUid());
+
+                            trailAdapter.refreshTrails();
+                            trailAdapter.notifyDataSetChanged();
 
 
 

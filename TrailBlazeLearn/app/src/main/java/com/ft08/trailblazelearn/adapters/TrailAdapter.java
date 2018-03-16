@@ -62,8 +62,9 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     private Button addtrailBtn;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference myRef = database.getReference("Users").child(refUser.getUid());
-    DatabaseReference rRef = myRef.child("Trails");
+//    DatabaseReference myRef = database.getReference("Users").child(refUser.getUid());
+//    DatabaseReference rRef = myRef.child("Trails");
+DatabaseReference myRef = database.getReference("Trails");
 
 
 
@@ -76,25 +77,23 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
     public void refreshTrails() {
 
-        myRef.addChildEventListener(new ChildEventListener() {
+        Query q = myRef.orderByChild("UserID").equalTo(refUser.getUid());
+
+//        q.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                getData(dataSnapshot);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+        q.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 getData(dataSnapshot);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                getData(dataSnapshot);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                getData(dataSnapshot);
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
@@ -102,6 +101,34 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 
             }
         });
+
+
+//        myRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                getData(dataSnapshot.child("Trails"));
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                getData(dataSnapshot.child("Trails"));
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                getData(dataSnapshot);
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     public void getData(DataSnapshot dataSnapshot){
@@ -171,7 +198,8 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
 
-                                rRef.child(trail.getTrailID()).removeValue();
+                                //rRef.child(trail.getTrailID()).removeValue();
+                                myRef.child(trail.getTrailID()).removeValue();
 
                                 App.trainer.removeTrail(trail.getTrailID());
 
@@ -298,17 +326,22 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                            //final Trail trail1 = new Trail(name, code, moduletxt,stdate);
                             final Trail trail12 = App.trainer.editTrail(name,code,moduletxt,stdate,trail.getTrailID());
 
-                            rRef.child(trail.getTrailID()).removeValue();
+                            //rRef.child(trail.getTrailID()).removeValue();
+                            myRef.child(trail.getTrailID()).removeValue();
 
-                               DatabaseReference tref =myRef.child("Trails").child(trail12.getTrailID());
+                              // DatabaseReference tref =myRef.child("Trails").child(trail12.getTrailID());
+                            DatabaseReference tref =myRef.child(trail12.getTrailID());
                                tref.setValue(trail12);
                                DateFormat ft = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH);
                                Date d=trail12.getTrailDate();
-                               rRef.child(trail12.getTrailID()).child("Trail Date").setValue(ft.format(d));
+                               //rRef.child(trail12.getTrailID()).child("Trail Date").setValue(ft.format(d));
+                               tref.child(trail12.getTrailID()).child("Trail Date").setValue(ft.format(d));
                                DateFormat form1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
                                Date d1=new Date();
                                Timestamp t =new Timestamp(d1.getTime());
-                               rRef.child(trail12.getTrailID()).child("TimeStamp").setValue(form1.format(t));
+                               //rRef.child(trail12.getTrailID()).child("TimeStamp").setValue(form1.format(t));
+                              tref.child(trail12.getTrailID()).child("TimeStamp").setValue(form1.format(t));
+                            tref.child("UserID").setValue(refUser.getUid());
                                notifyDataSetChanged();
 
 //                            final Query query=rRef.orderByChild("trailID").equalTo(trail.getTrailID());

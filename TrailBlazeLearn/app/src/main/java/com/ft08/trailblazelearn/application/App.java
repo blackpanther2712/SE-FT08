@@ -13,17 +13,23 @@ public class App extends Application {
 
     public static Trainer trainer;
     public static Participant participant;
+    public static User user;
 
-
-    public App() {
+    public App(){
 
     }
-    public App(User user){
-        if(user instanceof Trainer){
-            trainer = (Trainer) user;
-        }
-        else {
-            participant = (Participant)user;
-        }
+
+
+    public App(Participant userparticipant) {
+        participant=userparticipant;
+        user = userparticipant;
+
     }
+    public App(Trainer usertrainer){
+        trainer = usertrainer;
+        user = usertrainer;
+
+    }
+
+
 }

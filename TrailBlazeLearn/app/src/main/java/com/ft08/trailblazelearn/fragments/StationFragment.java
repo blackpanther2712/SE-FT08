@@ -22,7 +22,9 @@ import android.widget.Toast;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.StationAdapter;
 import com.ft08.trailblazelearn.application.App;
+import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Station;
+import com.ft08.trailblazelearn.models.Trainer;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -47,11 +49,12 @@ public class StationFragment extends Fragment {
     private StationAdapter stationAdapter;
     private TextView stationEmpty;
     private static String trailid;
-
+    private FloatingActionButton floatingActionButton;
     private String latLong;
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference dRef= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
-    private DatabaseReference tref=dRef.child(trailid);
+    //private DatabaseReference dRef= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
+    private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
+    private DatabaseReference tref=dRef.child(trailid).getRef();
 
     public static void newInstance(String data) {
         trailid=data;
@@ -74,8 +77,11 @@ public class StationFragment extends Fragment {
         stationList.setAdapter(stationAdapter);
         stationList.setEmptyView(stationEmpty);
 
-        FloatingActionButton floatingActionButton =
+        floatingActionButton =
                 (FloatingActionButton) fragmentView.findViewById(R.id.fab);
+        floatingActionButton.setVisibility(App.user instanceof Participant ? View.GONE : View.VISIBLE);
+
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +129,8 @@ public class StationFragment extends Fragment {
                             DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
                             station.setStationID(station.getSeqNum()+station.getStationName());
                             sref.setValue(station);
-                            stationAdapter.refreshStations();
+//                            stationAdapter.refreshStations();
+//                            stationAdapter.notifyDataSetChanged();
                             dialog.dismiss();
                             Toast.makeText(getContext(),getString(R.string.saved_successfully),
                                     Toast.LENGTH_SHORT).show();

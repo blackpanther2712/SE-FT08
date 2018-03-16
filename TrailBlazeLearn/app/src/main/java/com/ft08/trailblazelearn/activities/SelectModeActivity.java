@@ -76,6 +76,17 @@ public class SelectModeActivity extends AppCompatActivity {
             }
         });
 
+//        participant.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent parti = new Intent(this,ParticipantActivity.class);
+//                userParticipant = new Participant(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
+//                new App(userParticipant);
+//                startActivity(parti);
+//
+//            }
+//        });
+
 
         mListener = new FirebaseAuth.AuthStateListener() {
             @Override
