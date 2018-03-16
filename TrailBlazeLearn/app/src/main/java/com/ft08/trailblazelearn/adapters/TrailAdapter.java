@@ -67,7 +67,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
 DatabaseReference myRef = database.getReference("Trails");
 
 
-
     public TrailAdapter(Context context)  {
         super(context, R.layout.trail_row_layout);
         this.context=context;

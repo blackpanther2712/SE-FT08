@@ -47,6 +47,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     DatabaseReference myRef  = database.getReference("Trails");
     DatabaseReference tkref;
     DatabaseReference sref;
+    DatabaseReference partRef = database.getReference("Trails");
 
     private Trail trail;
 
@@ -56,6 +57,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
         this.trailid=data;
         tkref = myRef.child(trailid);
         sref = tkref.child("Stations");
+        partRef = myRef.child(this.trailid);
         refreshStations();
     }
 
@@ -113,15 +115,14 @@ public class StationAdapter extends ArrayAdapter<Station> {
     }
 
     public void getData(DataSnapshot dataSnapshot){
-        Trail trail = App.trainer.getTrail(trailid);
-        trail.getStations().clear();
+
         adaptstations.clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Station station1=(Station) ds.getValue(Station.class);
             adaptstations.add(station1);
             notifyDataSetChanged();
         }
-        trail.setStations(adaptstations);
+
         notifyDataSetChanged();
 
     }
@@ -204,9 +205,13 @@ public class StationAdapter extends ArrayAdapter<Station> {
                                 sref.child(station.getStationID()).removeValue();
 
                                 (App.trainer.getTrail(trailid)).removeStation(station.getStationID());
+                                Trail trail = App.trainer.getTrail(trailid);
+                                trail.getStations().clear();
                                 refreshStations();
 
+
                                 notifyDataSetChanged();
+                                trail.setStations(adaptstations);
 
 
 
@@ -299,7 +304,10 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 });
 
                 dialog.show();
+                Trail trail = App.trainer.getTrail(trailid);
+                trail.getStations().clear();
                 refreshStations();
+                trail.setStations(adaptstations);
             }
         });
 

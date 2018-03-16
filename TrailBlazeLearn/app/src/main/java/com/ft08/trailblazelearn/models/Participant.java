@@ -6,6 +6,10 @@ public class Participant extends User {
 
     public Participant() {}
 
+    public Participant(String userId, String name, String image) {
+        super(userId, name, image);
+    }
+
     public String getTrailId() { return trailId; }
 
     public void setTrailId(String trailId) { this.trailId = trailId; }
