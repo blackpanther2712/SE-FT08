@@ -41,9 +41,9 @@
                 android:id="@+id/btn_edit"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/trail_name"
-                android:layout_marginEnd="18dp"
-                android:layout_marginRight="18dp"
+                android:layout_above="@+id/trail_date"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/btn_remove"
                 android:layout_toStartOf="@+id/btn_remove"
                 android:src="@drawable/editor_icon" />
@@ -54,9 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="23dp"
-                android:layout_marginRight="23dp"
+                android:layout_alignTop="@+id/btn_edit"
+                android:layout_marginEnd="49dp"
+                android:layout_marginRight="49dp"
                 android:src="@drawable/delete_icon" />
 
             <TextView
