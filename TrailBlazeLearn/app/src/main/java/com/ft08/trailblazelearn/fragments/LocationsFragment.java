@@ -85,8 +85,8 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
             latLngs.add(station.getGps());
         }
 
-//        latLngs.add("1.334585, 103.735510");
-//        latLngs.add("1.289316, 103.854502");
+        latLngs.add("1.334585, 103.735510");
+        latLngs.add("1.289316, 103.854502");
 
         return fragmentView;
     }
