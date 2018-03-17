@@ -221,9 +221,6 @@ public class TrailActivity extends AppCompatActivity {
                 if(isValid(name, code, traildate)) {
                     Timestamp currentTimestamp = new Timestamp(new Date().getTime());
                     Trail currentTrail = App.trainer.addTrail(name, code, moduleText,startDate);
-
-
-                    //Trail currentTrail = new Trail(name, code, moduleText, startDate);
                     String trail_id = currentTrail.getTrailID();
                     currentTrialRef = dRef.child(trail_id);
                     currentTrialRef.setValue(currentTrail);
