@@ -169,6 +169,7 @@ public class StationFragment extends Fragment {
     }
 
 
+
     @Override public void onResume() {
         super.onResume();
         stationAdapter.refreshStations();
@@ -201,4 +202,6 @@ public class StationFragment extends Fragment {
     }
 
 
+
 }
+

@@ -47,7 +47,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     DatabaseReference myRef  = database.getReference("Trails");
     DatabaseReference tkref;
     DatabaseReference sref;
-    DatabaseReference partRef;
+    DatabaseReference partRef = database.getReference("Trails");
 
     private Trail trail;
 

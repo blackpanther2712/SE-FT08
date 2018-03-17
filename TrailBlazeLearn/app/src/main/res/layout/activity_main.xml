@@ -14,10 +14,22 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
+        <ImageButton
+            android:id="@+id/facebookBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@null"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:src="@drawable/facebook" />
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/gButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="102dp"></com.google.android.gms.common.SignInButton>

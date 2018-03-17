@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">TrailBlazeLearn</string>
-    <string name="facebook_app_id">232192807520829</string>
-    <string name="fb_login_protocol_scheme">fb232192807520829</string>
+    <string name="facebook_app_id">745081585696907</string>
+    <string name="fb_login_protocol_scheme">fb745081585696907</string>
+
 
     <string name="nameview">Name</string>
     <string name="LogoutBtn">Logout</string>
