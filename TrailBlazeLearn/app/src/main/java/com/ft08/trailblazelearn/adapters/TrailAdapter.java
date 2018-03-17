@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.StationActivity;
+import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.activities.TrailActivity;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
@@ -48,17 +49,15 @@ import java.util.Date;
 
 public class TrailAdapter extends ArrayAdapter<Trail> {
 
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    DatabaseReference rRef;
-    FirebaseUser refUser;
+    private FirebaseDatabase database;
+    private DatabaseReference rRef;
+    private FirebaseUser refUser;
 
     public TrailAdapter(Context context, int resource, List<Trail> objects) {
         super(context, resource, objects);
         database = FirebaseDatabase.getInstance();
         refUser = FirebaseAuth.getInstance().getCurrentUser();
-        myRef = database.getReference("Users").child(refUser.getUid());
-        rRef = myRef.child("Trails");
+        rRef = database.getReference("Trails");
     }
 
 

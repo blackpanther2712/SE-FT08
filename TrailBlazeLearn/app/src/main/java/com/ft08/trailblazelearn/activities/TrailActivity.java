@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.TrailAdapter;
+import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.helpers.TrailHelper;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
@@ -60,7 +61,6 @@ public class TrailActivity extends AppCompatActivity {
     AlertDialog dialog = null;
 
     private DatabaseReference currentTrialRef;
-    private DatabaseReference trialsRef;
     private FirebaseDatabase database;
     private DatabaseReference dRef;
     private FirebaseUser user;
@@ -91,8 +91,7 @@ public class TrailActivity extends AppCompatActivity {
     private void initFirebase() {
         database = FirebaseDatabase.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        dRef = database.getReference("Users").child(user.getUid());
-        trialsRef = dRef.child("Trails");
+        dRef = database.getReference("Trails");
     }
 
 
@@ -150,7 +149,7 @@ public class TrailActivity extends AppCompatActivity {
     * 3. A Trail Is Removed
     * */
     public void attachDatabaseListener() {
-        trialsRef.addChildEventListener(new ChildEventListener() {
+        dRef.addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -216,14 +215,17 @@ public class TrailActivity extends AppCompatActivity {
                 if(editedView != null) {
                     String currentTrailId = geTrailId(code, startDate);
                     if(currentTrailId.toString().trim().equals(editedTrailId.toString().trim())) {}
-                    else { trialsRef.child(editedTrailId).removeValue();}
+                    else { dRef.child(editedTrailId).removeValue();}
                 }
 
                 if(isValid(name, code, traildate)) {
                     Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-                    Trail currentTrail = new Trail(name, code, moduleText, startDate);
+                    Trail currentTrail = App.trainer.addTrail(name, code, moduleText,startDate);
+
+
+                    //Trail currentTrail = new Trail(name, code, moduleText, startDate);
                     String trail_id = currentTrail.getTrailID();
-                    currentTrialRef = trialsRef.child(trail_id);
+                    currentTrialRef = dRef.child(trail_id);
                     currentTrialRef.setValue(currentTrail);
                     currentTrialRef.child("Trail Date").setValue(new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH).format(startDate));
                     currentTrialRef.child("TimeStamp").setValue(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH).format(currentTimestamp));
