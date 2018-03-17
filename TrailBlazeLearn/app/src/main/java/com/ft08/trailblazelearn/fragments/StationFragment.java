@@ -68,6 +68,7 @@ public class StationFragment extends Fragment {
 
     @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                        Bundle savedInstanceState) {
+        LocationsFragment.locationInstance(trailid);
 
         View fragmentView = inflater.inflate(R.layout.activity_trail, container, false);
         ListView stationList = (ListView) fragmentView.findViewById(R.id.trail_list);

@@ -47,7 +47,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     DatabaseReference myRef  = database.getReference("Trails");
     DatabaseReference tkref;
     DatabaseReference sref;
-    DatabaseReference partRef = database.getReference("Trails");
+    DatabaseReference partRef;
 
     private Trail trail;
 
@@ -117,10 +117,14 @@ public class StationAdapter extends ArrayAdapter<Station> {
     public void getData(DataSnapshot dataSnapshot){
 
         adaptstations.clear();
+        //int i =1;
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Station station1=(Station) ds.getValue(Station.class);
+            //station1.setSeqNum(i);
             adaptstations.add(station1);
+            //i++;
             notifyDataSetChanged();
+
         }
 
         notifyDataSetChanged();
