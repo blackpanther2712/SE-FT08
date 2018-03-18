@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.application.App;
+import com.ft08.trailblazelearn.fragments.LocationsFragment;
 import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Station;
 import com.ft08.trailblazelearn.models.Trail;
@@ -117,17 +118,17 @@ public class StationAdapter extends ArrayAdapter<Station> {
     public void getData(DataSnapshot dataSnapshot){
 
         adaptstations.clear();
-        //int i =1;
+        int i =1;
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Station station1=(Station) ds.getValue(Station.class);
-            //station1.setSeqNum(i);
+            station1.setSeqNum(i);
             adaptstations.add(station1);
-            //i++;
+            i++;
             notifyDataSetChanged();
 
         }
 
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
 
     }
 
@@ -155,6 +156,8 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
         final Station station = getItem(position);
         viewHolder.stationName.setText(station.toString());
+
+
 
         viewHolder.stationName.setOnClickListener(new View.OnClickListener() {
             @Override
