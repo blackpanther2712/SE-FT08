@@ -148,7 +148,6 @@ public class TrailActivity extends AppCompatActivity {
     * Checks If The Added/Deleted/Changed Trail Belongs To The Current User
     * */
     private boolean checkTrailUser(String trailUserId, String currentUserId) {
-        Log.d("LIFECYCLE", "trailUserId: " + trailUserId + " currentUserId: " + currentUserId);
         if(trailUserId.equals(currentUserId))
             return true;
         return false;
@@ -167,7 +166,6 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Trail addedTrail = dataSnapshot.getValue(Trail.class);
-                Log.d("LIFECYCLE", "calling from onChildAdded class: " + addedTrail.getTrailID());
                 if(checkTrailUser(addedTrail.getuserId(), user.getUid())) {
                     trails.add(addedTrail);
                     keys.add(dataSnapshot.getKey());
@@ -179,7 +177,6 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Trail changedTrail = dataSnapshot.getValue(Trail.class);
-                Log.d("LIFECYCLE", "calling from onChildChanged class: " + changedTrail.getTrailID());
                 if(checkTrailUser(changedTrail.getuserId(), user.getUid())) {
                     String key = dataSnapshot.getKey();
                     trails.set(keys.indexOf(key), changedTrail);
@@ -191,7 +188,6 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Trail removedTrail = dataSnapshot.getValue(Trail.class);
-                Log.d("LIFECYCLE", "calling from onChildRemoved class: " + removedTrail.getTrailID());
                 if(checkTrailUser(removedTrail.getuserId(), user.getUid())) {
                     keys.remove(dataSnapshot.getKey());
                     removeTrail(removedTrail);
