@@ -46,7 +46,7 @@ import java.util.Locale;
 
 public class TrailActivity extends AppCompatActivity {
 
-    private EditText trailName, trailCode, module, trailDate, editedTrailCode, editedTrailDate;
+    private EditText trailName, trailCode, module, trailDate, editedTrailCode, editedTrailDate, editedTrailName, editedTrailModule;
     private FloatingActionButton floatingActionButton;
     private Calendar calendar = Calendar.getInstance();
     private TrailAdapter trailAdapter;
@@ -148,6 +148,7 @@ public class TrailActivity extends AppCompatActivity {
     * Checks If The Added/Deleted/Changed Trail Belongs To The Current User
     * */
     private boolean checkTrailUser(String trailUserId, String currentUserId) {
+        Log.d("LIFECYCLE", "trailUserId: " + trailUserId + " currentUserId: " + currentUserId);
         if(trailUserId.equals(currentUserId))
             return true;
         return false;
@@ -166,6 +167,7 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Trail addedTrail = dataSnapshot.getValue(Trail.class);
+                Log.d("LIFECYCLE", "calling from onChildAdded class: " + addedTrail.getTrailID());
                 if(checkTrailUser(addedTrail.getuserId(), user.getUid())) {
                     trails.add(addedTrail);
                     keys.add(dataSnapshot.getKey());
@@ -176,6 +178,7 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Trail changedTrail = dataSnapshot.getValue(Trail.class);
+                Log.d("LIFECYCLE", "calling from onChildChanged class: " + changedTrail.getTrailID());
                 if(checkTrailUser(changedTrail.getuserId(), user.getUid())) {
                     String key = dataSnapshot.getKey();
                     trails.set(keys.indexOf(key), changedTrail);
@@ -186,9 +189,11 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Trail removedTrail = dataSnapshot.getValue(Trail.class);
+                Log.d("LIFECYCLE", "calling from onChildRemoved class: " + removedTrail.getTrailID());
                 if(checkTrailUser(removedTrail.getuserId(), user.getUid())) {
                     keys.remove(dataSnapshot.getKey());
                     removeTrail(removedTrail);
+                    App.trainer.removeTrail(removedTrail.getTrailID());
                     trailAdapter.notifyDataSetChanged();
                 }
             }
@@ -212,6 +217,32 @@ public class TrailActivity extends AppCompatActivity {
         });
     }
 
+
+    /*
+    * This Method Adds & Updates Trails In The Database
+    * */
+    private void addUpdateTrailToDB(String trail_id, Trail trail) {
+        Timestamp currentTimestamp = new Timestamp(new Date().getTime());
+        currentTrialRef = dRef.child(trail_id);
+        currentTrialRef.setValue(trail);
+        currentTrialRef.child("Trail Date").setValue(new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(startDate));
+        currentTrialRef.child("TimeStamp").setValue(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH).format(currentTimestamp));
+        dialog.dismiss();
+        Toast.makeText(TrailActivity.this, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show();
+    }
+
+
+    /*
+    * Checks For Correctness Of The Details Enters And Then Pushes To DB
+    * */
+    private void validateAndPushToDB(String name, String code, String traildate, String moduleText) {
+        if (isValid(name, code, traildate)) {
+            Trail newTrail = App.trainer.addTrail(name, code, moduleText, startDate, user.getUid());
+            String trailId = newTrail.getTrailID();
+            addUpdateTrailToDB(trailId, newTrail);
+        }
+    }
+
     /*
     * This Method Sets The Listener For Save Button Of The Trail Details Dialog Box
     * Following Are The Functionalities:
@@ -225,6 +256,7 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Trail currentTrail;
                 String name = trailName.getText().toString().trim();
                 String code = trailCode.getText().toString().trim();
                 String moduleText = module.getText().toString().trim();
@@ -232,21 +264,20 @@ public class TrailActivity extends AppCompatActivity {
 
                 if(editedView != null) {
                     String currentTrailId = geTrailId(code, startDate);
-                    if(currentTrailId.toString().trim().equals(editedTrailId.toString().trim())) {}
-                    else { dRef.child(editedTrailId).removeValue();}
+                    if(currentTrailId.toString().trim().equals(editedTrailId.toString().trim()))
+                    {
+                        if((name != editedTrailName.getText().toString().trim()) || moduleText != editedTrailModule.getText().toString().trim()) {
+                            Trail trail = App.trainer.editTrail(name, code, moduleText, startDate, currentTrailId, user.getUid());
+                            String trail_id = trail.getTrailID();
+                            addUpdateTrailToDB(trail_id, trail);
+                        }
+                    }
+                    else {
+                        dRef.child(editedTrailId).removeValue();
+                        validateAndPushToDB(name, code, traildate, moduleText);
+                    }
                 }
-
-                if(isValid(name, code, traildate)) {
-                    Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-                    Trail currentTrail = App.trainer.addTrail(name, code, moduleText, startDate, user.getUid());
-                    String trail_id = currentTrail.getTrailID();
-                    currentTrialRef = dRef.child(trail_id);
-                    currentTrialRef.setValue(currentTrail);
-                    currentTrialRef.child("Trail Date").setValue(new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH).format(startDate));
-                    currentTrialRef.child("TimeStamp").setValue(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH).format(currentTimestamp));
-                    dialog.dismiss();
-                    Toast.makeText(TrailActivity.this,getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show();
-                }
+                else { validateAndPushToDB(name, code, traildate, moduleText); }
             }
         });
     }
@@ -284,6 +315,8 @@ public class TrailActivity extends AppCompatActivity {
         if(code == 0) {
             Date editedTrailDt = null;
             editedView = passedView;
+            editedTrailName = (EditText) editedView.findViewById(R.id.TrailNametxt);
+            editedTrailModule = (EditText) editedView.findViewById(R.id.Moduletxt);
             editedTrailCode = (EditText) editedView.findViewById(R.id.TrailCodetxt);
             editedTrailDate = (EditText) editedView.findViewById(R.id.datetxt);
             try { editedTrailDt = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(editedTrailDate.getText().toString().trim()); }
