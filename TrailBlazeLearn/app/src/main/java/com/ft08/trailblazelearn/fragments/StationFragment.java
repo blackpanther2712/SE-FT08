@@ -68,12 +68,13 @@ public class StationFragment extends Fragment {
 
     @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                        Bundle savedInstanceState) {
-        LocationsFragment.locationInstance(trailid);
+
 
         View fragmentView = inflater.inflate(R.layout.activity_trail, container, false);
         ListView stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
         Log.d("frag tkey",trailid);
+        LocationsFragment.locationInstance(trailid);
         stationAdapter = new StationAdapter(getContext(),trailid);
         stationList.setAdapter(stationAdapter);
         stationList.setEmptyView(stationEmpty);

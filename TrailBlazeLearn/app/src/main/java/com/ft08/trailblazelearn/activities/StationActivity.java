@@ -21,11 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class StationActivity extends AppCompatActivity {
 
-    private DatabaseReference dRef;
-    private FirebaseUser user;
-    private DatabaseReference tRef;
-    private String trailKey;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,39 +28,6 @@ public class StationActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         final String trailID = bundle.getString("trailId");
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        //dRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
-        dRef = FirebaseDatabase.getInstance().getReference("Trails");
-//        Query query = dRef.orderByChild("trailID").equalTo(trailID);
-//
-//        query.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                trailKey = dataSnapshot.getKey();
-//                StationFragment.newInstance(trailKey);
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
         StationFragment.newInstance(trailID);
 

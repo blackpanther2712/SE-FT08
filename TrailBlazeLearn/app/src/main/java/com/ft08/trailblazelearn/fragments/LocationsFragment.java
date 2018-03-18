@@ -13,6 +13,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.ft08.trailblazelearn.models.Station;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +35,8 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     private MarkerOptions options=new MarkerOptions();
     private List<String> stationName = new ArrayList<String>();
     private List<Integer> seqNum = new ArrayList<Integer>();
-    private ArrayList<String> latLngs= new ArrayList<>();
-    private ArrayList<Station> stations = new ArrayList<Station>();
+    public ArrayList<String> latLngs= new ArrayList<String>();
+    private  ArrayList<Station> stations = new ArrayList<Station>();
     private static String trailID;
     private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
     private DatabaseReference gRef;
@@ -42,6 +44,7 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     public static void locationInstance(String data){
         trailID=data;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,16 +64,24 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         gRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 latLngs.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Station station=(Station) ds.getValue(Station.class);
                     stations.add(station);
-//                    latLngs.add(station.getGps());
+                    latLngs.add(station.getGps());
+
+                    //1.297802499999996,103.77531640624997
+                    //1.2983024999999986,103.77621484374995
+                    //1.3005324999999957,103.77473046874994
+
+
 //                    stationName.add(station.getStationName());
 //                    seqNum.add(station.getSeqNum());
                 }
                 //stations.clear();
+
+                onMapReady(googleMap);
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -81,12 +92,16 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
 //                    .title("Marina Bay").snippet("A"));
 //       // }
 
-        for (Station station : stations){
-            latLngs.add(station.getGps());
-        }
 
-        latLngs.add("1.334585, 103.735510");
-        latLngs.add("1.289316, 103.854502");
+
+//        latLngs.add("1.334585, 103.735510");
+//        latLngs.add("1.289316, 103.854502");
+//        latLngs.add("1.297802499999996,103.77531640624997");
+//        latLngs.add("1.2983024999999986,103.77621484374995");
+//        latLngs.add("1.3005324999999957,103.77473046874994");
+
+
+
 
         return fragmentView;
     }
@@ -96,17 +111,25 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         googleMap = goog;
         int i=1;
         for(String place : latLngs){
+            String nwPlace = trim(place,"lat/lng: (",")");
+            String[] loc = nwPlace.split(",");
 
-            String[] loc = place.split(",");
             double latitude = Double.parseDouble(loc[0]);
-            double logitutude = Double.parseDouble(loc[1]);
-            LatLng location = new LatLng(latitude,logitutude);
+            double longitutude = Double.parseDouble(loc[1]);
+            LatLng location = new LatLng(latitude,longitutude);
             googleMap.addMarker(new MarkerOptions().position(location).title("Station"+"-"+i));
-           // googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
             i++;
 
         }
+    }
+
+    public String trim(String place,String prefix,String suffix){
+
+        int indexOfLast = place.lastIndexOf(suffix);
+        place = place.substring(10, indexOfLast);
+        return place;
+
     }
 
 
