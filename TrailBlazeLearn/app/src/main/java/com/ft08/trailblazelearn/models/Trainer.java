@@ -35,8 +35,8 @@ public class Trainer extends User {
         return null;
     }
 
-    public Trail addTrail(String trailName, String trailCode,String module, Date trailDate) {
-        Trail trail = new Trail(trailName,trailCode,module,trailDate);
+    public Trail addTrail(String trailName, String trailCode,String module, Date trailDate, String userId) {
+        Trail trail = new Trail(trailName, trailCode, module, trailDate, userId);
         trails.add(trail);
         return trail;
     }
@@ -47,9 +47,9 @@ public class Trainer extends User {
         }
     }
 
-    public Trail editTrail(String trailName,String code, String module, Date trailDate,String trailID) {
+    public Trail editTrail(String trailName,String code, String module, Date trailDate,String trailID, String userId) {
          removeTrail(trailID);
-         Trail trail = addTrail(trailName,code,module,trailDate);
+         Trail trail = addTrail(trailName,code,module,trailDate, userId);
          return trail;
 
     }

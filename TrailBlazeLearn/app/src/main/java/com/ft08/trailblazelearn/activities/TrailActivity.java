@@ -30,6 +30,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -143,6 +145,16 @@ public class TrailActivity extends AppCompatActivity {
     }
 
     /*
+    * Checks If The Added/Deleted/Changed Trail Belongs To The Current User
+    * */
+    private boolean checkTrailUser(String trailUserId, String currentUserId) {
+        if(trailUserId.equals(currentUserId))
+            return true;
+        return false;
+    }
+
+
+    /*
     * Attaching A Database Listener To Listen For Changes If:
     * 1. New Trail Is Added
     * 2. Some Changes In The Existing Trail
@@ -154,25 +166,31 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Trail addedTrail = dataSnapshot.getValue(Trail.class);
-                trails.add(addedTrail);
-                keys.add(dataSnapshot.getKey());
-                trailAdapter.notifyDataSetChanged();
+                if(checkTrailUser(addedTrail.getuserId(), user.getUid())) {
+                    trails.add(addedTrail);
+                    keys.add(dataSnapshot.getKey());
+                    trailAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Trail changedTrail = dataSnapshot.getValue(Trail.class);
-                String key = dataSnapshot.getKey();
-                trails.set(keys.indexOf(key), changedTrail);
-                trailAdapter.notifyDataSetChanged();
+                if(checkTrailUser(changedTrail.getuserId(), user.getUid())) {
+                    String key = dataSnapshot.getKey();
+                    trails.set(keys.indexOf(key), changedTrail);
+                    trailAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Trail removedTrail = dataSnapshot.getValue(Trail.class);
-                keys.remove(dataSnapshot.getKey());
-                removeTrail(removedTrail);
-                trailAdapter.notifyDataSetChanged();
+                if(checkTrailUser(removedTrail.getuserId(), user.getUid())) {
+                    keys.remove(dataSnapshot.getKey());
+                    removeTrail(removedTrail);
+                    trailAdapter.notifyDataSetChanged();
+                }
             }
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
             public void onCancelled(DatabaseError databaseError) {}
@@ -220,7 +238,7 @@ public class TrailActivity extends AppCompatActivity {
 
                 if(isValid(name, code, traildate)) {
                     Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-                    Trail currentTrail = App.trainer.addTrail(name, code, moduleText,startDate);
+                    Trail currentTrail = App.trainer.addTrail(name, code, moduleText, startDate, user.getUid());
                     String trail_id = currentTrail.getTrailID();
                     currentTrialRef = dRef.child(trail_id);
                     currentTrialRef.setValue(currentTrail);

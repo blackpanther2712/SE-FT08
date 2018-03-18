@@ -13,17 +13,19 @@ public class Trail {
     private String trailID;
     private String trailCode;
     private String trailName;
+    private String userId;
     //private int sequenceNum;
     private ArrayList<Station> stations;
 
     public Trail(){
         stations = new ArrayList<Station> ();
     }
-    public Trail(String trailName,String trailCode, String module, Date trailDate) {
+    public Trail(String trailName, String trailCode, String module, Date trailDate, String addedBy) {
         this.trailName = trailName;
         this.trailCode = trailCode;
         this.module = module;
         this.trailDate = trailDate;
+        this.userId = addedBy;
         DateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         this.trailID = formatter.format(trailDate)+"-"+trailCode;
         stations = new ArrayList<Station> ();
@@ -108,5 +110,13 @@ public class Trail {
     @Override
     public String toString() {
         return getTrailName();
+    }
+
+    public String getuserId() {
+        return userId;
+    }
+
+    public void setUserId(String addedBy) {
+        this.userId = addedBy;
     }
 }
