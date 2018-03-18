@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.ft08.trailblazelearn.fragments.StationFragment;
 import com.ft08.trailblazelearn.fragments.LocationsFragment;
+
 /**
  * Created by keerthanadevi on 13/3/18.
  */

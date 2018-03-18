@@ -9,54 +9,70 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
-        <Button
-            android:id="@+id/TrainerBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="57dp"
-            android:layout_marginStart="57dp"
-            android:layout_marginTop="189dp"
-            android:text="@string/TrainerBtn" />
-
-        <Button
+        <ImageButton
             android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="@string/LogoutBtn"
             tools:layout_editor_absoluteX="296dp"
-            tools:layout_editor_absoluteY="0dp" />
-
-        <Button
-            android:id="@+id/ParticipantBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/TrainerBtn"
-            android:layout_alignBottom="@+id/TrainerBtn"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="45dp"
-            android:layout_marginRight="45dp"
-            android:text="@string/Participantbtn" />
+            tools:layout_editor_absoluteY="0dp"
+            android:src="@drawable/logout"
+            android:background="@null"/>
 
         <TextView
             android:id="@+id/CurrentUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/logoutBtn"
-            android:layout_marginTop="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="16dp"
+            android:paddingRight="24dp"
             android:text="TextView"
             android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/ImguserType"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_below="@+id/logoutBtn"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/trainer" />
+
+        <Button
+            android:id="@+id/proceedBtn"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Proceed" />
+
+        <Switch
+            android:id="@+id/switchId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/proceedBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:theme="@style/SCBSwitch" />
+
+        <TextView
+            android:id="@+id/typetxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ImguserType"
+            android:layout_centerHorizontal="true"
+            android:text="I'm a Trainer"
+            android:textSize="20dp" />
     </RelativeLayout>
 
 

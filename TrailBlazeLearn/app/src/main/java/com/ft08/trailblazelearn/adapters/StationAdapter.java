@@ -3,6 +3,7 @@ package com.ft08.trailblazelearn.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
+import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.fragments.LocationsFragment;
 import com.ft08.trailblazelearn.models.Participant;
@@ -163,9 +165,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
             @Override
             public void onClick(View v) {
 
-//                Intent intent = new Intent(getContext(), );
-//                intent.putExtra("stationId",station.getStationID());
-//                getContext().startActivity(intent);
+                Intent intent = new Intent(getContext(), SwipeTabsActivity.class);
+                intent.putExtra("stationId",station.getStationID());
+                getContext().startActivity(intent);
             }
         });
 
