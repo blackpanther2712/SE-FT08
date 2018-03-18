@@ -125,6 +125,8 @@ public class StationFragment extends Fragment {
 
                             //Station station = new Station(stationAdapter.getCount()+1,name,info,gps);
 
+                            Log.d("APP", App.trainer.getUserId());
+
                             Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,gps);
 
                             DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
