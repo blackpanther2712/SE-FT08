@@ -35,6 +35,14 @@ public class Trainer extends User {
         return null;
     }
 
+    public void addTrail(Trail trail) {
+         trails.add(trail);
+    }
+
+    public void setTrail(int index, Trail trail) {
+        trails.set(index, trail);
+    }
+
     public Trail addTrail(String trailName, String trailCode,String module, Date trailDate, String userId) {
         Trail trail = new Trail(trailName, trailCode, module, trailDate, userId);
         trails.add(trail);

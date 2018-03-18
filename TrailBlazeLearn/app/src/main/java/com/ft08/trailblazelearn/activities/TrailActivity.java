@@ -172,6 +172,7 @@ public class TrailActivity extends AppCompatActivity {
                     trails.add(addedTrail);
                     keys.add(dataSnapshot.getKey());
                     trailAdapter.notifyDataSetChanged();
+                    App.trainer.addTrail(addedTrail);
                 }
             }
 
@@ -182,6 +183,7 @@ public class TrailActivity extends AppCompatActivity {
                 if(checkTrailUser(changedTrail.getuserId(), user.getUid())) {
                     String key = dataSnapshot.getKey();
                     trails.set(keys.indexOf(key), changedTrail);
+                    App.trainer.setTrail(keys.indexOf(key), changedTrail);
                     trailAdapter.notifyDataSetChanged();
                 }
             }
@@ -237,7 +239,7 @@ public class TrailActivity extends AppCompatActivity {
     * */
     private void validateAndPushToDB(String name, String code, String traildate, String moduleText) {
         if (isValid(name, code, traildate)) {
-            Trail newTrail = App.trainer.addTrail(name, code, moduleText, startDate, user.getUid());
+            Trail newTrail = new Trail(name, code, moduleText, startDate, user.getUid());
             String trailId = newTrail.getTrailID();
             addUpdateTrailToDB(trailId, newTrail);
         }
