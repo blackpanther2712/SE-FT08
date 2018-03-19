@@ -126,11 +126,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
             station1.setSeqNum(i);
             adaptstations.add(station1);
             i++;
-            notifyDataSetChanged();
-
         }
 
-        //notifyDataSetChanged();
+        notifyDataSetChanged();
 
     }
 
@@ -167,6 +165,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
                 Intent intent = new Intent(getContext(), SwipeTabsActivity.class);
                 intent.putExtra("stationId",station.getStationID());
+                intent.putExtra("trailId", trailid);
                 getContext().startActivity(intent);
             }
         });

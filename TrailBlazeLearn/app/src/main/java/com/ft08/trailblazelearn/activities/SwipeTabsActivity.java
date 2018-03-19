@@ -25,8 +25,10 @@ import com.ft08.trailblazelearn.fragments.FragmentC;
 
 public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private static String calledTrailId;
+    private static String calledStationId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +43,18 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
         tabLayout.addTab(tabLayout.newTab().setText("Contributions"));
         tabLayout.addOnTabSelectedListener(this);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        Bundle savedDataFromPreviousActivity = getIntent().getExtras();
+        setCalledStationId((String) savedDataFromPreviousActivity.get("stationId"));
+        setCalledTrailId((String) savedDataFromPreviousActivity.get("trailId"));
     }
+
+    public static String getCalledTrailId() { return calledTrailId; }
+
+    public static void setCalledTrailId(String calledTrailId) { SwipeTabsActivity.calledTrailId = calledTrailId; }
+
+    public static String getCalledStationId() { return calledStationId; }
+
+    public static void setCalledStationId(String calledStationId) { SwipeTabsActivity.calledStationId = calledStationId; }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }
