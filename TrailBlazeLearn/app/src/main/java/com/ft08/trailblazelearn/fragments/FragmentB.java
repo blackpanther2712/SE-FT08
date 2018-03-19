@@ -66,28 +66,26 @@ public class FragmentB extends Fragment implements View.OnClickListener {
 
     public FragmentB() {}
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initFirebaseDatabase();
         fragmentView = inflater.inflate(R.layout.fragment_b, container, false);
-        Log.d("LIFECYCLE", "fragmentView Completed");
         return fragmentView;
     }
 
+
     private void initFirebaseDatabase() {
-        currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
-        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailId();
-        Log.d("LIFECYCLE", "currentStationId: " + currentStationId + " currentTrailId: " + currentTrailId);
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
-        databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("posts");
         firebaseStorage = FirebaseStorage.getInstance();
+        databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("posts");
         storageReference = firebaseStorage.getReference().child("discussion_photos");
-        Log.d("LIFECYCLE", "initFirebase() Completed");
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+
+    private void initReferences() {
+        currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
+        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailId();
         userName = App.trainer.getName();
         Discussions = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), R.layout.message_item, Discussions);
@@ -98,8 +96,15 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         sendImageButton = (ImageButton) fragmentView.findViewById(R.id.sendImageButton);
         sendButton.setOnClickListener(this);
         sendImageButton.setOnClickListener(this);
-        Log.d("LIFECYCLE", "onActivityCreated() Completed");
     }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initReferences();
+    }
+
 
     private void attachTextChangedEventListener() {
         writeMessageEditText.addTextChangedListener(new TextWatcher() {
@@ -113,6 +118,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         });
     }
 
+
     private void detachDatabaseListener() {
         if(childEventListener != null) {
             databaseReference.removeEventListener(childEventListener);
@@ -120,21 +126,21 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         }
     }
 
+
     public void onClick(View view) {
         if(view.getId() == R.id.sendButton) {
-            Log.d("LIFECYCLE", "sendButton Clicked");
             Post post = new Post(writeMessageEditText.getText().toString(), userName, null);
             databaseReference.push().setValue(post);
             writeMessageEditText.setText("");
         }
         else if(view.getId() == R.id.sendImageButton) {
-            Log.d("LIFECYCLE", "imageButton Clicked");
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/jpeg");
             intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
             startActivityForResult(Intent.createChooser(intent, "Complete Action Using:"), RC_PHOTO_PICKER);
         }
     }
+
 
     @Override
     public void onPause() {
@@ -143,19 +149,19 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         postAdapter.clear();
     }
 
+
     @Override
     public void onResume() {
         attachDatabaseListener();
         super.onResume();
     }
 
+
     private void attachDatabaseListener() {
-        Log.d("LIFECYCLE", "attachDatabaseListener Called: " + childEventListener);
         if(childEventListener == null) {
             childEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.d("LIFECYCLE", "New Message Added");
                     Post post = dataSnapshot.getValue(Post.class);
                     postAdapter.add(post);
                 }
@@ -168,15 +174,12 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("LIFECYCLE", "called onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("LIFECYCLE", "requestCode: " + requestCode);
-        Log.d("LIFECYCLE", "RESULT_OK: " + RESULT_OK + " : " + resultCode);
         if(requestCode == RC_PHOTO_PICKER) {
             if(resultCode == RESULT_OK) {
-                Log.d("LIFECYCLE", "RESULT_OK");
                 Uri selectedImage = data.getData();
                 StorageReference photoRef = storageReference.child(selectedImage.getLastPathSegment());
 
@@ -194,7 +197,6 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
                             Post post = new Post(null, userName, downloadUrl.toString());
                             databaseReference.push().setValue(post);
-                            Log.d("LIFECYCLE", "Uploaded Successfully");
                         }
                 });
             }
