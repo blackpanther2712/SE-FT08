@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.adapters.StationAdapter;
+import com.ft08.trailblazelearn.application.App;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;

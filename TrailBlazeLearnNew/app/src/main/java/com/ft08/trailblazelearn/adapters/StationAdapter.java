@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -84,7 +86,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
             i++;
             notifyDataSetChanged();
         }
-
+        //(App.trainer.getTrail(trailid)).setStations(adaptstations);
         notifyDataSetChanged();
 
     }
@@ -167,7 +169,36 @@ public class StationAdapter extends ArrayAdapter<Station> {
 //                                    }
 //                                });
 
+//                                final int seqDeleted = station.getSeqNum();
+//                                int y=seqDeleted+1;
+//
+//                                Log.d("seqnum to be deleted", String.valueOf(seqDeleted));
+//
+//                                Query query = sref.orderByChild("seqNum").startAt(y);
+//                                      query.addValueEventListener(new ValueEventListener() {
+//                                          @Override
+//                                          public void onDataChange(DataSnapshot dataSnapshot) {
+//                                              int i = seqDeleted;
+//                                              for (DataSnapshot ds : dataSnapshot.getChildren()){
+//                                                  Station station1 = (Station) ds.getValue(Station.class);
+//                                                  Log.d("stname",station1.getStationName());
+//                                                  sref.child(station1.getStationID()).child("seqNum").setValue(i);
+//                                                  station1.setSeqNum(i);
+//                                                  Log.d("value i",String.valueOf(i));
+//                                                  i++;
+//                                              }
+//
+//                                          }
+//
+//                                          @Override
+//                                          public void onCancelled(DatabaseError databaseError) {
+//
+//                                          }
+//                                      });
+
                                 sref.child(station.getStationID()).removeValue();
+                                notifyDataSetChanged();
+
 
                                 (App.trainer.getTrail(trailid)).removeStation(station.getStationID());
                                 Trail trail = App.trainer.getTrail(trailid);

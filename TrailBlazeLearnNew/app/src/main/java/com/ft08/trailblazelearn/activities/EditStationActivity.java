@@ -50,19 +50,7 @@ public class EditStationActivity extends AppCompatActivity {
         tkref= myRef.child(trailId);
         sref = tkref.child("Stations");
         final Station station = (App.trainer.getTrail(trailId)).getStation(stId);
-        /*Query query = sref.orderByChild("stationID").equalTo(stId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                station = dataSnapshot.getValue(Station.class);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-*/
         String seq=Integer.toString(station.getSeqNum());
         ((EditText) findViewById(R.id.seqNumtxt)).setText(seq);
         ((EditText) findViewById(R.id.stationNametxt)).setText(station.getStationName());
@@ -106,6 +94,9 @@ public class EditStationActivity extends AppCompatActivity {
                     final String address = gps.getText().toString().trim();
 
                     final Station edstation = (App.trainer.getTrail(trailId)).editStation(seqno, stName, instinfo, location,station.getStationID(),address);
+
+                    //sref.child(station.getStationID()).setValue(edstation);
+
 
                     sref.child(station.getStationID()).removeValue();
 
