@@ -103,7 +103,7 @@ public class EditStationActivity extends AppCompatActivity {
                     final String stName = stationName.getText().toString().trim();
                     final String location = latLong;
                     final String instinfo = instructions.getText().toString().trim();
-                    final String address = locationAddress;
+                    final String address = gps.getText().toString().trim();
 
                     final Station edstation = (App.trainer.getTrail(trailId)).editStation(seqno, stName, instinfo, location,station.getStationID(),address);
 
