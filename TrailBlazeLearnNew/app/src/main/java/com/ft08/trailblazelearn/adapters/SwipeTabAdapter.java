@@ -8,10 +8,6 @@ import com.ft08.trailblazelearn.fragments.FragmentA;
 import com.ft08.trailblazelearn.fragments.FragmentB;
 import com.ft08.trailblazelearn.fragments.FragmentC;
 
-/**
- * Created by afaqueahmad on 18/3/18.
- */
-
 public class SwipeTabAdapter extends FragmentPagerAdapter {
 
     private final int numberOfTabs = 3;

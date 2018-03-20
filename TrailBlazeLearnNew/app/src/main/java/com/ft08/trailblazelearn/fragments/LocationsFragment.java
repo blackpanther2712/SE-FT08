@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.ft08.trailblazelearn.activities.StationActivity;
+import com.ft08.trailblazelearn.adapters.StationAdapter;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -32,11 +34,8 @@ import java.util.List;
 
 public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap googleMap;
-    private MarkerOptions options=new MarkerOptions();
     private List<String> stationName = new ArrayList<String>();
-    private List<Integer> seqNum = new ArrayList<Integer>();
     public ArrayList<String> latLngs= new ArrayList<String>();
-    private  ArrayList<Station> stations = new ArrayList<Station>();
     private static String trailID;
     private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
     private DatabaseReference gRef;
@@ -65,43 +64,26 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 latLngs.clear();
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    Station station=(Station) ds.getValue(Station.class);
-                    stations.add(station);
-                    latLngs.add(station.getGps());
+                stationName.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if (ds != null) {
+                        Station station = (Station) ds.getValue(Station.class);
+                        latLngs.add(station.getGps());
+                        stationName.add(station.getStationName());
 
-                    //1.297802499999996,103.77531640624997
-                    //1.2983024999999986,103.77621484374995
-                    //1.3005324999999957,103.77473046874994
+                    }
 
-
-//                    stationName.add(station.getStationName());
-//                    seqNum.add(station.getSeqNum());
                 }
-                //stations.clear();
 
                 onMapReady(googleMap);
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-//            Marker m = googleMap.addMarker(options.position(new LatLng(1.284218, 103.859299)).anchor(0.5f,0.5f)
-//                    .title("Marina Bay").snippet("A"));
-//       // }
-
-
-
-//        latLngs.add("1.334585, 103.735510");
-//        latLngs.add("1.289316, 103.854502");
-//        latLngs.add("1.297802499999996,103.77531640624997");
-//        latLngs.add("1.2983024999999986,103.77621484374995");
-//        latLngs.add("1.3005324999999957,103.77473046874994");
-
-
-
 
         return fragmentView;
     }
@@ -109,17 +91,21 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap goog) {
         googleMap = goog;
-        int i=1;
+        int i=1,j=0;
+        googleMap.clear();
+        Log.d("size of latlng", String.valueOf(latLngs.size()));
         for(String place : latLngs){
-            String nwPlace = trim(place,"lat/lng: (",")");
-            String[] loc = nwPlace.split(",");
+            if(place!=null) {
+                String nwPlace = trim(place, "lat/lng: (", ")");
+                String[] loc = nwPlace.split(",");
 
-            double latitude = Double.parseDouble(loc[0]);
-            double longitutude = Double.parseDouble(loc[1]);
-            LatLng location = new LatLng(latitude,longitutude);
-            googleMap.addMarker(new MarkerOptions().position(location).title("Station"+"-"+i));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
-            i++;
+                double latitude = Double.parseDouble(loc[0]);
+                double longitutude = Double.parseDouble(loc[1]);
+                LatLng location = new LatLng(latitude, longitutude);
+                googleMap.addMarker(new MarkerOptions().position(location).title("Station" + "-" + i).snippet(stationName.get(j)));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
+                i++;j++;
+            }
 
         }
     }
@@ -131,6 +117,5 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         return place;
 
     }
-
 
 }

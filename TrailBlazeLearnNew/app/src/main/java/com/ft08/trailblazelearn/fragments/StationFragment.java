@@ -42,7 +42,6 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
-
 public class StationFragment extends Fragment {
     private EditText stationName,GPS,instructions;
     private Button addstationBtn;
@@ -51,8 +50,6 @@ public class StationFragment extends Fragment {
     private static String trailid;
     private FloatingActionButton floatingActionButton;
     private String latLong;
-    private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-    //private DatabaseReference dRef= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Trails");
     private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
     private DatabaseReference tref=dRef.child(trailid).getRef();
 
@@ -73,7 +70,6 @@ public class StationFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.activity_trail, container, false);
         ListView stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
-        Log.d("frag tkey",trailid);
         LocationsFragment.locationInstance(trailid);
         stationAdapter = new StationAdapter(getContext(),trailid);
         stationList.setAdapter(stationAdapter);
@@ -123,18 +119,11 @@ public class StationFragment extends Fragment {
                             final String name = stationName.getText().toString().trim();
                             final String gps = latLong;
                             final String info = instructions.getText().toString().trim();
-
-                            //Station station = new Station(stationAdapter.getCount()+1,name,info,gps);
-
-                            Log.d("APP", App.trainer.getUserId());
-
                             Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,gps);
 
                             DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
                             station.setStationID(station.getSeqNum()+station.getStationName());
                             sref.setValue(station);
-//                            stationAdapter.refreshStations();
-//                            stationAdapter.notifyDataSetChanged();
                             dialog.dismiss();
                             Toast.makeText(getContext(),getString(R.string.saved_successfully),
                                     Toast.LENGTH_SHORT).show();
@@ -147,8 +136,6 @@ public class StationFragment extends Fragment {
 
             }
         });
-        //set visibility to add floating button
-        //floatingActionButton.setVisibility(user instanceof Trainer? View.VISIBLE : View.GONE);
         return fragmentView;
     }
 
@@ -171,27 +158,12 @@ public class StationFragment extends Fragment {
         return isValid;
     }
 
-
-
     @Override public void onResume() {
         super.onResume();
         stationAdapter.refreshStations();
         stationEmpty.setVisibility(stationAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        stationAdapter.refreshStations();
-        stationEmpty.setVisibility(stationAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        stationAdapter.refreshStations();
-        stationEmpty.setVisibility(stationAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
-    }
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==1){
@@ -203,8 +175,6 @@ public class StationFragment extends Fragment {
             }
         }
     }
-
-
 
 }
 

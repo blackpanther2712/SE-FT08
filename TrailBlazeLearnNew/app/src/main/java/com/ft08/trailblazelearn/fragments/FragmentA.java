@@ -1,9 +1,5 @@
 package com.ft08.trailblazelearn.fragments;
 
-/**
- * Created by afaqueahmad on 17/3/18.
- */
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

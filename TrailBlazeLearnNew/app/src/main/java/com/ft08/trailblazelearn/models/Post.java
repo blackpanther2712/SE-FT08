@@ -2,10 +2,6 @@ package com.ft08.trailblazelearn.models;
 
 import java.sql.Timestamp;
 
-/**
- * Created by afaqueahmad on 18/3/18.
- */
-
 public class Post {
 
     private String text;
