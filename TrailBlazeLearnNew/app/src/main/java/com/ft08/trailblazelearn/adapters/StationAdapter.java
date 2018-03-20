@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
+import com.ft08.trailblazelearn.activities.EditStationActivity;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.fragments.LocationsFragment;
@@ -34,10 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by keerthanadevi on 13/3/18.
- */
-
 public class StationAdapter extends ArrayAdapter<Station> {
 
     private Context context;
@@ -46,13 +43,11 @@ public class StationAdapter extends ArrayAdapter<Station> {
     private Button addstationBtn;
     private String trailid;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    FirebaseUser refUser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference myRef  = database.getReference("Trails");
     DatabaseReference tkref;
     DatabaseReference sref;
     DatabaseReference partRef = database.getReference("Trails");
 
-    private Trail trail;
 
     public StationAdapter(Context context,String data) {
         super(context, R.layout.trail_row_layout);
@@ -77,44 +72,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
             }
         });
-
-//        tkref.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                getData(dataSnapshot.child("Stations"));
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                 getData(dataSnapshot);
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        sref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                getData(dataSnapshot);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
     }
 
     public void getData(DataSnapshot dataSnapshot){
@@ -126,6 +83,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
             station1.setSeqNum(i);
             adaptstations.add(station1);
             i++;
+            notifyDataSetChanged();
         }
 
         notifyDataSetChanged();
@@ -215,13 +173,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
                                 (App.trainer.getTrail(trailid)).removeStation(station.getStationID());
                                 Trail trail = App.trainer.getTrail(trailid);
                                 trail.getStations().clear();
-                                refreshStations();
-
-
-                                notifyDataSetChanged();
                                 trail.setStations(adaptstations);
 
-
+                                notifyDataSetChanged();
 
                                 dialog.dismiss();
                                 break;
@@ -237,10 +191,20 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 builder.setMessage("Are you sure you want to delete "+station.getStationName()).setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
 
-
                 refreshStations();
             }
         });
+
+//        viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getContext(), EditStationActivity.class);
+//                intent.putExtra("stationId",station.getStationID());
+//                intent.putExtra("trailid",trailid);
+//                getContext().startActivity(intent);
+//                refreshStations();
+//            }
+//        });
 
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,9 +216,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 View sview = inflater1.inflate(R.layout.edit_station_dialogbox, null);
                 mBuilder.setView(sview);
                 final AlertDialog dialog = mBuilder.create();
-
-                //final Station editstation =getItem(position);
-
                 String seq=Integer.toString(station.getSeqNum());
 
                 ((EditText) sview.findViewById(R.id.seqNumtxt)).setText(seq);
@@ -267,9 +228,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 GPS = (EditText) sview.findViewById(R.id.gpstxt);
                 instructions = (EditText) sview.findViewById(R.id.instructionsTxt);
                 addstationBtn = (Button) sview.findViewById(R.id.CreateBtn);
-
-
-
 
                 addstationBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -368,6 +326,5 @@ public class StationAdapter extends ArrayAdapter<Station> {
         ImageButton btnEdit;
 
     }
-
 
 }

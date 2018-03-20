@@ -19,10 +19,6 @@ import com.ft08.trailblazelearn.fragments.FragmentA;
 import com.ft08.trailblazelearn.fragments.FragmentB;
 import com.ft08.trailblazelearn.fragments.FragmentC;
 
-/**
- * Created by afaqueahmad on 17/3/18.
- */
-
 public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private TabLayout tabLayout;

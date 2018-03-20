@@ -1,9 +1,5 @@
 package com.ft08.trailblazelearn.fragments;
 
-/**
- * Created by afaqueahmad on 17/3/18.
- */
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
