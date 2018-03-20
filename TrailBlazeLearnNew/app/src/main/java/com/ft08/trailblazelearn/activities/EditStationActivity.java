@@ -86,10 +86,13 @@ public class EditStationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isValid()) {
+                     String location = latLong;
 
                     final int seqno = Integer.parseInt(sequenceNum.getText().toString().trim());
                     final String stName = stationName.getText().toString().trim();
-                    final String location = latLong;
+                    if(location==null){
+                        location = station.getGps();
+                    }
                     final String instinfo = instructions.getText().toString().trim();
                     final String address = gps.getText().toString().trim();
 
