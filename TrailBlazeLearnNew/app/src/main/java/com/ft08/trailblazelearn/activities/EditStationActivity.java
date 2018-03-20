@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.ft08.trailblazelearn.application.App;
+import com.ft08.trailblazelearn.fragments.StationFragment;
 import com.ft08.trailblazelearn.models.Station;
 import com.ft08.trailblazelearn.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -29,12 +30,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditStationActivity extends AppCompatActivity {
 
-    private EditText gps, stationName, instructions,sequenceNum;
+    private EditText gps, stationName, instructions, sequenceNum;
     private Button addstationBtn;
-    private String latLong;
+    private String latLong,locationAddress;
     private Station station;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef  = database.getReference("Trails");
+    DatabaseReference myRef = database.getReference("Trails");
     DatabaseReference tkref;
     DatabaseReference sref;
 
@@ -45,11 +46,11 @@ public class EditStationActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         final String stId=bundle.getString("stationId");
-        final String trailId=bundle.getString("trailid");
+        final String trailId=bundle.getString("trailId");
         tkref= myRef.child(trailId);
         sref = tkref.child("Stations");
-       // final Station station = (App.trainer.getTrail(trailId)).getStation(stId);
-        Query query = sref.orderByChild("stationID").equalTo(stId);
+        final Station station = (App.trainer.getTrail(trailId)).getStation(stId);
+        /*Query query = sref.orderByChild("stationID").equalTo(stId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -61,11 +62,11 @@ public class EditStationActivity extends AppCompatActivity {
 
             }
         });
-
+*/
         String seq=Integer.toString(station.getSeqNum());
         ((EditText) findViewById(R.id.seqNumtxt)).setText(seq);
         ((EditText) findViewById(R.id.stationNametxt)).setText(station.getStationName());
-        ((EditText) findViewById(R.id.gpstxt)).setText(station.getGps());
+        ((EditText) findViewById(R.id.gpstxt)).setText(station.getAddress());
         ((EditText) findViewById(R.id.instructionsTxt)).setText(station.getInstructions());
 
         sequenceNum = (EditText) findViewById(R.id.seqNumtxt);
@@ -102,8 +103,9 @@ public class EditStationActivity extends AppCompatActivity {
                     final String stName = stationName.getText().toString().trim();
                     final String location = latLong;
                     final String instinfo = instructions.getText().toString().trim();
+                    final String address = locationAddress;
 
-                    final Station edstation = (App.trainer.getTrail(trailId)).editStation(seqno, stName, instinfo, location,station.getStationID());
+                    final Station edstation = (App.trainer.getTrail(trailId)).editStation(seqno, stName, instinfo, location,station.getStationID(),address);
 
                     sref.child(station.getStationID()).removeValue();
 
@@ -111,6 +113,10 @@ public class EditStationActivity extends AppCompatActivity {
                     stRef.setValue(edstation);
 
                     Toast.makeText(EditStationActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+
+
+
 
                 }
             }
@@ -125,7 +131,8 @@ public class EditStationActivity extends AppCompatActivity {
 
                 Place place = PlacePicker.getPlace(EditStationActivity.this,data);
                 latLong = place.getLatLng().toString();
-                gps.setText(place.getAddress().toString());
+                locationAddress = place.getAddress().toString();
+                gps.setText(locationAddress);
             }
         }
     }

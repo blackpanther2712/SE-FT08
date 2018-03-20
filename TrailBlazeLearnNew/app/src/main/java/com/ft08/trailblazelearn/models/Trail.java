@@ -79,8 +79,8 @@ public class Trail {
         this.stations = stations;
     }
 
-    public Station addStation(int sequenceNum,String stationName, String instructions, String gps) {
-        Station station = new Station(sequenceNum,stationName, instructions, gps);
+    public Station addStation(int sequenceNum,String stationName, String instructions, String gps,String address) {
+        Station station = new Station(sequenceNum,stationName, instructions, gps,address);
         stations.add(station);
         return station;
     }
@@ -101,9 +101,9 @@ public class Trail {
         return null;
     }
 
-    public Station editStation(int seqNum,String stationName, String instructions, String gps,String stationID) {
+    public Station editStation(int seqNum,String stationName, String instructions, String gps,String stationID,String address) {
         removeStation(stationID);
-        Station station = addStation(seqNum,stationName,instructions,gps);
+        Station station = addStation(seqNum,stationName,instructions,gps,address);
         return station;
     }
 

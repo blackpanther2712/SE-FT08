@@ -7,16 +7,18 @@ public class Station {
     private String instructions;
     private String gps;
     private String stationID;
+    private String address;
 
     public Station(){
 
     }
 
-    public Station(int seqNum,String stationName, String instructions, String gps) {
+    public Station(int seqNum,String stationName, String instructions, String gps,String address) {
         this.seqNum = seqNum;
         this.stationName = stationName;
         this.instructions = instructions;
         this.gps = gps;
+        this.address = address;
         this.stationID = seqNum+"-"+stationName;
     }
 
@@ -40,6 +42,13 @@ public class Station {
 
     public void setStationID(String stationID) { this.stationID = stationID; }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     @Override
     public String toString() {

@@ -20,7 +20,7 @@ import com.ft08.trailblazelearn.fragments.StationFragment;
 import com.google.firebase.database.ValueEventListener;
 
 public class StationActivity extends AppCompatActivity {
-
+    ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,8 @@ public class StationActivity extends AppCompatActivity {
 
         StationFragment.newInstance(trailID);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        this.viewPager= (ViewPager) findViewById(R.id.pager);
+
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 2);
         viewPager.setAdapter(pagerAdapter);
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -58,4 +59,9 @@ public class StationActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewPager.setCurrentItem(0);
+    }
 }

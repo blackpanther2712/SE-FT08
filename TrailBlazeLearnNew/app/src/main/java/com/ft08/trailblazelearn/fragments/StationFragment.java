@@ -43,13 +43,13 @@ import java.util.Objects;
 import static android.app.Activity.RESULT_OK;
 
 public class StationFragment extends Fragment {
-    private EditText stationName,GPS,instructions;
+    private EditText stationName,location,instructions;
     private Button addstationBtn;
     private StationAdapter stationAdapter;
     private TextView stationEmpty;
     private static String trailid;
     private FloatingActionButton floatingActionButton;
-    private String latLong;
+    private String latLong,locationAddress;
     private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
     private DatabaseReference tref=dRef.child(trailid).getRef();
 
@@ -71,7 +71,7 @@ public class StationFragment extends Fragment {
         ListView stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
         LocationsFragment.locationInstance(trailid);
-        stationAdapter = new StationAdapter(getContext(),trailid);
+        stationAdapter = new StationAdapter(getContext(),trailid,getActivity());
         stationList.setAdapter(stationAdapter);
         stationList.setEmptyView(stationEmpty);
 
@@ -87,39 +87,40 @@ public class StationFragment extends Fragment {
                 View sview = getLayoutInflater().inflate(R.layout.add_station_dialogbox, null);
 
                 stationName = (EditText)sview.findViewById(R.id.stationNametxt);
-                GPS = (EditText) sview.findViewById(R.id.gpstxt);
+                location = (EditText) sview.findViewById(R.id.gpstxt);
                 instructions = (EditText) sview.findViewById(R.id.instructionsTxt);
                 addstationBtn = (Button) sview.findViewById(R.id.CreateBtn);
                 mBuilder.setView(sview);
                 final  AlertDialog dialog = mBuilder.create();
 
-                GPS.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
-                                               PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                location.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
-                                               try {
-                                                   Intent intent;
-                                                   intent = builder.build(getActivity());
-                                                   startActivityForResult(intent, 1);
-                                               } catch (GooglePlayServicesRepairableException e) {
-                                                   e.printStackTrace();
-                                               } catch (GooglePlayServicesNotAvailableException e) {
-                                                   e.printStackTrace();
-                                               }
+                        try {
+                            Intent intent;
+                            intent = builder.build(getActivity());
+                            startActivityForResult(intent, 1);
+                        } catch (GooglePlayServicesRepairableException e) {
+                            e.printStackTrace();
+                        } catch (GooglePlayServicesNotAvailableException e) {
+                            e.printStackTrace();
+                        }
 
 
-                                           }
-                                       });
+                    }
+                });
 
                 addstationBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(isValid()){
                             final String name = stationName.getText().toString().trim();
-                            final String gps = latLong;
+                            final String geo = latLong;
+                            final String address =location.getText().toString().toString() ;
                             final String info = instructions.getText().toString().trim();
-                            Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,gps);
+                            Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,geo,address);
 
                             DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
                             station.setStationID(station.getSeqNum()+station.getStationName());
@@ -146,8 +147,8 @@ public class StationFragment extends Fragment {
             stationName.setError(getString(R.string.station_name_validation_ms));
             isValid = false;
         }
-        if (TextUtils.isEmpty(GPS.getText().toString().trim())) {
-            GPS.setError(getString(R.string.location_validation_ms));
+        if (TextUtils.isEmpty(location.getText().toString().trim())) {
+            location.setError(getString(R.string.location_validation_ms));
             isValid = false;
         }
 
@@ -171,7 +172,8 @@ public class StationFragment extends Fragment {
 
                 Place place = PlacePicker.getPlace(getActivity(),data);
                 latLong = place.getLatLng().toString();
-                GPS.setText(place.getAddress().toString());
+                locationAddress = place.getAddress().toString();
+                location.setText(locationAddress);
             }
         }
     }

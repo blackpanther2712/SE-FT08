@@ -1,5 +1,6 @@
 package com.ft08.trailblazelearn.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,18 +16,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.EditStationActivity;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.application.App;
-import com.ft08.trailblazelearn.fragments.LocationsFragment;
 import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Station;
 import com.ft08.trailblazelearn.models.Trail;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +39,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     private EditText stationName,GPS,instructions,sequenceNum;
     private Button addstationBtn;
     private String trailid;
+    private Activity activity;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef  = database.getReference("Trails");
     DatabaseReference tkref;
@@ -49,10 +47,11 @@ public class StationAdapter extends ArrayAdapter<Station> {
     DatabaseReference partRef = database.getReference("Trails");
 
 
-    public StationAdapter(Context context,String data) {
+    public StationAdapter(Context context, String data, Activity activity) {
         super(context, R.layout.trail_row_layout);
         this.context = context;
         this.trailid=data;
+        this.activity = activity;
         tkref = myRef.child(trailid);
         sref = tkref.child("Stations");
         partRef = myRef.child(this.trailid);
@@ -209,7 +208,14 @@ public class StationAdapter extends ArrayAdapter<Station> {
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+                Intent intent = new Intent(getContext(),EditStationActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("stationId",station.getStationID());
+                intent.putExtra("trailId", trailid);
+                getContext().startActivity(intent);
+
+                /*final AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater1 =
                         (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -238,15 +244,16 @@ public class StationAdapter extends ArrayAdapter<Station> {
                             final String stName = stationName.getText().toString().trim();
                             final String location = GPS.getText().toString().trim();
                             final String instinfo = instructions.getText().toString().trim();
+                            final String address = "";
 
-                            final Station edstation =(App.trainer.getTrail(trailid)).editStation(seqno,stName,instinfo,location,station.getStationID());
+                            final Station edstation =(App.trainer.getTrail(trailid)).editStation(seqno,stName,instinfo,location,station.getStationID(),address);
 
                             sref.child(station.getStationID()).removeValue();
 
                             DatabaseReference stRef = sref.child(edstation.getStationID());
                             stRef.setValue(edstation);
                             notifyDataSetChanged();
-
+*/
 //                            sref.addListenerForSingleValueEvent(new ValueEventListener() {
 //                                @Override
 //                                public void onDataChange(DataSnapshot dataSnapshot) {
@@ -262,7 +269,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
 //                                }
 //                            });
 
-                            dialog.dismiss();
+  /*                          dialog.dismiss();
                             Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
 
                         }
@@ -270,7 +277,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 });
 
                 dialog.show();
-                Trail trail = App.trainer.getTrail(trailid);
+  */              Trail trail = App.trainer.getTrail(trailid);
                 trail.getStations().clear();
                 refreshStations();
                 trail.setStations(adaptstations);
