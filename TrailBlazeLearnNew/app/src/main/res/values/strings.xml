@@ -9,7 +9,7 @@
     <string name="TrainerBtn">Trainer</string>
     <string name="Participantbtn">Participant</string>
     <string name="title_activity_trail">TrailActivity</string>
-    <string name="add_trails_to_appear_here">add to appear here</string>
+    <string name="add_trails_to_appear_here">add trails to appear here</string>
     <string name="placeholder">Placeholder</string>
     <string name="remove">Remove</string>
     <string name="edit">Edit</string>

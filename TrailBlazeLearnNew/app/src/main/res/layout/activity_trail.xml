@@ -6,14 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.ft08.trailblazelearn.activities.TrailActivity">
 
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/trail_list"
-        >
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:divider="#00000000"
+        android:dividerHeight="2sp"
+        android:padding="5dp">
     </ListView>
-
 
     <TextView
         android:layout_width="match_parent"
@@ -24,7 +26,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="@string/add_trails_to_appear_here" />
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -40,6 +41,5 @@
         android:clickable="true"
         android:tint="@android:color/white"
         app:srcCompat="@android:drawable/ic_input_add" />
-
 
 </RelativeLayout>
