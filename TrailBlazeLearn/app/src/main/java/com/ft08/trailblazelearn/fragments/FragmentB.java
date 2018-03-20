@@ -85,7 +85,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     }
 
 
-    private void initReferences() {
+    /*private void initReferences() {
         userName = App.trainer.getName();
         Discussions = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), R.layout.message_item, Discussions);
@@ -96,17 +96,17 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         sendImageButton = (ImageButton) fragmentView.findViewById(R.id.sendImageButton);
         sendButton.setOnClickListener(this);
         sendImageButton.setOnClickListener(this);
-    }
+    }*/
 
 
-    @Override
+    /*@Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initReferences();
-    }
+    }*/
 
 
-    private void attachTextChangedEventListener() {
+    /*private void attachTextChangedEventListener() {
         writeMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -116,15 +116,15 @@ public class FragmentB extends Fragment implements View.OnClickListener {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             public void afterTextChanged(Editable editable) {}
         });
-    }
+    }*/
 
 
-    private void detachDatabaseListener() {
+    /*private void detachDatabaseListener() {
         if(childEventListener != null) {
             databaseReference.removeEventListener(childEventListener);
             childEventListener = null;
         }
-    }
+    }*/
 
 
     public void onClick(View view) {
@@ -142,22 +142,22 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
+    /*@Override
     public void onPause() {
         super.onPause();
         detachDatabaseListener();
         postAdapter.clear();
-    }
+    }*/
 
 
-    @Override
+    /*@Override
     public void onResume() {
         attachDatabaseListener();
         super.onResume();
-    }
+    }*/
 
 
-    private void attachDatabaseListener() {
+    /*private void attachDatabaseListener() {
         if(childEventListener == null) {
             childEventListener = new ChildEventListener() {
                 @Override
@@ -172,10 +172,10 @@ public class FragmentB extends Fragment implements View.OnClickListener {
             };
             databaseReference.addChildEventListener(childEventListener);
         }
-    }
+    }*/
 
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RC_PHOTO_PICKER) {
@@ -201,5 +201,5 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                 });
             }
         }
-    }
+    }*/
 }
