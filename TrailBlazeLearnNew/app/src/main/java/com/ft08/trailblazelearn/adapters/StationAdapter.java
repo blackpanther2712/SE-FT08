@@ -82,6 +82,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Station station1=(Station) ds.getValue(Station.class);
             station1.setSeqNum(i);
+            sref.child(station1.getStationID()).child("seqNum").setValue(i);
             adaptstations.add(station1);
             i++;
             notifyDataSetChanged();
