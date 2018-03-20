@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,8 +38,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 
@@ -56,8 +60,8 @@ public class SelectModeActivity extends AppCompatActivity {
     private Switch aSwitch;
     private EditText joiningTrailTxt;
     private ImageView imgtype;
-
-    private DatabaseReference myRef;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef= database.getReference("Trails");;
 
 
     private FirebaseAuth.AuthStateListener mListener;
@@ -130,11 +134,32 @@ public class SelectModeActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             final String traildId = joiningTrailTxt.getText().toString().trim();
-                            userParticipant.setTrailId(traildId);
-                            Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
-                            intent.putExtra("trailId",userParticipant.getTrailId());
-                            startActivity(intent);
+                            if(isValid()) {
 
+                                userParticipant.setTrailId(traildId);
+                                Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
+                                intent.putExtra("trailId", userParticipant.getTrailId());
+                                startActivity(intent);
+
+//                                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                                        if(!(dataSnapshot.getValue()==null)){
+//                                            userParticipant.setTrailId(traildId);
+//                                            Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
+//                                            intent.putExtra("trailId", userParticipant.getTrailId());
+//                                            startActivity(intent);
+//                                        }else{
+//                                            joiningTrailTxt.setError("Please enter correct and existing TrailID");
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                    }
+//                                });
+                            }
 
                         }
                     });
@@ -214,4 +239,15 @@ public class SelectModeActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private boolean isValid () {
+        boolean isValid = true;
+        if (TextUtils.isEmpty(joiningTrailTxt.getText().toString().trim())) {
+            joiningTrailTxt.setError("Please fill in TrailID");
+            isValid = false;
+        }
+        return isValid;
+    }
+
+
 }
