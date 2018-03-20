@@ -14,7 +14,9 @@ import com.ft08.trailblazelearn.R;
 
 public class FragmentC extends Fragment {
 
-    public FragmentC() {}
+    public FragmentC() {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

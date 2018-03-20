@@ -76,6 +76,8 @@ public class FragmentB extends Fragment implements View.OnClickListener {
 
 
     private void initFirebaseDatabase() {
+        currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
+        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailId();
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
         firebaseStorage = FirebaseStorage.getInstance();
         databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("posts");
@@ -84,8 +86,6 @@ public class FragmentB extends Fragment implements View.OnClickListener {
 
 
     private void initReferences() {
-        currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
-        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailId();
         userName = App.trainer.getName();
         Discussions = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), R.layout.message_item, Discussions);
