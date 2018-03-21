@@ -14,7 +14,6 @@ public class Trail {
     private String trailCode;
     private String trailName;
     private String userId;
-    //private int sequenceNum;
     private ArrayList<Station> stations;
 
     public Trail(){
@@ -101,9 +100,11 @@ public class Trail {
         return null;
     }
 
-    public Station editStation(int seqNum,String stationName, String instructions, String gps,String stationID,String address) {
-        removeStation(stationID);
-        Station station = addStation(seqNum,stationName,instructions,gps,address);
+    public Station editStation(String stationName, String instructions, String gps,String stationID,String address) {
+        Station station = getStation(stationID);
+        if(station!=null){
+            station.editStation(stationName,instructions,gps,address);
+        }
         return station;
     }
 

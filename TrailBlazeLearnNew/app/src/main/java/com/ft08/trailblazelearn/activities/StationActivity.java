@@ -65,8 +65,8 @@ public class StationActivity extends AppCompatActivity {
         viewPager.setCurrentItem(0);
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 }

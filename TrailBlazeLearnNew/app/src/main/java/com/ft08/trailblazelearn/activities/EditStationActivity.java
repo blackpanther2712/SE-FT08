@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.fragments.StationFragment;
@@ -30,14 +31,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditStationActivity extends AppCompatActivity {
 
-    private EditText gps, stationName, instructions, sequenceNum;
+    private EditText gps, stationName, instructions;
     private Button addstationBtn;
     private String latLong,locationAddress;
-    private Station station;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Trails");
-    DatabaseReference tkref;
-    DatabaseReference sref;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("Trails");
+    private DatabaseReference tkref;
+    private DatabaseReference sref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +52,11 @@ public class EditStationActivity extends AppCompatActivity {
         final Station station = (App.trainer.getTrail(trailId)).getStation(stId);
 
         String seq=Integer.toString(station.getSeqNum());
-        ((EditText) findViewById(R.id.seqNumtxt)).setText(seq);
+        ((TextView) findViewById(R.id.seqNumtxt)).setText(seq);
         ((EditText) findViewById(R.id.stationNametxt)).setText(station.getStationName());
         ((EditText) findViewById(R.id.gpstxt)).setText(station.getAddress());
         ((EditText) findViewById(R.id.instructionsTxt)).setText(station.getInstructions());
 
-        sequenceNum = (EditText) findViewById(R.id.seqNumtxt);
         stationName = (EditText) findViewById(R.id.stationNametxt);
         gps = (EditText) findViewById(R.id.gpstxt);
         instructions = (EditText) findViewById(R.id.instructionsTxt);
@@ -77,8 +76,6 @@ public class EditStationActivity extends AppCompatActivity {
                 } catch (GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
 
@@ -88,7 +85,6 @@ public class EditStationActivity extends AppCompatActivity {
                 if(isValid()) {
                      String location = latLong;
 
-                    final int seqno = Integer.parseInt(sequenceNum.getText().toString().trim());
                     final String stName = stationName.getText().toString().trim();
                     if(location==null){
                         location = station.getGps();
@@ -96,22 +92,17 @@ public class EditStationActivity extends AppCompatActivity {
                     final String instinfo = instructions.getText().toString().trim();
                     final String address = gps.getText().toString().trim();
 
-                    final Station edstation = (App.trainer.getTrail(trailId)).editStation(seqno, stName, instinfo, location,station.getStationID(),address);
+                    final Station edstation = (App.trainer.getTrail(trailId)).editStation(stName, instinfo, location,station.getStationID(),address);
 
-                    //sref.child(station.getStationID()).setValue(edstation);
+                    DatabaseReference edRef = sref.child(station.getStationID());
 
-
-                    sref.child(station.getStationID()).removeValue();
-
-                    DatabaseReference stRef = sref.child(edstation.getStationID());
-                    stRef.setValue(edstation);
+                    edRef.child("stationName").setValue(edstation.getStationName());
+                    edRef.child("instructions").setValue(edstation.getInstructions());
+                    edRef.child("gps").setValue(edstation.getGps());
+                    edRef.child("address").setValue(edstation.getAddress());
 
                     Toast.makeText(EditStationActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
                     finish();
-
-
-
-
                 }
             }
         });
@@ -144,11 +135,6 @@ public class EditStationActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(instructions.getText().toString().trim())) {
             instructions.setError("Please provide instruction");
-            isValid = false;
-        }
-
-        if (TextUtils.isEmpty(sequenceNum.getText().toString().trim())) {
-            sequenceNum.setError("Please fill in sequence number");
             isValid = false;
         }
         return isValid;

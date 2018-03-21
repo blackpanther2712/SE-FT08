@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -135,6 +136,8 @@ public class SelectModeActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             final String traildId = joiningTrailTxt.getText().toString().trim();
                             if(isValid()) {
+
+                                Log.d("trail of parti", String.valueOf(myRef.child(traildId)));
 
                                 if(myRef.child(traildId).equals(null)){
                                     joiningTrailTxt.setError("Please enter correct and existing TrailID");

@@ -73,11 +73,8 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
                         stationName.add(station.getStationName());
 
                     }
-
                 }
-
                 onMapReady(googleMap);
-
             }
 
             @Override
@@ -94,12 +91,11 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         googleMap = goog;
         int i=1,j=0;
         googleMap.clear();
-        Log.d("size of latlng", String.valueOf(latLngs.size()));
+
         for(String place : latLngs){
             if(place!=null) {
                 String nwPlace = trim(place, "lat/lng: (", ")");
                 String[] loc = nwPlace.split(",");
-
                 double latitude = Double.parseDouble(loc[0]);
                 double longitutude = Double.parseDouble(loc[1]);
                 LatLng location = new LatLng(latitude, longitutude);
