@@ -24,8 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/CurrentUser"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:text="@string/welcome_to_trailblazelearning"
-        android:textSize="15sp"/>
+        android:textSize="20sp"/>
 
     <ImageView
         android:id="@+id/ImguserType"

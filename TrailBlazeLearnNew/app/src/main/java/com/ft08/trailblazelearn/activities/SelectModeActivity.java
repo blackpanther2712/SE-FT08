@@ -121,13 +121,9 @@ public class SelectModeActivity extends AppCompatActivity {
                 if(aSwitch.isChecked()){
                     userParticipant = new Participant(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
                     new App(userParticipant);
-
                     final AlertDialog.Builder mBuilder = new AlertDialog.Builder(SelectModeActivity.this);
                     View mView = getLayoutInflater().inflate(R.layout.enter_trail_dialogbox, null);
-
-
                     joiningTrailTxt =  mView.findViewById(R.id.etPassword);
-
                     joinBtn =  mView.findViewById(R.id.joinBtn);
                     mBuilder.setView(mView);
                     final  AlertDialog dialog = mBuilder.create();
@@ -184,8 +180,6 @@ public class SelectModeActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         mListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -234,7 +228,6 @@ public class SelectModeActivity extends AppCompatActivity {
             default:
                 break;
         }
-
         return true;
     }
 

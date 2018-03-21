@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
+import com.ft08.trailblazelearn.application.App;
+import com.ft08.trailblazelearn.models.Participant;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -84,8 +86,12 @@ public class StationActivity extends AppCompatActivity {
         viewPager.setCurrentItem(0);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//    }
+    @Override
+    public void onBackPressed() {
+         if(App.user instanceof Participant){
+
+         }else{
+             super.onBackPressed();
+         }
+    }
 }
