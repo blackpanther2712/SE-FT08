@@ -3,6 +3,7 @@ package com.ft08.trailblazelearn.activities;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.PagerAdapter;
@@ -56,4 +61,27 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }
     public void onTabUnselected(TabLayout.Tab tab) {}
     public void onTabReselected(TabLayout.Tab tab) {}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.homebtn:
+                Intent intent = new Intent(SwipeTabsActivity.this,SelectModeActivity.class);
+                startActivity(intent);
+                break;
+            // action with ID action_settings was selected
+
+            default:
+                break;
+        }
+
+        return true;
+    }
 }

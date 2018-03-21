@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -152,5 +155,28 @@ public class EditStationActivity extends AppCompatActivity {
             isValid = false;
         }
         return isValid;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.homebtn:
+                Intent intent = new Intent(EditStationActivity.this,SelectModeActivity.class);
+                startActivity(intent);
+                break;
+            // action with ID action_settings was selected
+
+            default:
+                break;
+        }
+
+        return true;
     }
 }
