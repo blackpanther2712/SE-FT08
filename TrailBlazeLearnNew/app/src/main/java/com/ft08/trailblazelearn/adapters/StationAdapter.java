@@ -87,7 +87,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
             i++;
             notifyDataSetChanged();
         }
-        //(App.trainer.getTrail(trailid)).setStations(adaptstations);
+       // (App.trainer.getTrail(trailid)).setStations(adaptstations);
         notifyDataSetChanged();
 
     }

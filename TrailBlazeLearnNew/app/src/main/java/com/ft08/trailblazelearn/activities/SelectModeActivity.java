@@ -60,8 +60,8 @@ public class SelectModeActivity extends AppCompatActivity {
     private Switch aSwitch;
     private EditText joiningTrailTxt;
     private ImageView imgtype;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef= database.getReference("Trails");;
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference myRef= database.child("Trails");
 
 
     private FirebaseAuth.AuthStateListener mListener;
@@ -136,15 +136,19 @@ public class SelectModeActivity extends AppCompatActivity {
                             final String traildId = joiningTrailTxt.getText().toString().trim();
                             if(isValid()) {
 
-                                userParticipant.setTrailId(traildId);
-                                Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
-                                intent.putExtra("trailId", userParticipant.getTrailId());
-                                startActivity(intent);
+                                if(myRef.child(traildId).equals(null)){
+                                    joiningTrailTxt.setError("Please enter correct and existing TrailID");
+                                }else {
+                                    userParticipant.setTrailId(traildId);
+                                    Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
+                                    intent.putExtra("trailId", userParticipant.getTrailId());
+                                    startActivity(intent);
+                                }
 
-//                                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                myRef.child(traildId).addListenerForSingleValueEvent(new ValueEventListener() {
 //                                    @Override
 //                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        if(!(dataSnapshot.getValue()==null)){
+//                                        if(dataSnapshot.exists()){
 //                                            userParticipant.setTrailId(traildId);
 //                                            Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
 //                                            intent.putExtra("trailId", userParticipant.getTrailId());
