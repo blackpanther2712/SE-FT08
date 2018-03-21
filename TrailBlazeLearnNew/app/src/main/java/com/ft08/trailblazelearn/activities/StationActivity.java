@@ -25,44 +25,39 @@ import com.ft08.trailblazelearn.fragments.StationFragment;
 import com.google.firebase.database.ValueEventListener;
 
 public class StationActivity extends AppCompatActivity {
-    ViewPager viewPager;
+    private ViewPager viewPager;
+    private String trailID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
+        getBundledData();
+        setPager();
+    }
 
+    public void getBundledData(){
         Bundle bundle = getIntent().getExtras();
-        final String trailID = bundle.getString("trailId");
-
+        trailID = bundle.getString("trailId");
         StationFragment.newInstance(trailID);
+    }
 
+    public void setPager(){
         this.viewPager= (ViewPager) findViewById(R.id.pager);
-
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 2);
         viewPager.setAdapter(pagerAdapter);
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Stations"));
         tabLayout.addTab(tabLayout.newTab().setText("Locations"));
-
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
             }
-
-            @Override public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            @Override public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -73,17 +68,13 @@ public class StationActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // action with ID action_refresh was selected
             case R.id.homebtn:
                 Intent intent = new Intent(StationActivity.this,SelectModeActivity.class);
                 startActivity(intent);
                 break;
-            // action with ID action_settings was selected
-
             default:
                 break;
         }
-
         return true;
     }
 
