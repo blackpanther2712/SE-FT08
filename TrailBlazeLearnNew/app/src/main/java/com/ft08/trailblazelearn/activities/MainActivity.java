@@ -38,7 +38,7 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SignInButton GButton;
+    private ImageButton GButton;
     private static final int RC_SIGN_IN = 1;
     private GoogleApiClient mGoogleSignInClient;
     private static final String TAG = "Main_Acivity";
@@ -53,8 +53,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
+        //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        //startActivity(intent);
+
         mAuth = FirebaseAuth.getInstance();
-        GButton = (SignInButton) findViewById(R.id.gButton);
+        GButton = (ImageButton) findViewById(R.id.GoogleBtn);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

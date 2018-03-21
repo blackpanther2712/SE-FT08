@@ -22,7 +22,9 @@ import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.adapters.PostAdapter;
 import com.ft08.trailblazelearn.application.App;
+import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Post;
+import com.ft08.trailblazelearn.models.Trainer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -81,8 +83,14 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     }
 
 
-    /*private void initReferences() {
-        userName = App.trainer.getName();
+    private void initReferences() {
+        if(App.user instanceof Trainer){
+            userName = App.trainer.getName();
+        }
+
+        else{
+            userName = App.participant.getName();
+        }
         Discussions = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), R.layout.message_item, Discussions);
         listView = (ListView) fragmentView.findViewById(R.id.listView);
@@ -90,19 +98,22 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         writeMessageEditText = (EditText) fragmentView.findViewById(R.id.writeMessageEditText);
         sendButton = (Button) fragmentView.findViewById(R.id.sendButton);
         sendImageButton = (ImageButton) fragmentView.findViewById(R.id.sendImageButton);
+        writeMessageEditText.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
+        sendButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
+        sendImageButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
         sendButton.setOnClickListener(this);
         sendImageButton.setOnClickListener(this);
-    }*/
+    }
 
 
-    /*@Override
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initReferences();
-    }*/
+    }
 
 
-    /*private void attachTextChangedEventListener() {
+    private void attachTextChangedEventListener() {
         writeMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -112,15 +123,15 @@ public class FragmentB extends Fragment implements View.OnClickListener {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             public void afterTextChanged(Editable editable) {}
         });
-    }*/
+    }
 
 
-    /*private void detachDatabaseListener() {
+    private void detachDatabaseListener() {
         if(childEventListener != null) {
             databaseReference.removeEventListener(childEventListener);
             childEventListener = null;
         }
-    }*/
+    }
 
 
     public void onClick(View view) {
@@ -138,22 +149,22 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     }
 
 
-    /*@Override
+    @Override
     public void onPause() {
         super.onPause();
         detachDatabaseListener();
         postAdapter.clear();
-    }*/
+    }
 
 
-    /*@Override
+    @Override
     public void onResume() {
         attachDatabaseListener();
         super.onResume();
-    }*/
+    }
 
 
-    /*private void attachDatabaseListener() {
+    private void attachDatabaseListener() {
         if(childEventListener == null) {
             childEventListener = new ChildEventListener() {
                 @Override
@@ -168,10 +179,10 @@ public class FragmentB extends Fragment implements View.OnClickListener {
             };
             databaseReference.addChildEventListener(childEventListener);
         }
-    }*/
+    }
 
 
-    /*@Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RC_PHOTO_PICKER) {
@@ -180,22 +191,22 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                 StorageReference photoRef = storageReference.child(selectedImage.getLastPathSegment());
 
                 photoRef.putFile(selectedImage)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT);
-                    }
-                })
-                .addOnSuccessListener((SwipeTabsActivity)getContext(),
-                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            Post post = new Post(null, userName, downloadUrl.toString());
-                            databaseReference.push().setValue(post);
-                        }
-                });
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT);
+                            }
+                        })
+                        .addOnSuccessListener((SwipeTabsActivity)getContext(),
+                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                        Post post = new Post(null, userName, downloadUrl.toString());
+                                        databaseReference.push().setValue(post);
+                                    }
+                                });
             }
         }
-    }*/
+    }
 }
