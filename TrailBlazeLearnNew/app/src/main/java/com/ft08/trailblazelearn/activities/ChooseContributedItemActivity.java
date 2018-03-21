@@ -53,6 +53,9 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     private MediaRecorder mRecorder;
     private ProgressDialog mProgressDialog;
     private Button takePictureButton;
+    private Button choosePdfButton;
+    private Button recordAudioButton;
+    private Button chooseImageButton;
 
     private Uri fileUri;
     private  String userName;
@@ -104,10 +107,19 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
         initFireBaseDatabase();
         initReferences();
         takePictureButton = (Button) findViewById(R.id.takePhotoButton);
+        choosePdfButton = (Button) findViewById(R.id.pdfButton);
+        recordAudioButton =(Button) findViewById(R.id.audioButton);
+        chooseImageButton = (Button) findViewById(R.id.selectButton);
         fileSelector = (ImageView)findViewById(R.id.imageView);
+        if (ContextCompat.checkSelfPermission(ChooseContributedItemActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            takePictureButton.setEnabled(false);
+            ActivityCompat.requestPermissions(ChooseContributedItemActivity.this, new String[] { android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.RECORD_AUDIO,android.Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
+        }
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -118,6 +130,45 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == 0) {
+
+            if (grantResults.length > 0 ){
+
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                    takePictureButton.setEnabled(true);
+
+                } else {
+
+                    takePictureButton.setEnabled(false);
+                }
+                if (grantResults[2] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                    recordAudioButton.setEnabled(true);
+
+                } else {
+
+                    recordAudioButton.setEnabled(false);
+
+                }
+                if (grantResults[3] == PackageManager.PERMISSION_GRANTED){
+
+                    chooseImageButton.setEnabled(true);
+                    choosePdfButton.setEnabled(true);
+
+                } else{
+
+                    chooseImageButton.setEnabled(false);
+                    choosePdfButton.setEnabled(false);
+
+                }
+            }
+        }
     }
 
 

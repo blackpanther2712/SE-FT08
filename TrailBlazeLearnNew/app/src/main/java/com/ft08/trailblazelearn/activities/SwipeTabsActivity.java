@@ -61,7 +61,7 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }
     public void onTabUnselected(TabLayout.Tab tab) {}
     public void onTabReselected(TabLayout.Tab tab) {}
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_menu, menu);
@@ -83,5 +83,5 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
         }
 
         return true;
-    }
+    }*/
 }
