@@ -117,6 +117,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 Intent intent = new Intent(getContext(), SwipeTabsActivity.class);
                 intent.putExtra("stationId",station.getStationID());
                 intent.putExtra("trailId", trailid);
+                intent.putExtra("stationName",station.getStationName());
+                intent.putExtra("stationInstructions",station.getInstructions());
+                intent.putExtra("stationLocation",station.getAddress());
                 getContext().startActivity(intent);
             }
         });

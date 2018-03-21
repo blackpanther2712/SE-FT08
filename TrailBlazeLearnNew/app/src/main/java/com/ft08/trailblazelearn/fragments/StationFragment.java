@@ -127,6 +127,10 @@ public class StationFragment extends Fragment {
                             station.setStationID(key);
                             s2ref.setValue(station);
 
+                            //DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
+                            //station.setStationID(station.getSeqNum()+station.getStationName());
+                            //sref.setValue(station);
+
                             dialog.dismiss();
                             Toast.makeText(getContext(),getString(R.string.saved_successfully),
                                     Toast.LENGTH_SHORT).show();

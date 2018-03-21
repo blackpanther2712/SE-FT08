@@ -1,14 +1,173 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ft08.trailblazelearn.fragments.FragmentA"
-    android:background="#FFCC00">
-
-    <TextView
+    android:layout_centerHorizontal="true"
+    android:fillViewport="true"
+    android:paddingTop="50dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This Is Fragment A"
-        android:layout_margin="15dp"/>
+        xmlns:tools="http://schemas.android.com/tools"
+        android:padding="16dp"
+        android:paddingTop="50dp"
+        tools:context="com.ft08.trailblazelearn.fragments.FragmentA"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+        >
 
-</FrameLayout>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cv"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="#20d2bb"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/station_photo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_account_balance"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/station_name_label"
+                    android:layout_toRightOf="@+id/station_photo"
+                    android:textSize="21sp"
+                    android:text="Station Name"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="15dp"
+                    android:textColor="@android:color/white"
+                    />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailcv"
+            android:layout_below="@+id/cv"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="#f64c73">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/location_photo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_map"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/location_label"
+                    android:layout_toRightOf="@+id/location_photo"
+                    android:layout_alignParentTop="true"
+                    android:textSize="21sp"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/station_location"
+                    android:layout_toRightOf="@+id/location_photo"
+                    android:layout_below="@+id/location_label"
+                    />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detail_instruction_cv"
+            android:layout_below="@+id/detailcv"
+
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="#f64c73">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/instruction_icon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_format_list_bulleted"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/instructions_label"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/instruction_icon"
+                    android:text="Instructions"
+                    android:textSize="21sp"
+                    android:textColor="@android:color/white"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/instructions_detail"
+                    android:layout_toRightOf="@+id/instruction_icon"
+                    android:layout_below="@id/instructions_label"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="21sp"
+                    />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/creator_detail"
+            android:layout_below="@+id/trailcv"
+
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="#f64c73">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/trail_icon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_ac_unit"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/trail_label"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/trail_icon"
+                    android:text=""
+                    android:textSize="21sp"
+                    android:textColor="@android:color/white"
+                    />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>
