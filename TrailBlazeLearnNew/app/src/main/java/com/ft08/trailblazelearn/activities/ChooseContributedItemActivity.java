@@ -3,13 +3,18 @@ package com.ft08.trailblazelearn.activities;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ft08.trailblazelearn.Manifest;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.ContributedItem;
@@ -34,6 +40,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ChooseContributedItemActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -44,12 +52,14 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     private Button mDocumentButton;
     private MediaRecorder mRecorder;
     private ProgressDialog mProgressDialog;
+    private Button takePictureButton;
 
     private Uri fileUri;
     private  String userName;
     private String mFileName =null;
     private static final int RC_IMAGE_PICKER=1;
     private static final int RC_DOCUMENT_PICKER=2;
+    private static final int RC_PHOTO_PICKER=3;
     private static final String LOG_TAG = "Record_log";
 
     private DatabaseReference firebaseDatabase;
@@ -74,7 +84,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
     private void initReferences() {
 
-        fileSelector = (ImageView)findViewById(R.id.imageView);
+
         singleLineTextEditor = (EditText)findViewById(R.id.editTitleText);
         multiLineTextEditor = (EditText)findViewById(R.id.editBodyText);
         mRecordButton = (Button)findViewById(R.id.audioButton);
@@ -91,12 +101,26 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_contributed_item);
-
         initFireBaseDatabase();
-
         initReferences();
+        takePictureButton = (Button) findViewById(R.id.takePhotoButton);
+        fileSelector = (ImageView)findViewById(R.id.imageView);
+        takePictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                fileUri = Uri.fromFile(getOutputMediaFile());
+                System.out.println(fileUri);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                startActivityForResult(intent, RC_PHOTO_PICKER);
 
+            }
+        });
     }
+
+
 
     public void buttonAttachImageClick(View view) {
         /*if (mRecordLabel.getVisibility() == View.VISIBLE){
@@ -108,12 +132,27 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
         startActivityForResult(Intent.createChooser(intent, "Select a file for upload."), RC_IMAGE_PICKER);
     }
 
-    public void buttonCapturePhoto(View view){
+    /*public void buttonCapturePhoto(View view){
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,RC_IMAGE_PICKER);
+        fileUri = Uri.fromFile(getOutputMediaFile());
+        System.out.println(fileUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        startActivityForResult(intent, RC_PHOTO_PICKER);
 
 
+    }*/
+
+    private static  File getOutputMediaFile(){
+        File mediaStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"CameraDemo");
+        if (!mediaStorageDirectory.exists()){
+            if(!mediaStorageDirectory.mkdirs()){
+                return null;
+            }
+        }
+
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return  new File(mediaStorageDirectory.getPath() + File.separator + "IMG_" + timestamp + ".jpg");
     }
 
     public void buttonAttachDocumentClick(View view){
@@ -165,6 +204,10 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK){
+
+                fileSelector.setImageURI(fileUri);
+
         }
     }
 

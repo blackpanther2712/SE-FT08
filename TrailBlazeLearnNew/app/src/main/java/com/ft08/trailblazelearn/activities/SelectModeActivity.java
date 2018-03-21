@@ -1,6 +1,7 @@
 package com.ft08.trailblazelearn.activities;
 
 import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -211,9 +212,22 @@ public class SelectModeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.logoutBtn:
-                Toast.makeText(this, "", Toast.LENGTH_SHORT)
+                new AlertDialog.Builder(this)
+                        .setMessage("Are you sure you want to Logout?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                sendToLogin();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
-                sendToLogin();
+
                 break;
             // action with ID action_settings was selected
 
