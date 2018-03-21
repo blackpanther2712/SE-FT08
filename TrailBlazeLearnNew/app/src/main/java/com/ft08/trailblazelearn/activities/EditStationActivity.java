@@ -37,8 +37,10 @@ public class EditStationActivity extends AppCompatActivity {
     private EditText gps, stationName, instructions;
     private Button addstationBtn;
     private String latLong,locationAddress;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = database.getReference("Trails");
+    private String stationID,trailID;
+    private Station station;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
     private DatabaseReference tkref;
     private DatabaseReference sref;
 
@@ -47,13 +49,28 @@ public class EditStationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_station_dialogbox);
 
-        Bundle bundle = getIntent().getExtras();
-        final String stId=bundle.getString("stationId");
-        final String trailId=bundle.getString("trailId");
-        tkref= myRef.child(trailId);
-        sref = tkref.child("Stations");
-        final Station station = (App.trainer.getTrail(trailId)).getStation(stId);
+        getBundledDataFromStationAdapter();
+        initFirebaseDatabaseRef();
+        initUserInterfaceComponents();
+        gpsOnClick();
+        addStationButtonClick();
+    }
 
+    public void  getBundledDataFromStationAdapter(){
+        Bundle bundle = getIntent().getExtras();
+         stationID=bundle.getString("stationId");
+         trailID=bundle.getString("trailId");
+    }
+
+    public void initFirebaseDatabaseRef(){
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Trails");
+        tkref= myRef.child(trailID);
+        sref = tkref.child("Stations");
+    }
+
+    public void initUserInterfaceComponents(){
+        station = (App.trainer.getTrail(trailID)).getStation(stationID);
         String seq=Integer.toString(station.getSeqNum());
         ((TextView) findViewById(R.id.seqNumtxt)).setText(seq);
         ((EditText) findViewById(R.id.stationNametxt)).setText(station.getStationName());
@@ -64,7 +81,9 @@ public class EditStationActivity extends AppCompatActivity {
         gps = (EditText) findViewById(R.id.gpstxt);
         instructions = (EditText) findViewById(R.id.instructionsTxt);
         addstationBtn = (Button) findViewById(R.id.CreateBtn);
+    }
 
+    public void gpsOnClick(){
         gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,12 +100,14 @@ public class EditStationActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void addStationButtonClick(){
         addstationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isValid()) {
-                     String location = latLong;
+                    String location = latLong;
 
                     final String stName = stationName.getText().toString().trim();
                     if(location==null){
@@ -95,7 +116,7 @@ public class EditStationActivity extends AppCompatActivity {
                     final String instinfo = instructions.getText().toString().trim();
                     final String address = gps.getText().toString().trim();
 
-                    final Station edstation = (App.trainer.getTrail(trailId)).editStation(stName, instinfo, location,station.getStationID(),address);
+                    final Station edstation = (App.trainer.getTrail(trailID)).editStation(stName, instinfo, location,station.getStationID(),address);
 
                     DatabaseReference edRef = sref.child(station.getStationID());
 
@@ -109,7 +130,6 @@ public class EditStationActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     @Override

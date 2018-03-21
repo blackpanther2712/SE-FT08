@@ -39,8 +39,10 @@ public class StationAdapter extends ArrayAdapter<Station> {
     private Context context;
     private ArrayList<Station> adaptstations = new ArrayList<Station>();
     private String trailid;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef  = database.getReference("Trails");
+    private Station station;
+    private StationAdapter.ViewHolder viewHolder;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef ;
     private DatabaseReference tkref;
     private DatabaseReference sref;
 
@@ -49,9 +51,15 @@ public class StationAdapter extends ArrayAdapter<Station> {
         super(context, R.layout.trail_row_layout);
         this.context = context;
         this.trailid=data;
+        initFirebaseDatabaseRef();
+        refreshStations();
+    }
+
+    public void initFirebaseDatabaseRef(){
+        database = FirebaseDatabase.getInstance();
+        myRef  = database.getReference("Trails");
         tkref = myRef.child(trailid);
         sref = tkref.child("Stations");
-        refreshStations();
     }
 
     public void refreshStations() {
@@ -70,7 +78,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
     }
 
     public void getData(DataSnapshot dataSnapshot){
-
         adaptstations.clear();
         int i =1;
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -82,13 +89,11 @@ public class StationAdapter extends ArrayAdapter<Station> {
             notifyDataSetChanged();
         }
         notifyDataSetChanged();
-
     }
 
     @NonNull
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
-        StationAdapter.ViewHolder viewHolder;
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -98,18 +103,23 @@ public class StationAdapter extends ArrayAdapter<Station> {
             viewHolder.stationName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
-
             viewHolder.btnEdit.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
             viewHolder.btnRemove.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (StationAdapter.ViewHolder) convertView.getTag();
         }
 
-        final Station station = getItem(position);
+        station = getItem(position);
         viewHolder.stationName.setText(station.toString());
 
+        onClickingStationName();
+        onClickingRemove();
+        onClickingEdit();
+        return convertView;
+    }
+
+    public void onClickingStationName(){
         viewHolder.stationName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +133,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 getContext().startActivity(intent);
             }
         });
+    }
 
+    public void onClickingRemove(){
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
 
@@ -161,6 +173,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
             }
         });
 
+    }
+
+    public void onClickingEdit(){
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,9 +192,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 trail.setStations(adaptstations);
             }
         });
-
-        return convertView;
-
     }
 
     @Nullable

@@ -25,25 +25,31 @@ import com.ft08.trailblazelearn.fragments.StationFragment;
 import com.google.firebase.database.ValueEventListener;
 
 public class StationActivity extends AppCompatActivity {
-    ViewPager viewPager;
+    private String trailID;
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
 
+        getBundledDataFromTrailAdapter();
+        setPagerAdapter();
+    }
+
+    public void getBundledDataFromTrailAdapter(){
         Bundle bundle = getIntent().getExtras();
-        final String trailID = bundle.getString("trailId");
-
+        trailID = bundle.getString("trailId");
         StationFragment.newInstance(trailID);
+    }
 
+    public void setPagerAdapter(){
         this.viewPager= (ViewPager) findViewById(R.id.pager);
-
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 2);
         viewPager.setAdapter(pagerAdapter);
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Stations"));
         tabLayout.addTab(tabLayout.newTab().setText("Locations"));
-
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -58,11 +64,9 @@ public class StationActivity extends AppCompatActivity {
 
             }
         });
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();

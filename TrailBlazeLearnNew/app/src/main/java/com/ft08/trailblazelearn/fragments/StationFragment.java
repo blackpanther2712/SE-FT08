@@ -47,6 +47,10 @@ public class StationFragment extends Fragment {
     private Button addstationBtn;
     private StationAdapter stationAdapter;
     private TextView stationEmpty;
+    private View fragmentView, sview;
+    private ListView stationList;
+    private AlertDialog.Builder mBuilder;
+    private AlertDialog dialog;
     private static String trailid;
     private FloatingActionButton floatingActionButton;
     private String latLong,locationAddress;
@@ -63,87 +67,86 @@ public class StationFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                                       Bundle savedInstanceState) {
+    @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        fragmentView = inflater.inflate(R.layout.activity_trail, container, false);
+        initUserInterfaceComponent();
+        onClickingFab();
+        return fragmentView;
+    }
 
-        View fragmentView = inflater.inflate(R.layout.activity_trail, container, false);
-        ListView stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
+    public void initUserInterfaceComponent(){
+        stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
         LocationsFragment.locationInstance(trailid);
         stationAdapter = new StationAdapter(getContext(),trailid,getActivity());
         stationList.setAdapter(stationAdapter);
         stationList.setEmptyView(stationEmpty);
-
-        floatingActionButton =
-                (FloatingActionButton) fragmentView.findViewById(R.id.fab);
+        floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
         floatingActionButton.setVisibility(App.user instanceof Participant ? View.GONE : View.VISIBLE);
+    }
 
-
+    public void onClickingFab(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-                View sview = getLayoutInflater().inflate(R.layout.add_station_dialogbox, null);
-
-                stationName = (EditText)sview.findViewById(R.id.stationNametxt);
-                location = (EditText) sview.findViewById(R.id.gpstxt);
-                instructions = (EditText) sview.findViewById(R.id.instructionsTxt);
-                addstationBtn = (Button) sview.findViewById(R.id.CreateBtn);
+                mBuilder = new AlertDialog.Builder(getContext());
+                sview = getLayoutInflater().inflate(R.layout.add_station_dialogbox, null);
+                initFabUserInterfaceComponent();
                 mBuilder.setView(sview);
-                final  AlertDialog dialog = mBuilder.create();
-
-                location.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                        try {
-                            Intent intent;
-                            intent = builder.build(getActivity());
-                            startActivityForResult(intent, 1);
-                        } catch (GooglePlayServicesRepairableException e) {
-                            e.printStackTrace();
-                        } catch (GooglePlayServicesNotAvailableException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                });
-
-                addstationBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(isValid()){
-                            final String name = stationName.getText().toString().trim();
-                            final String geo = latLong;
-                            final String address =location.getText().toString().toString() ;
-                            final String info = instructions.getText().toString().trim();
-                            Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,geo,address);
-
-                            DatabaseReference s2ref = tref.child("Stations").push();
-                            String key = s2ref.getKey();
-                            station.setStationID(key);
-                            s2ref.setValue(station);
-
-                            //DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
-                            //station.setStationID(station.getSeqNum()+station.getStationName());
-                            //sref.setValue(station);
-
-                            dialog.dismiss();
-                            Toast.makeText(getContext(),getString(R.string.saved_successfully),
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
+                dialog = mBuilder.create();
+                onClickingLocation();
+                onClickingAddStationButton();
                 dialog.show();
-
-
             }
         });
-        return fragmentView;
+    }
+
+    public void initFabUserInterfaceComponent(){
+        stationName = (EditText)sview.findViewById(R.id.stationNametxt);
+        location = (EditText) sview.findViewById(R.id.gpstxt);
+        instructions = (EditText) sview.findViewById(R.id.instructionsTxt);
+        addstationBtn = (Button) sview.findViewById(R.id.CreateBtn);
+    }
+
+    public void onClickingLocation(){
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    Intent intent;
+                    intent = builder.build(getActivity());
+                    startActivityForResult(intent, 1);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void onClickingAddStationButton(){
+        addstationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isValid()){
+                    final String name = stationName.getText().toString().trim();
+                    final String geo = latLong;
+                    final String address =location.getText().toString().toString() ;
+                    final String info = instructions.getText().toString().trim();
+                    Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,geo,address);
+                    DatabaseReference s2ref = tref.child("Stations").push();
+                    String key = s2ref.getKey();
+                    station.setStationID(key);
+                    s2ref.setValue(station);
+                    dialog.dismiss();
+                    Toast.makeText(getContext(),getString(R.string.saved_successfully),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
