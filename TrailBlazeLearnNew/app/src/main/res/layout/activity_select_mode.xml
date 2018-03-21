@@ -16,7 +16,8 @@
         android:padding="@dimen/activity_horizontal_margin"
         android:text="TextView"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <TextView
         android:id="@+id/textView"
@@ -26,7 +27,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="@string/welcome_to_trailblazelearning"
-        android:textSize="20sp"/>
+        android:textSize="28sp"
+        android:fontFamily="cursive"/>
 
     <ImageView
         android:id="@+id/ImguserType"
