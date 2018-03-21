@@ -10,7 +10,6 @@ public class Station {
     private String address;
 
     public Station(){
-
     }
 
     public Station(int seqNum,String stationName, String instructions, String gps,String address) {
@@ -48,6 +47,13 @@ public class Station {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void editStation(String name,String inst,String gps,String address){
+           setStationName(name);
+           setInstructions(inst);
+           setGps(gps);
+           setAddress(address);
     }
 
     @Override

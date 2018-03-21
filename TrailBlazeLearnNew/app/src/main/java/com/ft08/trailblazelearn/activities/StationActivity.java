@@ -1,10 +1,15 @@
 package com.ft08.trailblazelearn.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,10 +63,38 @@ public class StationActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.homebtn:
+                Intent intent = new Intent(StationActivity.this,SelectModeActivity.class);
+                startActivity(intent);
+                break;
+            // action with ID action_settings was selected
+
+            default:
+                break;
+        }
+
+        return true;
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         viewPager.setCurrentItem(0);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 }

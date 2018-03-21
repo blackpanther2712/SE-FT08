@@ -38,25 +38,19 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
     private Context context;
     private ArrayList<Station> adaptstations = new ArrayList<Station>();
-    private EditText stationName,GPS,instructions,sequenceNum;
-    private Button addstationBtn;
     private String trailid;
-    private Activity activity;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef  = database.getReference("Trails");
-    DatabaseReference tkref;
-    DatabaseReference sref;
-    DatabaseReference partRef = database.getReference("Trails");
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef  = database.getReference("Trails");
+    private DatabaseReference tkref;
+    private DatabaseReference sref;
 
 
     public StationAdapter(Context context, String data, Activity activity) {
         super(context, R.layout.trail_row_layout);
         this.context = context;
         this.trailid=data;
-        this.activity = activity;
         tkref = myRef.child(trailid);
         sref = tkref.child("Stations");
-        partRef = myRef.child(this.trailid);
         refreshStations();
     }
 
@@ -87,7 +81,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
             i++;
             notifyDataSetChanged();
         }
-        //(App.trainer.getTrail(trailid)).setStations(adaptstations);
         notifyDataSetChanged();
 
     }
@@ -117,8 +110,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
         final Station station = getItem(position);
         viewHolder.stationName.setText(station.toString());
 
-
-
         viewHolder.stationName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,67 +133,8 @@ public class StationAdapter extends ArrayAdapter<Station> {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
 
-//                                final Query query=sref.orderByChild("stationID").equalTo(station.getStationID());
-//                                query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        for (DataSnapshot dataSnap:dataSnapshot.getChildren()) {
-//                                            dataSnap.getRef().removeValue();
-//                                            notifyDataSetChanged();
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(DatabaseError databaseError) {
-//
-//                                    }
-//                                });
-
-
-//                                sref.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        sref.child(station.getStationID()).removeValue();
-//                                        notifyDataSetChanged();
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(DatabaseError databaseError) {
-//
-//                                    }
-//                                });
-
-//                                final int seqDeleted = station.getSeqNum();
-//                                int y=seqDeleted+1;
-//
-//                                Log.d("seqnum to be deleted", String.valueOf(seqDeleted));
-//
-//                                Query query = sref.orderByChild("seqNum").startAt(y);
-//                                      query.addValueEventListener(new ValueEventListener() {
-//                                          @Override
-//                                          public void onDataChange(DataSnapshot dataSnapshot) {
-//                                              int i = seqDeleted;
-//                                              for (DataSnapshot ds : dataSnapshot.getChildren()){
-//                                                  Station station1 = (Station) ds.getValue(Station.class);
-//                                                  Log.d("stname",station1.getStationName());
-//                                                  sref.child(station1.getStationID()).child("seqNum").setValue(i);
-//                                                  station1.setSeqNum(i);
-//                                                  Log.d("value i",String.valueOf(i));
-//                                                  i++;
-//                                              }
-//
-//                                          }
-//
-//                                          @Override
-//                                          public void onCancelled(DatabaseError databaseError) {
-//
-//                                          }
-//                                      });
-
                                 sref.child(station.getStationID()).removeValue();
                                 notifyDataSetChanged();
-
 
                                 (App.trainer.getTrail(trailid)).removeStation(station.getStationID());
                                 Trail trail = App.trainer.getTrail(trailid);
@@ -229,17 +161,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
             }
         });
 
-//        viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), EditStationActivity.class);
-//                intent.putExtra("stationId",station.getStationID());
-//                intent.putExtra("trailid",trailid);
-//                getContext().startActivity(intent);
-//                refreshStations();
-//            }
-//        });
-
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,69 +171,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 intent.putExtra("trailId", trailid);
                 getContext().startActivity(intent);
 
-                /*final AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater1 =
-                        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-                View sview = inflater1.inflate(R.layout.edit_station_dialogbox, null);
-                mBuilder.setView(sview);
-                final AlertDialog dialog = mBuilder.create();
-                String seq=Integer.toString(station.getSeqNum());
-
-                ((EditText) sview.findViewById(R.id.seqNumtxt)).setText(seq);
-                ((EditText) sview.findViewById(R.id.stationNametxt)).setText(station.getStationName());
-                ((EditText) sview.findViewById(R.id.gpstxt)).setText(station.getGps());
-                ((EditText) sview.findViewById(R.id.instructionsTxt)).setText(station.getInstructions());
-
-                sequenceNum = (EditText) sview.findViewById(R.id.seqNumtxt);
-                stationName = (EditText) sview.findViewById(R.id.stationNametxt);
-                GPS = (EditText) sview.findViewById(R.id.gpstxt);
-                instructions = (EditText) sview.findViewById(R.id.instructionsTxt);
-                addstationBtn = (Button) sview.findViewById(R.id.CreateBtn);
-
-                addstationBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(isValid()){
-
-                            final int seqno = Integer.parseInt(sequenceNum.getText().toString().trim());
-                            final String stName = stationName.getText().toString().trim();
-                            final String location = GPS.getText().toString().trim();
-                            final String instinfo = instructions.getText().toString().trim();
-                            final String address = "";
-
-                            final Station edstation =(App.trainer.getTrail(trailid)).editStation(seqno,stName,instinfo,location,station.getStationID(),address);
-
-                            sref.child(station.getStationID()).removeValue();
-
-                            DatabaseReference stRef = sref.child(edstation.getStationID());
-                            stRef.setValue(edstation);
-                            notifyDataSetChanged();
-*/
-//                            sref.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                                    sref.child(station.getStationID()).setValue(edstation);
-//                                    sref.child(station.getStationID()).child("stationID").setValue(station.getStationID());
-//                                    notifyDataSetChanged();
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(DatabaseError databaseError) {
-//
-//                                }
-//                            });
-
-  /*                          dialog.dismiss();
-                            Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
-
-                dialog.show();
-  */              Trail trail = App.trainer.getTrail(trailid);
+                Trail trail = App.trainer.getTrail(trailid);
                 trail.getStations().clear();
                 refreshStations();
                 trail.setStations(adaptstations);
@@ -336,30 +195,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
     @Override public int getCount() {
         return adaptstations.size();
-    }
-
-
-    private boolean isValid () {
-        boolean isValid = true;
-        if (TextUtils.isEmpty(stationName.getText().toString().trim())) {
-            stationName.setError("Please fill in station name");
-            isValid = false;
-        }
-        if (TextUtils.isEmpty(GPS.getText().toString().trim())) {
-            GPS.setError("Please specify the location");
-            isValid = false;
-        }
-
-        if (TextUtils.isEmpty(instructions.getText().toString().trim())) {
-            instructions.setError("Please provide instruction");
-            isValid = false;
-        }
-
-        if (TextUtils.isEmpty(sequenceNum.getText().toString().trim())) {
-            sequenceNum.setError("Please fill in sequence number");
-            isValid = false;
-        }
-        return isValid;
     }
 
     static class ViewHolder {

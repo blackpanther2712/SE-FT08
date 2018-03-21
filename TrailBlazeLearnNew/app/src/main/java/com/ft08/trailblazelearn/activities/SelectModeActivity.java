@@ -1,6 +1,7 @@
 package com.ft08.trailblazelearn.activities;
 
 import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -60,8 +62,8 @@ public class SelectModeActivity extends AppCompatActivity {
     private Switch aSwitch;
     private EditText joiningTrailTxt;
     private ImageView imgtype;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef= database.getReference("Trails");;
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference myRef= database.child("Trails");
 
 
     private FirebaseAuth.AuthStateListener mListener;
@@ -136,15 +138,21 @@ public class SelectModeActivity extends AppCompatActivity {
                             final String traildId = joiningTrailTxt.getText().toString().trim();
                             if(isValid()) {
 
-                                userParticipant.setTrailId(traildId);
-                                Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
-                                intent.putExtra("trailId", userParticipant.getTrailId());
-                                startActivity(intent);
+                                Log.d("trail of parti", String.valueOf(myRef.child(traildId)));
 
-//                                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                if(myRef.child(traildId).equals(null)){
+                                    joiningTrailTxt.setError("Please enter correct and existing TrailID");
+                                }else {
+                                    userParticipant.setTrailId(traildId);
+                                    Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
+                                    intent.putExtra("trailId", userParticipant.getTrailId());
+                                    startActivity(intent);
+                                }
+
+//                                myRef.child(traildId).addListenerForSingleValueEvent(new ValueEventListener() {
 //                                    @Override
 //                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        if(!(dataSnapshot.getValue()==null)){
+//                                        if(dataSnapshot.exists()){
 //                                            userParticipant.setTrailId(traildId);
 //                                            Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
 //                                            intent.putExtra("trailId", userParticipant.getTrailId());
@@ -204,9 +212,22 @@ public class SelectModeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.logoutBtn:
-                Toast.makeText(this, "", Toast.LENGTH_SHORT)
+                new AlertDialog.Builder(this)
+                        .setMessage("Are you sure you want to Logout?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                sendToLogin();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
-                sendToLogin();
+
                 break;
             // action with ID action_settings was selected
 

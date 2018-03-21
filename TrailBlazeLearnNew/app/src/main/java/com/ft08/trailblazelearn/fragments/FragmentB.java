@@ -85,7 +85,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
 
     private void initReferences() {
         if(App.user instanceof Trainer){
-        userName = App.trainer.getName();
+            userName = App.trainer.getName();
         }
 
         else{
@@ -191,21 +191,21 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                 StorageReference photoRef = storageReference.child(selectedImage.getLastPathSegment());
 
                 photoRef.putFile(selectedImage)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT);
-                    }
-                })
-                .addOnSuccessListener((SwipeTabsActivity)getContext(),
-                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            Post post = new Post(null, userName, downloadUrl.toString());
-                            databaseReference.push().setValue(post);
-                        }
-                });
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT);
+                            }
+                        })
+                        .addOnSuccessListener((SwipeTabsActivity)getContext(),
+                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                        Post post = new Post(null, userName, downloadUrl.toString());
+                                        databaseReference.push().setValue(post);
+                                    }
+                                });
             }
         }
     }
