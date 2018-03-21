@@ -23,6 +23,7 @@ import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.adapters.PostAdapter;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.Post;
+import com.ft08.trailblazelearn.models.Trainer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -82,7 +83,13 @@ public class FragmentB extends Fragment implements View.OnClickListener {
 
 
     private void initReferences() {
+        if(App.user instanceof Trainer){
         userName = App.trainer.getName();
+        }
+
+        else{
+            userName = App.participant.getName();
+        }
         Discussions = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), R.layout.message_item, Discussions);
         listView = (ListView) fragmentView.findViewById(R.id.listView);
