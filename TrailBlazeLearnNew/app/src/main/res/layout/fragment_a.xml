@@ -118,7 +118,7 @@
                     android:id="@+id/instructions_label"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/instruction_icon"
-                    android:text="Instatructions"
+                    android:text="Instructions"
                     android:textSize="21sp"
                     android:textColor="@android:color/white"
                     />
