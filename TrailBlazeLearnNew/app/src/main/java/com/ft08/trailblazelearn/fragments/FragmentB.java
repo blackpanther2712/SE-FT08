@@ -22,6 +22,7 @@ import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.adapters.PostAdapter;
 import com.ft08.trailblazelearn.application.App;
+import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Post;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -97,6 +98,9 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         writeMessageEditText = (EditText) fragmentView.findViewById(R.id.writeMessageEditText);
         sendButton = (Button) fragmentView.findViewById(R.id.sendButton);
         sendImageButton = (ImageButton) fragmentView.findViewById(R.id.sendImageButton);
+        writeMessageEditText.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
+        sendButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
+        sendImageButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
         sendButton.setOnClickListener(this);
         sendImageButton.setOnClickListener(this);
     }
