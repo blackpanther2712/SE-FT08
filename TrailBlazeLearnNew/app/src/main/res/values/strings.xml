@@ -51,5 +51,6 @@
 
     <!-- Station detail screen-->
     <string name="station_detail_name">Station Name</string>
+    <string name="welcome_to_trailblazelearning">Welcome to TrailBlazeLearning</string>
 
 </resources>

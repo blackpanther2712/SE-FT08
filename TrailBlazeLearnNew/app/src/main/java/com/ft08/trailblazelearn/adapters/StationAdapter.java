@@ -39,8 +39,8 @@ public class StationAdapter extends ArrayAdapter<Station> {
     private Context context;
     private ArrayList<Station> adaptstations = new ArrayList<Station>();
     private String trailid;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef  = database.getReference("Trails");
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
     private DatabaseReference tkref;
     private DatabaseReference sref;
 
@@ -49,28 +49,29 @@ public class StationAdapter extends ArrayAdapter<Station> {
         super(context, R.layout.trail_row_layout);
         this.context = context;
         this.trailid=data;
-        tkref = myRef.child(trailid);
-        sref = tkref.child("Stations");
+        initFirebaseDatabaseRef();
         refreshStations();
     }
 
-    public void refreshStations() {
+    public void initFirebaseDatabaseRef(){
+        database = FirebaseDatabase.getInstance();
+        myRef  = database.getReference("Trails");
+        tkref = myRef.child(trailid);
+        sref = tkref.child("Stations");
+    }
 
+    public void refreshStations() {
         sref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getData(dataSnapshot);
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
     public void getData(DataSnapshot dataSnapshot){
-
         adaptstations.clear();
         int i =1;
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -82,7 +83,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
             notifyDataSetChanged();
         }
         notifyDataSetChanged();
-
     }
 
     @NonNull
@@ -98,7 +98,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
             viewHolder.stationName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
-
             viewHolder.btnEdit.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
             viewHolder.btnRemove.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
 
@@ -126,23 +125,18 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-
                                 sref.child(station.getStationID()).removeValue();
                                 notifyDataSetChanged();
-
                                 (App.trainer.getTrail(trailid)).removeStation(station.getStationID());
                                 Trail trail = App.trainer.getTrail(trailid);
                                 trail.getStations().clear();
                                 trail.setStations(adaptstations);
-
                                 notifyDataSetChanged();
-
                                 dialog.dismiss();
                                 break;
 
@@ -152,11 +146,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
                         }
                     }
                 };
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Are you sure you want to delete "+station.getStationName()).setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
-
                 refreshStations();
             }
         });
@@ -177,9 +169,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 trail.setStations(adaptstations);
             }
         });
-
         return convertView;
-
     }
 
     @Nullable
