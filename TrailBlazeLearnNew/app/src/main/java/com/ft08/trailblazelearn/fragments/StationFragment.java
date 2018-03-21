@@ -122,14 +122,14 @@ public class StationFragment extends Fragment {
                             final String info = instructions.getText().toString().trim();
                             Station station=(App.trainer.getTrail(trailid)).addStation(stationAdapter.getCount()+1,name,info,geo,address);
 
-//                            DatabaseReference s2ref = tref.child("Stations").push();
-//                            String key = s2ref.getKey();
-//                            station.setStationID(key);
-//                            s2ref.setValue(station);
+                            DatabaseReference s2ref = tref.child("Stations").push();
+                            String key = s2ref.getKey();
+                            station.setStationID(key);
+                            s2ref.setValue(station);
 
-                            DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
-                            station.setStationID(station.getSeqNum()+station.getStationName());
-                            sref.setValue(station);
+//                            DatabaseReference sref = tref.child("Stations").child(station.getSeqNum()+station.getStationName());
+//                            station.setStationID(station.getSeqNum()+station.getStationName());
+//                            sref.setValue(station);
 
                             dialog.dismiss();
                             Toast.makeText(getContext(),getString(R.string.saved_successfully),

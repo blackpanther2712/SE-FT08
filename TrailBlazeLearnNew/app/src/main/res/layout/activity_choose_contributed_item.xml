@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
-        android:layout_toStartOf="@+id/button2"
+        android:layout_toStartOf="@+id/takePhotoButton"
         android:onClick="buttonAttachImageClick"
         android:text="IMAGE" />
 
@@ -100,14 +100,14 @@
         android:text="UPLOAD DOCUMENT" />
 
     <Button
+
+        android:id="@+id/takePhotoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/selectButton"
         android:layout_alignBottom="@+id/selectButton"
         android:layout_toStartOf="@+id/audioButton"
-        android:onClick="buttonCapturePhoto"
-        android:text="PHOTO"
-        android:id="@+id/button2" />
+        android:text="PHOTO" />
 
 
 
