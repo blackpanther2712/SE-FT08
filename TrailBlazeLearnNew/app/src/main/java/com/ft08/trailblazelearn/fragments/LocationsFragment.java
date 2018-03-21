@@ -38,7 +38,7 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     private List<String> stationName = new ArrayList<String>();
     public ArrayList<String> latLngs= new ArrayList<String>();
     private static String trailID;
-    private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
+    private DatabaseReference dRef;
     private DatabaseReference gRef;
 
     public static void locationInstance(String data){
@@ -56,11 +56,9 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
 
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_locations, container, false);
-
+        initFirebaseDatabaseRef();
         SupportMapFragment mapFragment=(SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        gRef=dRef.child(trailID).child("Stations");
         gRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -71,19 +69,19 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
                         Station station = (Station) ds.getValue(Station.class);
                         latLngs.add(station.getGps());
                         stationName.add(station.getStationName());
-
                     }
                 }
                 onMapReady(googleMap);
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
-
         return fragmentView;
+    }
+
+    public void initFirebaseDatabaseRef(){
+        dRef = FirebaseDatabase.getInstance().getReference("Trails");
+        gRef=dRef.child(trailID).child("Stations");
     }
 
     @Override
@@ -91,7 +89,6 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         googleMap = goog;
         int i=1,j=0;
         googleMap.clear();
-
         for(String place : latLngs){
             if(place!=null) {
                 String nwPlace = trim(place, "lat/lng: (", ")");
@@ -103,16 +100,13 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
                 i++;j++;
             }
-
         }
     }
 
     public String trim(String place,String prefix,String suffix){
-
         int indexOfLast = place.lastIndexOf(suffix);
         place = place.substring(10, indexOfLast);
         return place;
-
     }
 
 }
