@@ -92,4 +92,9 @@ public class StationActivity extends AppCompatActivity {
         super.onResume();
         viewPager.setCurrentItem(0);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 }
