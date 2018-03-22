@@ -13,13 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
+
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.models.ContributedItem;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +98,26 @@ class DocumentTypeViewHolder extends RecyclerView.ViewHolder{
 
 }
 
+class VideoTypeViewHolder extends RecyclerView.ViewHolder{
+    TextView userName;
+    ImageButton playVideoButton;
+    TextView title;
+    TextView description;
+    LinearLayout linearLayout;
+    CardView cardView;
+
+    public VideoTypeViewHolder(View itemView){
+        super(itemView);
+        this.userName = (TextView) itemView.findViewById(R.id.user_name);
+        this.title = (TextView) itemView.findViewById(R.id.item_title);
+        this.playVideoButton = (ImageButton) itemView.findViewById(R.id.video_button);
+        this.description = (TextView) itemView.findViewById(R.id.item_description);
+        this.linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+        this.cardView = (CardView) itemView.findViewById(R.id.card_view);
+    }
+
+}
+
 
 
 public class ContributedItemAdapter extends RecyclerView.Adapter {
@@ -122,6 +147,8 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
                 return ContributedItem.AUDIO_TYPE;
             case 2:
                 return ContributedItem.DOCUMENT_TYPE;
+            case 3:
+                return ContributedItem.VIDEO_TYPE;
             default:
                 return -1;
         }
@@ -153,6 +180,12 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.document_blog_item,parent,false);
             return  new DocumentTypeViewHolder(view);
+
+        } else if (viewType == ContributedItem.VIDEO_TYPE){
+
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.video_blog_item,parent,false);
+            return  new VideoTypeViewHolder(view);
 
         }
 
@@ -258,7 +291,21 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
 
                     break;
 
+                case ContributedItem.VIDEO_TYPE:
 
+                    ((VideoTypeViewHolder) holder).userName.setText(object.getUserName());
+                    ((VideoTypeViewHolder) holder).title.setText(object.getTitle());
+                    ((VideoTypeViewHolder) holder).description.setText(object.getDescription());
+                    ((VideoTypeViewHolder) holder).playVideoButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((VideoTypeViewHolder) holder).playVideoButton.setImageResource(R.drawable.ic_action_play_picture);
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.parse(object.getFileURL()),"video/mp4");
+                            context.startActivity(intent);
+
+                        }
+                    });
             }
 
         }
