@@ -48,7 +48,10 @@ public class User {
     }
 
     public static void setTrailsKeyId(HashMap<String, String> trailsKeyId) {
-        User.trailsKeyId = trailsKeyId;
+        User.trailsKeyId.clear();
+        if(trailsKeyId!=null) {
+            User.trailsKeyId = trailsKeyId;
+        }
     }
     public void setImage(String image) {
         this.image = image;

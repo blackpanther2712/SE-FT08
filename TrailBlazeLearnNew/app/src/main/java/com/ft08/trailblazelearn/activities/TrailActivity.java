@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,7 +57,7 @@ public class TrailActivity extends AppCompatActivity {
     private TrailAdapter trailAdapter;
     private TextView trailEmptyText;
     private ArrayList<Trail> trails;
-    private ArrayList<String> keys;
+    private ArrayList<String> keys = new ArrayList<>();
     public ListView trailListView;
     private Button addtrailBtn;
     private Date startDate;
@@ -106,7 +107,6 @@ public class TrailActivity extends AppCompatActivity {
     * */
     private void initReferences() {
         trails = new ArrayList<>();
-        keys = new ArrayList<>();
         trailAdapter = new TrailAdapter(this, R.layout.trail_row_layout, trails);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         trailListView = (ListView) findViewById(R.id.trail_list);
@@ -173,10 +173,10 @@ public class TrailActivity extends AppCompatActivity {
                 if(checkTrailUser(addedTrail.getuserId(), user.getUid())) {
                     trails.add(addedTrail);
                     keys.add(dataSnapshot.getKey());
-                    User.trailsKeyId.put(addedTrail.getTrailID(),dataSnapshot.getKey());
                     trailAdapter.notifyDataSetChanged();
                     App.trainer.addTrail(addedTrail);
                 }
+                User.trailsKeyId.put(addedTrail.getTrailID(),dataSnapshot.getKey());
             }
 
             @Override
@@ -196,10 +196,10 @@ public class TrailActivity extends AppCompatActivity {
                 if(checkTrailUser(removedTrail.getuserId(), user.getUid())) {
                     keys.remove(dataSnapshot.getKey());
                     removeTrail(removedTrail);
-                    User.trailsKeyId.remove(removedTrail.getTrailID());
                     App.trainer.removeTrail(removedTrail.getTrailID());
                     trailAdapter.notifyDataSetChanged();
                 }
+                User.trailsKeyId.remove(removedTrail.getTrailID());
             }
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
             public void onCancelled(DatabaseError databaseError) {}
