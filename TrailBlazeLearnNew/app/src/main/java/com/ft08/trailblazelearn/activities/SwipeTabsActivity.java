@@ -60,7 +60,7 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     public static void setCalledTrailId(String calledTrailId) { SwipeTabsActivity.calledTrailId = calledTrailId; }
 
     public static String getCalledTrailKey() { return calledTrailKey; }
-    public static void setCalledTrailKey(String calledTrailId) { SwipeTabsActivity.calledTrailKey = calledTrailKey; }
+    public static void setCalledTrailKey(String calledTrailKey) { SwipeTabsActivity.calledTrailKey = calledTrailKey; }
 
 
     public static String getCalledStationId() { return calledStationId; }

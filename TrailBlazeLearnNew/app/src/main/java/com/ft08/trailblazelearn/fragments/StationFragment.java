@@ -59,7 +59,7 @@ public class StationFragment extends Fragment {
 
     public static void newInstance(String data, String passedTrailKey) {
         trailKey = passedTrailKey;
-        trailid=data;
+        trailid = data;
     }
 
 
