@@ -70,6 +70,7 @@ public class TrailActivity extends AppCompatActivity {
     private DatabaseReference currentTrialRef;
     private FirebaseDatabase database;
     private DatabaseReference dRef;
+    private DatabaseReference keyRef;
     private FirebaseUser user;
     private String editedTrailId;
 
@@ -99,6 +100,7 @@ public class TrailActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         dRef = database.getReference("Trails");
+        keyRef = database.getReference("Keys");
     }
 
 
@@ -177,7 +179,8 @@ public class TrailActivity extends AppCompatActivity {
                     trailAdapter.notifyDataSetChanged();
                     App.trainer.addTrail(addedTrail);
                 }
-                User.trailsKeyId.put(addedTrail.getTrailID(),dataSnapshot.getKey());
+                keyRef.child(addedTrail.getTrailID()).setValue(dataSnapshot.getKey());
+               // User.trailsKeyId.put(addedTrail.getTrailID(),dataSnapshot.getKey());
             }
 
             @Override
@@ -200,7 +203,8 @@ public class TrailActivity extends AppCompatActivity {
                     App.trainer.removeTrail(removedTrail.getTrailID());
                     trailAdapter.notifyDataSetChanged();
                 }
-                User.trailsKeyId.remove(removedTrail.getTrailID());
+                //User.trailsKeyId.remove(removedTrail.getTrailID());
+                keyRef.child(removedTrail.getTrailID()).removeValue();
             }
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
             public void onCancelled(DatabaseError databaseError) {}
