@@ -1,6 +1,9 @@
 package com.ft08.trailblazelearn.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +12,10 @@ import android.widget.TextView;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
+import com.ft08.trailblazelearn.models.Post;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FragmentA extends Fragment {
+public class FragmentA extends Fragment implements View.OnClickListener {
 
     private static String currentStationId;
     private static String currentStationName;
@@ -30,6 +34,8 @@ public class FragmentA extends Fragment {
     {
         fragmentView = inflater.inflate(R.layout.fragment_a, container, false);
         initFirebaseDatabase();
+
+
         return fragmentView;
     }
 
@@ -45,6 +51,8 @@ public class FragmentA extends Fragment {
         txtStationInstruction.setText(currentStationInstructions);
         txtTrailID.setText("Trail ID: \n" + currentTrailID);
         txtStationLocation.setText("Venue: \n" + currentStationLocation);
+
+        txtStationLocation.setOnClickListener(this);
     }
     private void initFirebaseDatabase() {
 
@@ -68,5 +76,29 @@ public class FragmentA extends Fragment {
 
         //firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
         //databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initUserInterfaceComponents();
+    }
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == R.id.location_label) {
+            // Create a Uri from an intent string. Use the result to create an Intent.
+            Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + currentStationLocation+ "&travelmode=driving");
+
+// Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+// Make the Intent explicit by setting the Google Maps package
+            mapIntent.setPackage("com.google.android.apps.maps");
+
+// Attempt to start an activity that can handle the Intent
+            startActivity(mapIntent);
+
+
+        }
     }
 }
