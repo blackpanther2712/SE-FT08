@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
@@ -23,10 +22,11 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
-import com.ft08.trailblazelearn.Manifest;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.ContributedItem;
@@ -46,23 +46,27 @@ import java.util.Date;
 public class ChooseContributedItemActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private ImageView fileSelector;
+    private VideoView videoSelector;
     private EditText singleLineTextEditor;
     private EditText multiLineTextEditor;
-    private Button mRecordButton;
-    private Button mDocumentButton;
     private MediaRecorder mRecorder;
     private ProgressDialog mProgressDialog;
-    private Button takePictureButton;
-    private Button choosePdfButton;
-    private Button recordAudioButton;
-    private Button chooseImageButton;
+    private ImageButton takePictureButton;
+    private ImageButton choosePdfButton;
+    private ImageButton recordAudioButton;
+    private ImageButton chooseImageButton;
+    private ImageButton recordVideoButton;
+    private Button uploadPdfButton;
+    private Button uploadImageButton;
 
     private Uri fileUri;
+    private Uri videoUri;
     private  String userName;
     private String mFileName =null;
     private static final int RC_IMAGE_PICKER=1;
     private static final int RC_DOCUMENT_PICKER=2;
     private static final int RC_PHOTO_PICKER=3;
+    private static final int RC_VIDEO_PICKER=4;
     private static final String LOG_TAG = "Record_log";
 
     private DatabaseReference firebaseDatabase;
@@ -77,7 +81,6 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
         currentStationId = SwipeTabsActivity.getCalledStationId();
         currentTrailId = SwipeTabsActivity.getCalledTrailId();
-
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
         databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
         firebaseStorage = FirebaseStorage.getInstance();
@@ -87,17 +90,28 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
     private void initReferences() {
 
-
+        fileSelector = (ImageView)findViewById(R.id.imageView);
         singleLineTextEditor = (EditText)findViewById(R.id.editTitleText);
         multiLineTextEditor = (EditText)findViewById(R.id.editBodyText);
-        mRecordButton = (Button)findViewById(R.id.audioButton);
+
+        chooseImageButton = (ImageButton) findViewById(R.id.imageGalleryButton);
+        takePictureButton = (ImageButton) findViewById(R.id.takePhotoButton);
+        recordAudioButton =(ImageButton) findViewById(R.id.audioButton);
+        choosePdfButton = (ImageButton) findViewById(R.id.pdfButton);
+        recordVideoButton = (ImageButton) findViewById(R.id.videoButton);
+
+        uploadImageButton = (Button) findViewById(R.id.uploadButton);
+        uploadPdfButton = (Button)findViewById(R.id.uploadPdfButton);
+
+        //videoSelector = findViewById(R.id.videoView);
         mProgressDialog = new ProgressDialog(this);
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName = mFileName + "/recorded_audio.3gp";
+        //mFileName = mFileName + "/recorded_audio.3gp";
+        mFileName = mFileName + "AUDIO_"+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".3gp";
         userName = App.participant.getName();
         System.out.println(userName);
         Log.d("LIFECYCLE","initreferences completed");
-        mRecordButton.setOnTouchListener(this);
+        recordAudioButton.setOnTouchListener(this);
     }
 
     @Override
@@ -106,15 +120,12 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_choose_contributed_item);
         initFireBaseDatabase();
         initReferences();
-        takePictureButton = (Button) findViewById(R.id.takePhotoButton);
-        choosePdfButton = (Button) findViewById(R.id.pdfButton);
-        recordAudioButton =(Button) findViewById(R.id.audioButton);
-        chooseImageButton = (Button) findViewById(R.id.selectButton);
-        fileSelector = (ImageView)findViewById(R.id.imageView);
+
         if (ContextCompat.checkSelfPermission(ChooseContributedItemActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             takePictureButton.setEnabled(false);
             ActivityCompat.requestPermissions(ChooseContributedItemActivity.this, new String[] { android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.RECORD_AUDIO,android.Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
         }
+
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +133,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
+                uploadPdfButton.setEnabled(false);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 fileUri = Uri.fromFile(getOutputMediaFile());
                 System.out.println(fileUri);
@@ -130,7 +142,30 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
             }
         });
+
+        recordVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                //StrictMode.setVmPolicy(builder.build());
+                //uploadPdfButton.setEnabled(false);
+
+                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                File video_file = getFilepath();
+                videoUri  = Uri.fromFile(video_file);
+                System.out.println(videoUri);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
+                startActivityForResult(intent, RC_VIDEO_PICKER);
+
+
+            }
+        });
     }
+
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -177,6 +212,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
         /*if (mRecordLabel.getVisibility() == View.VISIBLE){
             mRecordLabel.setVisibility(View.GONE);
         }*/
+        uploadPdfButton.setEnabled(false);
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(intent.ACTION_GET_CONTENT);
@@ -206,8 +242,25 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
         return  new File(mediaStorageDirectory.getPath() + File.separator + "IMG_" + timestamp + ".jpg");
     }
 
+    private static File getFilepath(){
+
+        File folder = new File("sdcard/video_app");
+        if (!folder.exists()) {
+            folder.mkdir();
+            }
+        File video_file = new File(folder,"sample_video.mp4");
+
+        return video_file;
+
+    }
+
+
+        //String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        //return  new File(folder.getPath() + File.separator + "VIDEO_" + timestamp + ".mp4");
+
     public void buttonAttachDocumentClick(View view){
 
+        uploadImageButton.setEnabled(false);
         String[] mimeTypes = {"application/pdf","text/plain"};
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -259,7 +312,41 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
                 fileSelector.setImageURI(fileUri);
 
+        } else if (requestCode == RC_VIDEO_PICKER && requestCode == RESULT_OK) {
+
+            System.out.println("I am inside start activity on result");
+
+            if (videoUri != null){
+
+                System.out.println("Video uri is not null");
+                mProgressDialog.setMessage("Uploading Video...");
+                mProgressDialog.show();
+                StorageReference videoFilePath = storageReference.child("new_video.3gp");
+                videoFilePath.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        mProgressDialog.dismiss();
+                        Toast.makeText(ChooseContributedItemActivity.this,"Upload Successful.", Toast.LENGTH_LONG).show();
+                        Uri downloadUri = taskSnapshot.getDownloadUrl();
+
+                        System.out.println(downloadUri.toString());
+                        System.out.println(ContributedItem.VIDEO_TYPE);
+
+                        ContributedItem item =new ContributedItem(ContributedItem.VIDEO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString());
+                        databaseReference.push().setValue(item);
+
+
+
+                    }
+                });
+
+
+            }
+
         }
+
     }
 
 
@@ -345,7 +432,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
         if(event.getAction() == MotionEvent.ACTION_DOWN){
             startRecording();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                mRecordButton.setTooltipText("Recording started...");
+                recordAudioButton.setTooltipText("Recording started...");
                 Toast.makeText(ChooseContributedItemActivity.this,"Touch and hold the audio record button to start recording",Toast.LENGTH_LONG).show();
             }
         } else if (event.getAction() == MotionEvent.ACTION_UP){
@@ -395,6 +482,8 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     }
 
     private void startRecording() {
+        uploadImageButton.setEnabled(false);
+        uploadPdfButton.setEnabled(false);
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
