@@ -216,6 +216,7 @@ public class SelectModeActivity extends AppCompatActivity {
                                     Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
                                     final String trailKey = User.trailsKeyId.get(traildId);
                                     intent.putExtra("trailKey", trailKey);
+                                    intent.putExtra("trailId", traildId);
                                     startActivity(intent);
                                 }else{
                                     joiningTrailTxt.setError("Please enter correct and existing TrailID to join");
