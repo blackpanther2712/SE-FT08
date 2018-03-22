@@ -57,7 +57,7 @@ public class TrailActivity extends AppCompatActivity {
     private TrailAdapter trailAdapter;
     private TextView trailEmptyText;
     private ArrayList<Trail> trails;
-    private ArrayList<String> keys = new ArrayList<>();
+    private ArrayList<String> keys;
     public ListView trailListView;
     private Button addtrailBtn;
     private Date startDate;
@@ -107,6 +107,7 @@ public class TrailActivity extends AppCompatActivity {
     * */
     private void initReferences() {
         trails = new ArrayList<>();
+        keys = new ArrayList<>();
         trailAdapter = new TrailAdapter(this, R.layout.trail_row_layout, trails);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         trailListView = (ListView) findViewById(R.id.trail_list);
