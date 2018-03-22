@@ -76,7 +76,6 @@ public class EditStationActivity extends AppCompatActivity {
         ((EditText) findViewById(R.id.gpstxt)).setText(station.getAddress());
         ((EditText) findViewById(R.id.instructionsTxt)).setText(station.getInstructions());
 
-
         stationName = (EditText) findViewById(R.id.stationNametxt);
         gps = (EditText) findViewById(R.id.gpstxt);
         instructions = (EditText) findViewById(R.id.instructionsTxt);
@@ -118,7 +117,6 @@ public class EditStationActivity extends AppCompatActivity {
                     final Station edstation = (App.trainer.getTrail(trailID)).editStation(stName, instinfo, location,station.getStationID(),address);
 
                     DatabaseReference edRef = sref.child(station.getStationID());
-                    edRef.child("seqNum").setValue(edstation.getSeqNum());
                     edRef.child("stationName").setValue(edstation.getStationName());
                     edRef.child("instructions").setValue(edstation.getInstructions());
                     edRef.child("gps").setValue(edstation.getGps());
