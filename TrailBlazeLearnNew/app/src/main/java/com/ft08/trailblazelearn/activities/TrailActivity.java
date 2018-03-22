@@ -62,6 +62,7 @@ public class TrailActivity extends AppCompatActivity {
     private Button addtrailBtn;
     private Date startDate;
     private View editedView;
+    private String oldTrailId, newTrailId;
 
     DatePickerDialog.OnDateSetListener date = null;
     AlertDialog.Builder mBuilder = null;
@@ -180,7 +181,6 @@ public class TrailActivity extends AppCompatActivity {
                     App.trainer.addTrail(addedTrail);
                 }
                 keyRef.child(addedTrail.getTrailID()).setValue(dataSnapshot.getKey());
-               // User.trailsKeyId.put(addedTrail.getTrailID(),dataSnapshot.getKey());
             }
 
             @Override
@@ -192,6 +192,11 @@ public class TrailActivity extends AppCompatActivity {
                     App.trainer.setTrail(keys.indexOf(key), changedTrail);
                     trailAdapter.notifyDataSetChanged();
                 }
+                if(oldTrailId!=null) {
+                    keyRef.child(oldTrailId).removeValue();
+                }
+                    keyRef.child(changedTrail.getTrailID()).setValue(dataSnapshot.getKey());
+
             }
 
             @Override
@@ -203,7 +208,6 @@ public class TrailActivity extends AppCompatActivity {
                     App.trainer.removeTrail(removedTrail.getTrailID());
                     trailAdapter.notifyDataSetChanged();
                 }
-                //User.trailsKeyId.remove(removedTrail.getTrailID());
                 keyRef.child(removedTrail.getTrailID()).removeValue();
             }
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
@@ -295,7 +299,7 @@ public class TrailActivity extends AppCompatActivity {
 
                 if(editedView != null) {
                     if((name != editedTrailName) || (code != editedTrailCode) || (moduleText != editedTrailModule) || (traildate != editedTrailDate)) {
-                        String oldTrailId, newTrailId;
+
                         try { oldDate = sourceFormat.parse(editedTrailDate);
                               newDate = sourceFormat.parse(traildate); }
                         catch (ParseException e) { e.printStackTrace(); }
