@@ -47,7 +47,7 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
         //--------
         Bundle savedDataFromPreviousActivity = getIntent().getExtras();
         setCalledStationId((String) savedDataFromPreviousActivity.get("stationId"));
-        setCalledTrailId((String) savedDataFromPreviousActivity.get("trailKey"));
+        setCalledTrailId((String) savedDataFromPreviousActivity.get("trailId"));
         setCalledStationName((String) savedDataFromPreviousActivity.get("stationName"));
         setCalledStationInstructions((String) savedDataFromPreviousActivity.get("stationInstructions"));
         setCalledStationLocation((String) savedDataFromPreviousActivity.get("stationLocation"));
