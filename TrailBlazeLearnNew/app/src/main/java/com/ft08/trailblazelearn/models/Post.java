@@ -1,5 +1,7 @@
 package com.ft08.trailblazelearn.models;
 
+import android.net.Uri;
+
 import java.sql.Timestamp;
 
 public class Post {
@@ -7,14 +9,15 @@ public class Post {
     private String text;
     private String name;
     private String photoUrl;
-    private Timestamp timestamp;
+    private String ownerProfilePhotoUrl;
 
     Post() {}
 
-    public Post(String text, String name, String photoUrl) {
+    public Post(String text, String name, String photoUrl, String ownerProfilePhotoUrl) {
         this.text = text;
         this.name = name;
         this.photoUrl = photoUrl;
+        this.ownerProfilePhotoUrl = ownerProfilePhotoUrl;
     }
 
     public String getText() {
@@ -39,5 +42,13 @@ public class Post {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getOwnerProfilePhotoUrl() {
+        return ownerProfilePhotoUrl;
+    }
+
+    public void setOwnerProfilePhotoUrl(String ownerProfilePhotoUrl) {
+        this.ownerProfilePhotoUrl = ownerProfilePhotoUrl;
     }
 }
