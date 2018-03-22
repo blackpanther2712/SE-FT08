@@ -19,6 +19,18 @@
             android:background="@color/colorGrey">
         </android.support.v7.widget.RecyclerView>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginEnd="18dp"
+            android:clickable="true"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/colorAccent"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
 
     </RelativeLayout>
