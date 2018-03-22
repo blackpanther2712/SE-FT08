@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ft08.trailblazelearn.activities.SelectModeActivity">
 
+<<<<<<< Updated upstream
     <TextView
         android:id="@+id/CurrentUser"
         android:layout_width="wrap_content"
@@ -41,30 +45,70 @@
     <Button
         android:id="@+id/proceedBtn"
         style="@style/Widget.AppCompat.Button.Colored"
+=======
+    <RelativeLayout
+>>>>>>> Stashed changes
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Proceed" />
+        android:layout_height="match_parent">
 
-    <Switch
-        android:id="@+id/switchId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/proceedBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:theme="@style/SCBSwitch" />
+        <TextView
+            android:id="@+id/CurrentUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="12dp"
+            android:paddingLeft="24dp"
+            android:text="TextView"
+            android:textSize="30dp"
+            />
 
-    <TextView
-        android:id="@+id/typetxt"
+        <ImageView
+            android:id="@+id/ImguserType"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_above="@id/typetxt"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/trainer" />
+
+        <Button
+            android:id="@+id/proceedBtn"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Proceed" />
+
+        <Switch
+            android:id="@+id/switchId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/proceedBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:theme="@style/SCBSwitch" />
+
+        <TextView
+            android:id="@+id/typetxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/switchId"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="I'm a Trainer"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/switchId"
-        android:layout_centerHorizontal="true"
-        android:text="I'm a Trainer"
-        android:layout_marginBottom="10dp"
-        android:textSize="20dp" />
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/slide_menu">
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

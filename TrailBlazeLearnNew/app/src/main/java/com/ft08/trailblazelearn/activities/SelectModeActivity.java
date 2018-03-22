@@ -5,10 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,12 +32,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.ft08.trailblazelearn.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,6 +60,10 @@ public class SelectModeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextView currentUser,typeTxt;
 
+    private DrawerLayout draw;
+    private ActionBarDrawerToggle abdt;
+
+
 
     private FirebaseUser user;
     private User users;
@@ -64,6 +74,8 @@ public class SelectModeActivity extends AppCompatActivity {
     private ImageView imgtype;
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference myRef= database.child("Trails");
+
+    private String personGivenName,personEmail;
 
 
     private FirebaseAuth.AuthStateListener mListener;
@@ -85,11 +97,77 @@ public class SelectModeActivity extends AppCompatActivity {
         aSwitch = (Switch)findViewById(R.id.switchId);
         currentUser= (TextView)findViewById(R.id.CurrentUser);
         proceedBtn = (Button)findViewById(R.id.proceedBtn);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(SelectModeActivity.this);
+
+        if (acct != null) {
+            personGivenName = acct.getGivenName();
+            personEmail = acct.getEmail();
+        }
+
+
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         myRef = FirebaseDatabase.getInstance().getReference();
         users = new User(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
+
+
+        draw = (DrawerLayout)findViewById(R.id.drawerLayout);
+        abdt = new ActionBarDrawerToggle(this,draw,R.string.open,R.string.close);
+        abdt.setDrawerIndicatorEnabled(true);
+
+        draw.addDrawerListener(abdt);
+        abdt.syncState();
+
+        NavigationView navigationView = (NavigationView)findViewById(R.id.navigation);
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView)hView.findViewById(R.id.nameTxt);
+        TextView nav_email = (TextView)hView.findViewById(R.id.mailtxt);
+        if(acct!=null) {
+            nav_user.setText(personGivenName);
+            nav_email.setText(personEmail);
+        }
+        else{
+            nav_user.setText(user.getDisplayName());
+            nav_email.setText(user.getEmail());
+        }
+        ImageView photo = (ImageView) hView.findViewById(R.id.displaypic);
+        Glide.with(photo.getContext())
+                .load(user.getPhotoUrl())
+                .into(photo);
+
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if(id == R.id.logoutId) {
+                    new AlertDialog.Builder(SelectModeActivity.this)
+                            .setMessage("Are you sure you want to Logout?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sendToLogin();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+
+
+                }
+
+                return true;
+            }
+        });
+
+
 
         currentUser.setText("Hello"+" "+user.getDisplayName()+"!!");
 
@@ -192,16 +270,16 @@ public class SelectModeActivity extends AppCompatActivity {
 
 
 
-    @Override
+  /*  @Override
         public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
-    }
+    }*/
 
 
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
@@ -230,8 +308,13 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         return true;
     }
+*/
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 
     private void sendToLogin() { //funtion
         GoogleSignInClient mGoogleSignInClient ;
@@ -262,6 +345,8 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         return isValid;
     }
+
+
 
 
 }
