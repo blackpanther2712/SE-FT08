@@ -34,14 +34,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditStationActivity extends AppCompatActivity {
 
+    private String latLong,locationAddress,trailID,stationID,trailKey;
     private EditText gps, stationName, instructions;
-    private Button addstationBtn;
-    private String latLong,locationAddress,trailID,stationID;
     private FirebaseDatabase database;
-    private Station station;
+    private Button addstationBtn;
     private DatabaseReference myRef;
     private DatabaseReference tkref;
     private DatabaseReference sref;
+    private Station station;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +56,15 @@ public class EditStationActivity extends AppCompatActivity {
 
     public void getBundledData(){
         Bundle bundle = getIntent().getExtras();
-        stationID=bundle.getString("stationId");
-        trailID=bundle.getString("trailId");
+        stationID = bundle.getString("stationId");
+        trailID = bundle.getString("trailId");
+        trailKey = bundle.getString("trailKey");
     }
 
     public void initFirebaseDatabaseRef(){
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Trails");
-        tkref= myRef.child(trailID);
+        tkref= myRef.child(trailKey);
         sref = tkref.child("Stations");
     }
 
@@ -158,6 +159,7 @@ public class EditStationActivity extends AppCompatActivity {
         }
         return isValid;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();

@@ -52,7 +52,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     private PostAdapter postAdapter;
     private EditText writeMessageEditText;
     private View fragmentView;
-    private String currentTrailId;
+    private String currentTrailKey;
     private String currentStationId;
     private ImageButton sendImageButton;
 
@@ -75,10 +75,10 @@ public class FragmentB extends Fragment implements View.OnClickListener {
 
     private void initFirebaseDatabase() {
         currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
-        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailId();
+        currentTrailKey = ((SwipeTabsActivity)getActivity()).getCalledTrailKey();
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
         firebaseStorage = FirebaseStorage.getInstance();
-        databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("posts");
+        databaseReference = firebaseDatabase.child(currentTrailKey).child("Stations").child(currentStationId).child("posts");
         storageReference = firebaseStorage.getReference().child("discussion_photos");
     }
 

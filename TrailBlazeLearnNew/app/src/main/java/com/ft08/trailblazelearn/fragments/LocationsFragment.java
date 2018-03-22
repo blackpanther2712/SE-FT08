@@ -37,12 +37,13 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap googleMap;
     private List<String> stationName = new ArrayList<String>();
     public ArrayList<String> latLngs= new ArrayList<String>();
-    private static String trailID;
+    private static String trailID,trailKey;
     private DatabaseReference dRef;
     private DatabaseReference gRef;
 
-    public static void locationInstance(String data){
+    public static void locationInstance(String data,String key){
         trailID=data;
+        trailKey = key;
     }
 
 
@@ -81,7 +82,7 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
 
     public void initFirebaseDatabaseRef(){
         dRef = FirebaseDatabase.getInstance().getReference("Trails");
-        gRef=dRef.child(trailID).child("Stations");
+        gRef=dRef.child(trailKey).child("Stations");
     }
 
     @Override

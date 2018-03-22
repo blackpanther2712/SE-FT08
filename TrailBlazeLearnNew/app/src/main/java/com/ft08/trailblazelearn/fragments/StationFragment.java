@@ -51,13 +51,14 @@ public class StationFragment extends Fragment {
     private ListView stationList;
     private AlertDialog.Builder mBuilder;
     private AlertDialog dialog;
-    private static String trailid;
+    private static String trailid, trailKey;
     private FloatingActionButton floatingActionButton;
     private String latLong,locationAddress;
     private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
-    private DatabaseReference tref=dRef.child(trailid).getRef();
+    private DatabaseReference tref=dRef.child(trailKey).getRef();
 
-    public static void newInstance(String data) {
+    public static void newInstance(String data, String passedTrailKey) {
+        trailKey = passedTrailKey;
         trailid=data;
     }
 
@@ -77,8 +78,8 @@ public class StationFragment extends Fragment {
     public void setUIComponents(){
         stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
-        LocationsFragment.locationInstance(trailid);
-        stationAdapter = new StationAdapter(getContext(),trailid,getActivity());
+        LocationsFragment.locationInstance(trailid,trailKey);
+        stationAdapter = new StationAdapter(getContext(),trailid, trailKey, getActivity());
         stationList.setAdapter(stationAdapter);
         stationList.setEmptyView(stationEmpty);
         floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.fab);

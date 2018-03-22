@@ -5,6 +5,8 @@
 
 
     <string name="nameview">Name</string>
+    <string name="open">NavBar</string>
+    <string name="close">NavBar</string>
     <string name="LogoutBtn">Logout</string>
     <string name="TrainerBtn">Trainer</string>
     <string name="Participantbtn">Participant</string>

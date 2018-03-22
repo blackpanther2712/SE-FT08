@@ -24,6 +24,7 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private static String calledTrailId;
+    private static String calledTrailKey;
     private static String calledStationId;
     private static String calledStationName;
     private static String calledStationInstructions;
@@ -48,15 +49,19 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
         Bundle savedDataFromPreviousActivity = getIntent().getExtras();
         setCalledStationId((String) savedDataFromPreviousActivity.get("stationId"));
         setCalledTrailId((String) savedDataFromPreviousActivity.get("trailId"));
+        setCalledTrailKey((String) savedDataFromPreviousActivity.get("trailKey"));
         setCalledStationName((String) savedDataFromPreviousActivity.get("stationName"));
         setCalledStationInstructions((String) savedDataFromPreviousActivity.get("stationInstructions"));
         setCalledStationLocation((String) savedDataFromPreviousActivity.get("stationLocation"));
-
 
     }
 
     public static String getCalledTrailId() { return calledTrailId; }
     public static void setCalledTrailId(String calledTrailId) { SwipeTabsActivity.calledTrailId = calledTrailId; }
+
+    public static String getCalledTrailKey() { return calledTrailKey; }
+    public static void setCalledTrailKey(String calledTrailId) { SwipeTabsActivity.calledTrailKey = calledTrailKey; }
+
 
     public static String getCalledStationId() { return calledStationId; }
     public static void setCalledStationId(String calledStationId) { SwipeTabsActivity.calledStationId = calledStationId; }
@@ -81,7 +86,6 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     public static void setCalledStationLocation(String calledStationLocation) {
         SwipeTabsActivity.calledStationLocation = calledStationLocation;
     }
-
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }
