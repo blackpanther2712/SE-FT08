@@ -9,45 +9,10 @@
     android:layout_height="match_parent"
     tools:context="com.ft08.trailblazelearn.activities.SelectModeActivity">
 
-<<<<<<< Updated upstream
-    <TextView
-        android:id="@+id/CurrentUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:text="TextView"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/CurrentUser"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/welcome_to_trailblazelearning"
-        android:textSize="28sp"
-        android:fontFamily="cursive"/>
 
-    <ImageView
-        android:id="@+id/ImguserType"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_above="@+id/typetxt"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/trainer" />
-
-    <Button
-        android:id="@+id/proceedBtn"
-        style="@style/Widget.AppCompat.Button.Colored"
-=======
     <RelativeLayout
->>>>>>> Stashed changes
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
