@@ -110,8 +110,8 @@ public class SelectModeActivity extends AppCompatActivity {
         TextView nav_user = (TextView)hView.findViewById(R.id.nameTxt);
         TextView nav_email = (TextView)hView.findViewById(R.id.mailtxt);
         if(acct!=null) {
-            nav_user.setText(user.getDisplayName());
-            nav_email.setText(personEmail);
+            nav_user.setText(personGivenName);
+            nav_email.setText(personEmail+"jdfkd");
         }
         else{
             nav_user.setText(user.getDisplayName());
