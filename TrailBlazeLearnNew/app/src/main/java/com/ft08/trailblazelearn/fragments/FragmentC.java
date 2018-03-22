@@ -26,6 +26,7 @@ import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.adapters.ContributedItemAdapter;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.ContributedItem;
+import com.ft08.trailblazelearn.models.Participant;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,6 +72,7 @@ public class FragmentC extends Fragment {
                 startActivity(new Intent(getContext(),ChooseContributedItemActivity.class));
             }
         });
+        floatingActionButton.setVisibility((App.user instanceof Participant) ? View.VISIBLE : View.INVISIBLE);
         return fragmentView;
     }
 
