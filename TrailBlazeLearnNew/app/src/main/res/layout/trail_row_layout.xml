@@ -35,7 +35,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Module"
             android:textStyle=""
             android:id="@+id/trail_mod"
             android:textSize="14sp"
@@ -45,7 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/trail_date"
-            android:text="Date"
             android:textSize="13sp"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
