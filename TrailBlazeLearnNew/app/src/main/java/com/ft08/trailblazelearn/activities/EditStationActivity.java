@@ -54,6 +54,7 @@ public class EditStationActivity extends AppCompatActivity {
         onClickAddButton();
     }
 
+    //Receiving data from StationAdapter and initializing it
     public void getBundledData(){
         Bundle bundle = getIntent().getExtras();
         stationID = bundle.getString("stationId");
@@ -61,6 +62,9 @@ public class EditStationActivity extends AppCompatActivity {
         trailKey = bundle.getString("trailKey");
     }
 
+    /*
+    * Initializing All Firebase Instances
+    * */
     public void initFirebaseDatabaseRef(){
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Trails");
@@ -68,6 +72,9 @@ public class EditStationActivity extends AppCompatActivity {
         sref = tkref.child("Stations");
     }
 
+    /*
+    * Initializing All Views In Station Details Dialog Box
+    * */
     public void initUI(){
         station = (App.trainer.getTrail(trailID)).getStation(stationID);
         String seq=Integer.toString(station.getSeqNum());
@@ -82,6 +89,9 @@ public class EditStationActivity extends AppCompatActivity {
         addstationBtn = (Button) findViewById(R.id.CreateBtn);
     }
 
+    /*
+    * This method opens place picker and allows to edit the selected location and save it
+    * */
     public void onClickGps(){
         gps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +110,9 @@ public class EditStationActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * This Method Sets The Listener For Save Button Of The edited Station Details Dialog Box
+    * */
     public void onClickAddButton(){
         addstationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +142,9 @@ public class EditStationActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * Setting all required location attributes...
+    * */
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==1){
@@ -142,6 +158,9 @@ public class EditStationActivity extends AppCompatActivity {
         }
     }
 
+    /*
+     * Validates If All Station Details Have Been Entered Correctly
+     * */
     private boolean isValid () {
         boolean isValid = true;
         if (TextUtils.isEmpty(stationName.getText().toString().trim())) {

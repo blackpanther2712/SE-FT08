@@ -54,27 +54,36 @@ public class StationFragment extends Fragment {
     private static String trailid, trailKey;
     private FloatingActionButton floatingActionButton;
     private String latLong,locationAddress;
+    /*
+    * Initializing All Firebase Instances
+    * */
     private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
     private DatabaseReference tref=dRef.child(trailKey).getRef();
 
+    //Getting required data from StationActivity
     public static void newInstance(String data, String passedTrailKey) {
         trailKey = passedTrailKey;
         trailid = data;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    //This where we take care of core business logic...
     @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.activity_trail, container, false);
+        // Inflate the layout for this fragment
+        fragmentView = inflater.inflate(R.layout.activity_trail, container, false);//This is related to view
         setUIComponents();
         onClickFab();
         return fragmentView;
     }
 
+    /*
+    * Initializing All Views In StationFragment
+    * Setting visibility depending on user
+    * */
     public void setUIComponents(){
         stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
@@ -86,6 +95,9 @@ public class StationFragment extends Fragment {
         floatingActionButton.setVisibility(App.user instanceof Participant ? View.GONE : View.VISIBLE);
     }
 
+    /*
+    * This Method Sets The Listener For The Floating Button Which Helps In Adding Stations
+    * */
     public void onClickFab(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +114,9 @@ public class StationFragment extends Fragment {
         });
     }
 
+    /*
+    * Initializing All Views In Station Details Dialog Box
+    * */
     public void setDialogBoxView(){
         stationName = (EditText)sview.findViewById(R.id.stationNametxt);
         location = (EditText) sview.findViewById(R.id.gpstxt);
@@ -109,6 +124,9 @@ public class StationFragment extends Fragment {
         addstationBtn = (Button) sview.findViewById(R.id.CreateBtn);
     }
 
+    /*
+    * This method opens place picker and allows to select the location and save it
+    * */
     public void onClickLocation(){
         location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +146,10 @@ public class StationFragment extends Fragment {
         });
     }
 
+    /*
+    * This Method Sets The Listener For Save Button Of The Station Details Dialog Box
+    * Add The New Station
+    * */
     public void onClickAddButton(){
         addstationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,8 +171,9 @@ public class StationFragment extends Fragment {
         });
     }
 
-
-
+    /*
+     * Validates If All Station Details Have Been Entered Correctly
+     * */
     private boolean isValid () {
         boolean isValid = true;
         if (TextUtils.isEmpty(stationName.getText().toString().trim())) {
@@ -175,6 +198,9 @@ public class StationFragment extends Fragment {
         stationEmpty.setVisibility(stationAdapter.getCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
+    /*
+    * Setting all required location attributes...
+    * */
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         if(requestCode==1){
