@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.adapters.PostAdapter;
@@ -27,6 +29,8 @@ import com.ft08.trailblazelearn.models.Post;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,6 +65,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private ChildEventListener childEventListener;
+    private FirebaseUser user;
 
     public FragmentB() {}
 
@@ -80,17 +85,13 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         firebaseStorage = FirebaseStorage.getInstance();
         databaseReference = firebaseDatabase.child(currentTrailKey).child("Stations").child(currentStationId).child("posts");
         storageReference = firebaseStorage.getReference().child("discussion_photos");
+        user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
 
     private void initReferences() {
-        if(App.user instanceof Trainer){
-            userName = App.trainer.getName();
-        }
-
-        else{
-            userName = App.participant.getName();
-        }
+        if(App.user instanceof Trainer) { userName = App.trainer.getName(); }
+        else { userName = App.participant.getName(); }
         Discussions = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), R.layout.message_item, Discussions);
         listView = (ListView) fragmentView.findViewById(R.id.listView);
@@ -136,7 +137,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
 
     public void onClick(View view) {
         if(view.getId() == R.id.sendButton) {
-            Post post = new Post(writeMessageEditText.getText().toString(), userName, null);
+            Post post = new Post(writeMessageEditText.getText().toString(), userName, null, user.getPhotoUrl().toString());
             databaseReference.push().setValue(post);
             writeMessageEditText.setText("");
         }
@@ -171,6 +172,8 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Post post = dataSnapshot.getValue(Post.class);
                     postAdapter.add(post);
+                    postAdapter.notifyDataSetChanged();
+                    listView.setSelection(listView.getAdapter().getCount() - 1);
                 }
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
                 public void onChildRemoved(DataSnapshot dataSnapshot) {}
@@ -202,7 +205,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                        Post post = new Post(null, userName, downloadUrl.toString());
+                                        Post post = new Post(null, userName, downloadUrl.toString(), user.getPhotoUrl().toString());
                                         databaseReference.push().setValue(post);
                                     }
                                 });

@@ -118,6 +118,7 @@ public class StationFragment extends Fragment {
                     Intent intent;
                     intent = builder.build(getActivity());
                     startActivityForResult(intent, 1);
+                    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
                 } catch (GooglePlayServicesNotAvailableException e) {

@@ -59,12 +59,8 @@ public class SelectModeActivity extends AppCompatActivity {
     private Button joinBtn,proceedBtn;
     private FirebaseAuth mAuth;
     private TextView currentUser,typeTxt;
-
     private DrawerLayout draw;
     private ActionBarDrawerToggle abdt;
-
-
-
     private FirebaseUser user;
     private User users;
     private Trainer userTrainer;
@@ -74,10 +70,7 @@ public class SelectModeActivity extends AppCompatActivity {
     private ImageView imgtype;
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference myRef= database.child("Trails");
-
     private String personGivenName,personEmail;
-
-
     private FirebaseAuth.AuthStateListener mListener;
 
     @Override
@@ -103,19 +96,12 @@ public class SelectModeActivity extends AppCompatActivity {
             personGivenName = acct.getGivenName();
             personEmail = acct.getEmail();
         }
-
-
-
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         myRef = FirebaseDatabase.getInstance().getReference();
         users = new User(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
-
-
         draw = (DrawerLayout)findViewById(R.id.drawerLayout);
         abdt = new ActionBarDrawerToggle(this,draw,R.string.open,R.string.close);
         abdt.setDrawerIndicatorEnabled(true);
-
         draw.addDrawerListener(abdt);
         abdt.syncState();
 
@@ -135,11 +121,7 @@ public class SelectModeActivity extends AppCompatActivity {
         Glide.with(photo.getContext())
                 .load(user.getPhotoUrl())
                 .into(photo);
-
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -159,22 +141,12 @@ public class SelectModeActivity extends AppCompatActivity {
                                 }
                             })
                             .show();
-
-
                 }
 
                 return true;
             }
         });
-
-
-
         currentUser.setText("Hello"+" "+user.getDisplayName()+"!!");
-
-
-
-
-
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -189,10 +161,6 @@ public class SelectModeActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
         proceedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,24 +184,23 @@ public class SelectModeActivity extends AppCompatActivity {
                                     Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
                                     final String trailKey = User.trailsKeyId.get(traildId);
                                     intent.putExtra("trailKey", trailKey);
+                                    intent.putExtra("trailId",traildId);
                                     startActivity(intent);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 }else{
                                     joiningTrailTxt.setError("Please enter correct and existing TrailID to join");
                                 }
                             }
-
                         }
                     });
                     dialog.show();
-
                 }
                 else{
                     Intent trails = new Intent(SelectModeActivity.this,TrailActivity.class);
                     userTrainer =new Trainer(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
                     new App(userTrainer);
                     startActivity(trails);
-
-
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             }
         });
@@ -247,54 +214,10 @@ public class SelectModeActivity extends AppCompatActivity {
         };
     }
 
-
-
-  /*  @Override
-        public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }*/
-
-
-
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.logoutBtn:
-                new AlertDialog.Builder(this)
-                        .setMessage("Are you sure you want to Logout?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                sendToLogin();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
-                break;
-            // action with ID action_settings was selected
-
-            default:
-                break;
-        }
-        return true;
-    }
-*/
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
-
     private void sendToLogin() { //funtion
         GoogleSignInClient mGoogleSignInClient ;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -315,7 +238,6 @@ public class SelectModeActivity extends AppCompatActivity {
                     }
                 });
     }
-
     private boolean isValid () {
         boolean isValid = true;
         if (TextUtils.isEmpty(joiningTrailTxt.getText().toString().trim())) {
@@ -324,8 +246,4 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         return isValid;
     }
-
-
-
-
 }

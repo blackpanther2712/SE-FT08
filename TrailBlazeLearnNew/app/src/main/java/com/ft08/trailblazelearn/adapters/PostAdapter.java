@@ -5,6 +5,7 @@ package com.ft08.trailblazelearn.adapters;
  */
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.models.Post;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -40,10 +42,18 @@ public class PostAdapter extends ArrayAdapter<Post> {
         ImageView photo = (ImageView) row.findViewById(R.id.messagePhoto);
         TextView name = (TextView) row.findViewById((R.id.nameTextView));
         TextView message = (TextView) row.findViewById(R.id.messageTextView);
+        ImageView profileImage = (ImageView) row.findViewById(R.id.displayprofpic);
 
         Post post = getItem(position);
         name.setText(post.getName());
         boolean isPhoto = post.getPhotoUrl() != null;
+        Uri postOwnerProfilePic = Uri.parse(post.getOwnerProfilePhotoUrl());
+
+        if(post.getOwnerProfilePhotoUrl() != null) {
+            Glide.with(profileImage.getContext())
+                    .load(postOwnerProfilePic)
+                    .into(profileImage);
+        }
 
         if(isPhoto) {
             message.setVisibility(View.GONE);

@@ -123,6 +123,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 intent.putExtra("stationLocation",station.getAddress());
 
                 getContext().startActivity(intent);
+
             }
         });
 

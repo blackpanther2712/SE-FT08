@@ -3,6 +3,7 @@ package com.ft08.trailblazelearn.activities;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.PagerAdapter;
@@ -56,19 +60,35 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
 
     }
 
-    public static String getCalledTrailId() { return calledTrailId; }
-    public static void setCalledTrailId(String calledTrailId) { SwipeTabsActivity.calledTrailId = calledTrailId; }
+    public static String getCalledTrailId() {
+        return calledTrailId;
+    }
 
-    public static String getCalledTrailKey() { return calledTrailKey; }
-    public static void setCalledTrailKey(String calledTrailKey) { SwipeTabsActivity.calledTrailKey = calledTrailKey; }
+    public static void setCalledTrailId(String calledTrailId) {
+        SwipeTabsActivity.calledTrailId = calledTrailId;
+    }
+
+    public static String getCalledTrailKey() {
+        return calledTrailKey;
+    }
+
+    public static void setCalledTrailKey(String calledTrailKey) {
+        SwipeTabsActivity.calledTrailKey = calledTrailKey;
+    }
 
 
-    public static String getCalledStationId() { return calledStationId; }
-    public static void setCalledStationId(String calledStationId) { SwipeTabsActivity.calledStationId = calledStationId; }
+    public static String getCalledStationId() {
+        return calledStationId;
+    }
+
+    public static void setCalledStationId(String calledStationId) {
+        SwipeTabsActivity.calledStationId = calledStationId;
+    }
 
     public static String getCalledStationName() {
         return calledStationName;
     }
+
     public static void setCalledStationName(String calledStationName) {
         SwipeTabsActivity.calledStationName = calledStationName;
     }
@@ -76,6 +96,7 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     public static String getCalledStationInstructions() {
         return calledStationInstructions;
     }
+
     public static void setCalledStationInstructions(String calledStationInstructions) {
         SwipeTabsActivity.calledStationInstructions = calledStationInstructions;
     }
@@ -83,17 +104,24 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     public static String getCalledStationLocation() {
         return calledStationLocation;
     }
+
     public static void setCalledStationLocation(String calledStationLocation) {
         SwipeTabsActivity.calledStationLocation = calledStationLocation;
     }
 
     @Override
-    public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }
-    public void onTabUnselected(TabLayout.Tab tab) {}
-    public void onTabReselected(TabLayout.Tab tab) {}
+    public void onTabSelected(TabLayout.Tab tab) {
+        viewPager.setCurrentItem(tab.getPosition());
+    }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
+
+    public void onTabReselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_menu, menu);
         return true;
@@ -104,8 +132,9 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.homebtn:
-                Intent intent = new Intent(SwipeTabsActivity.this,SelectModeActivity.class);
+                Intent intent = new Intent(SwipeTabsActivity.this, SelectModeActivity.class);
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             // action with ID action_settings was selected
 
@@ -114,5 +143,6 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
         }
 
         return true;
-    }*/
+
+    }
 }
