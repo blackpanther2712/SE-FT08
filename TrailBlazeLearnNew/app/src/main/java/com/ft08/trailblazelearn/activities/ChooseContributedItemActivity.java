@@ -80,7 +80,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     private void initFireBaseDatabase() {
 
         currentStationId = SwipeTabsActivity.getCalledStationId();
-        currentTrailId = SwipeTabsActivity.getCalledTrailId();
+        currentTrailId = SwipeTabsActivity.getCalledTrailKey();
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
         databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
         firebaseStorage = FirebaseStorage.getInstance();

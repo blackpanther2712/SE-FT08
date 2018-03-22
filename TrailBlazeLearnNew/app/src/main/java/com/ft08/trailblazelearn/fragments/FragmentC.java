@@ -66,10 +66,8 @@ public class FragmentC extends Fragment {
     }
 
     private void initFirebaseDatabase() {
-
-
         currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
-        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailId();
+        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailKey();
         System.out.println (currentStationId);
         System.out.println (currentTrailId);
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
