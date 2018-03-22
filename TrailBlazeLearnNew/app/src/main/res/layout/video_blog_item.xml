@@ -38,15 +38,14 @@
             android:textAllCaps="true"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+        <ImageButton
+            android:id="@+id/video_button"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:padding="15dp"
             android:clickable="true"
-            app:backgroundTint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_action_play_icon" android:focusable="true"/>
+            app:srcCompat="@drawable/ic_action_play_picture" android:focusable="true"/>
 
 
         <TextView
