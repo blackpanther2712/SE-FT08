@@ -50,7 +50,7 @@ public class FragmentC extends Fragment {
     private ProgressDialog mProgressDialog;
     private RecyclerView blogList;
     private ArrayList<ContributedItem> contributedItem;
-    private String currentTrailId;
+    private String currentTrailKey;
     private String currentStationId;
 
 
@@ -69,11 +69,11 @@ public class FragmentC extends Fragment {
 
 
         currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
-        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailId();
+        currentTrailKey = ((SwipeTabsActivity)getActivity()).getCalledTrailKey();
         System.out.println (currentStationId);
-        System.out.println (currentTrailId);
+        System.out.println (currentTrailKey);
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
-        databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
+        databaseReference = firebaseDatabase.child(currentTrailKey).child("Stations").child(currentStationId).child("contributedItems");
     }
 
     private void initReferences() {
