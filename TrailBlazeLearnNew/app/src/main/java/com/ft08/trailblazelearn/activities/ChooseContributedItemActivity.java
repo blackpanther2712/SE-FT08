@@ -31,6 +31,8 @@ import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.ContributedItem;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -59,6 +61,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     private ImageButton recordVideoButton;
     private Button uploadPdfButton;
     private Button uploadImageButton;
+    private FirebaseUser user;
 
 
     private Uri fileUri;
@@ -93,6 +96,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
         databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference().child("contributed_items");
+        user = FirebaseAuth.getInstance().getCurrentUser();
         Log.d("LIFECYCLE","+ initfirebase completed");
     }
 
@@ -350,7 +354,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                         System.out.println(downloadUri.toString());
                         System.out.println(ContributedItem.VIDEO_TYPE);
 
-                        ContributedItem item =new ContributedItem(ContributedItem.VIDEO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString());
+                        ContributedItem item =new ContributedItem(ContributedItem.VIDEO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
                         databaseReference.push().setValue(item);
 
 
@@ -392,7 +396,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
                     System.out.println(downloadUri.toString());
                     System.out.println(ContributedItem.IMAGE_TYPE);
-                    ContributedItem item =new ContributedItem(ContributedItem.IMAGE_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString());
+                    ContributedItem item =new ContributedItem(ContributedItem.IMAGE_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
                     databaseReference.push().setValue(item);
 
                 }
@@ -422,7 +426,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
                     System.out.println(downloadUri.toString());
                     System.out.println(ContributedItem.DOCUMENT_TYPE);
-                    ContributedItem item =new ContributedItem(ContributedItem.DOCUMENT_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString());
+                    ContributedItem item =new ContributedItem(ContributedItem.DOCUMENT_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
                     databaseReference.push().setValue(item);
 
                 }
@@ -519,7 +523,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                 System.out.println(downloadUri.toString());
                 System.out.println(ContributedItem.AUDIO_TYPE);
 
-                ContributedItem item =new ContributedItem(ContributedItem.AUDIO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString());
+                ContributedItem item =new ContributedItem(ContributedItem.AUDIO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
                 databaseReference.push().setValue(item);
 
 
