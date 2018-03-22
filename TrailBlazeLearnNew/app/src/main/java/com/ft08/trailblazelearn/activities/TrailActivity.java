@@ -173,6 +173,7 @@ public class TrailActivity extends AppCompatActivity {
                 if(checkTrailUser(addedTrail.getuserId(), user.getUid())) {
                     trails.add(addedTrail);
                     keys.add(dataSnapshot.getKey());
+                    User.trailsKeyId.put(addedTrail.getTrailID(),dataSnapshot.getKey());
                     trailAdapter.notifyDataSetChanged();
                     App.trainer.addTrail(addedTrail);
                 }
@@ -195,6 +196,7 @@ public class TrailActivity extends AppCompatActivity {
                 if(checkTrailUser(removedTrail.getuserId(), user.getUid())) {
                     keys.remove(dataSnapshot.getKey());
                     removeTrail(removedTrail);
+                    User.trailsKeyId.remove(removedTrail.getTrailID());
                     App.trainer.removeTrail(removedTrail.getTrailID());
                     trailAdapter.notifyDataSetChanged();
                 }
@@ -417,6 +419,11 @@ public class TrailActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(TrailActivity.this,"Press Home Button to go back", Toast.LENGTH_SHORT).show();
     }
 }
 

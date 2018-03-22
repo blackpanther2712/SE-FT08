@@ -90,7 +90,9 @@ public class StationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-         if(App.user instanceof Participant){}
+         if(App.user instanceof Participant){
+             Toast.makeText(StationActivity.this,"Press Home Button to go back", Toast.LENGTH_SHORT).show();
+         }
          else { super.onBackPressed();}
     }
 }

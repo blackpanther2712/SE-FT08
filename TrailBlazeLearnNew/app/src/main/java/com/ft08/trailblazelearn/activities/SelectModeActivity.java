@@ -211,36 +211,15 @@ public class SelectModeActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             final String traildId = joiningTrailTxt.getText().toString().trim();
                             if(isValid()) {
-
-                                Log.d("trail of parti", String.valueOf(myRef.child(traildId)));
-
-                                if(myRef.child(traildId).equals(null)){
-                                    joiningTrailTxt.setError("Please enter correct and existing TrailID");
-                                }else {
+                                if(User.trailsKeyId.containsKey(traildId)) {
                                     userParticipant.setTrailId(traildId);
                                     Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
-                                    intent.putExtra("trailId", userParticipant.getTrailId());
+                                    final String trailKey = User.trailsKeyId.get(traildId);
+                                    intent.putExtra("trailKey", trailKey);
                                     startActivity(intent);
+                                }else{
+                                    joiningTrailTxt.setError("Please enter correct and existing TrailID to join");
                                 }
-
-//                                myRef.child(traildId).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        if(dataSnapshot.exists()){
-//                                            userParticipant.setTrailId(traildId);
-//                                            Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
-//                                            intent.putExtra("trailId", userParticipant.getTrailId());
-//                                            startActivity(intent);
-//                                        }else{
-//                                            joiningTrailTxt.setError("Please enter correct and existing TrailID");
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(DatabaseError databaseError) {
-//
-//                                    }
-//                                });
                             }
 
                         }

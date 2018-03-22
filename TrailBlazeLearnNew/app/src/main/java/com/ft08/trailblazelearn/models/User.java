@@ -2,12 +2,14 @@ package com.ft08.trailblazelearn.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class User {
 
     private String userId;
     private String name;
     private String image;
+    public static HashMap<String,String> trailsKeyId = new HashMap<>();
 
     public User(){
 
@@ -40,6 +42,14 @@ public class User {
         this.name = name;
     }
 
+
+    public static HashMap<String, String> getTrailsKeyId() {
+        return trailsKeyId;
+    }
+
+    public static void setTrailsKeyId(HashMap<String, String> trailsKeyId) {
+        User.trailsKeyId = trailsKeyId;
+    }
     public void setImage(String image) {
         this.image = image;
     }
