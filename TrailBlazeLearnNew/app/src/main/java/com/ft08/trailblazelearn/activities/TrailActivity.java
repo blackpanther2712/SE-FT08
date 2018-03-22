@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.adapters.TrailAdapter;
 import com.ft08.trailblazelearn.application.App;
-import com.ft08.trailblazelearn.helpers.TrailHelper;
+//import com.ft08.trailblazelearn.helpers.TrailHelper;
 import com.ft08.trailblazelearn.models.Trail;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.ft08.trailblazelearn.models.User;
@@ -49,7 +49,8 @@ import java.util.Locale;
 
 public class TrailActivity extends AppCompatActivity {
 
-    private EditText trailName, trailCode, module, trailDate, editedTrailCode, editedTrailDate, editedTrailName, editedTrailModule;
+    private EditText trailName, trailCode, module, trailDate;
+    private String editedTrailCode, editedTrailDate, editedTrailName, editedTrailModule;
     private FloatingActionButton floatingActionButton;
     private Calendar calendar = Calendar.getInstance();
     private TrailAdapter trailAdapter;
@@ -220,14 +221,33 @@ public class TrailActivity extends AppCompatActivity {
 
 
     /*
-    * This Method Adds & Updates Trails In The Database
+    * This Method Adds Trails In The Database
     * */
-    private void addUpdateTrailToDB(String trail_id, Trail trail) {
+    private void addTrailToDB(String trail_id, Trail trail) {
         Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-        currentTrialRef = dRef.child(trail_id);
+        String pushKey = dRef.push().getKey();
+        trail.setTrailKey(pushKey);
+        currentTrialRef = dRef.child(pushKey);
         currentTrialRef.setValue(trail);
-        currentTrialRef.child("Trail Date").setValue(new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(startDate));
+        //currentTrialRef.child("Trail Date").setValue(new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(startDate));
         currentTrialRef.child("TimeStamp").setValue(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH).format(currentTimestamp));
+        dialog.dismiss();
+        Toast.makeText(TrailActivity.this, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show();
+    }
+
+
+    /*
+    * This Method Updates Trails In The Database
+    * */
+    private void updateTrailInDB(String trailKey, String name, String code, String moduleText, String newDate, String newTrailId) {
+        DatabaseReference ctRef;
+        ctRef = dRef.child(trailKey);
+        ctRef.child("trailCode").setValue(code);
+        ctRef.child("module").setValue(moduleText);
+        ctRef.child("trailID").setValue(newTrailId);
+        ctRef.child("trailName").setValue(name);
+        ctRef.child("trailDate").setValue(newDate);
+        //ctRef.child("Trail Date").setValue(new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(newDate));
         dialog.dismiss();
         Toast.makeText(TrailActivity.this, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show();
     }
@@ -238,9 +258,9 @@ public class TrailActivity extends AppCompatActivity {
     * */
     private void validateAndPushToDB(String name, String code, String traildate, String moduleText) {
         if (isValid(name, code, traildate)) {
-            Trail newTrail = new Trail(name, code, moduleText, startDate, user.getUid());
+            Trail newTrail = new Trail(name, code, moduleText, traildate, user.getUid());
             String trailId = newTrail.getTrailID();
-            addUpdateTrailToDB(trailId, newTrail);
+            addTrailToDB(trailId, newTrail);
         }
     }
 
@@ -257,6 +277,9 @@ public class TrailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
+                Date oldDate = null, newDate = null;
+
                 Trail currentTrail;
                 String name = trailName.getText().toString().trim();
                 String code = trailCode.getText().toString().trim();
@@ -264,18 +287,16 @@ public class TrailActivity extends AppCompatActivity {
                 String traildate = trailDate.getText().toString().trim();
 
                 if(editedView != null) {
-                    String currentTrailId = geTrailId(code, startDate);
-                    if(currentTrailId.toString().trim().equals(editedTrailId.toString().trim()))
-                    {
-                        if((name != editedTrailName.getText().toString().trim()) || moduleText != editedTrailModule.getText().toString().trim()) {
-                            Trail trail = App.trainer.editTrail(name, code, moduleText, startDate, currentTrailId, user.getUid());
-                            String trail_id = trail.getTrailID();
-                            addUpdateTrailToDB(trail_id, trail);
-                        }
-                    }
-                    else {
-                        dRef.child(editedTrailId).removeValue();
-                        validateAndPushToDB(name, code, traildate, moduleText);
+                    if((name != editedTrailName) || (code != editedTrailCode) || (moduleText != editedTrailModule) || (traildate != editedTrailDate)) {
+                        String oldTrailId, newTrailId;
+                        try { oldDate = sourceFormat.parse(editedTrailDate);
+                              newDate = sourceFormat.parse(traildate); }
+                        catch (ParseException e) { e.printStackTrace(); }
+                        oldTrailId = geTrailId(editedTrailCode, oldDate);
+                        newTrailId = geTrailId(code, newDate);
+                        App.trainer.editTrail(name, code, moduleText, traildate, oldTrailId, newTrailId, user.getUid());
+                        String trailKey = App.trainer.getTrail(newTrailId).getTrailKey();
+                        updateTrailInDB(trailKey, name, code, moduleText, traildate, newTrailId);
                     }
                 }
                 else { validateAndPushToDB(name, code, traildate, moduleText); }
@@ -316,13 +337,13 @@ public class TrailActivity extends AppCompatActivity {
         if(code == 0) {
             Date editedTrailDt = null;
             editedView = passedView;
-            editedTrailName = (EditText) editedView.findViewById(R.id.TrailNametxt);
-            editedTrailModule = (EditText) editedView.findViewById(R.id.Moduletxt);
-            editedTrailCode = (EditText) editedView.findViewById(R.id.TrailCodetxt);
-            editedTrailDate = (EditText) editedView.findViewById(R.id.datetxt);
-            try { editedTrailDt = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(editedTrailDate.getText().toString().trim()); }
+            editedTrailName = ((EditText) editedView.findViewById(R.id.TrailNametxt)).getText().toString().trim();
+            editedTrailModule = ((EditText) editedView.findViewById(R.id.Moduletxt)).getText().toString().trim();
+            editedTrailCode = ((EditText) editedView.findViewById(R.id.TrailCodetxt)).getText().toString().trim();
+            editedTrailDate = ((EditText) editedView.findViewById(R.id.datetxt)).getText().toString().trim();
+            try { editedTrailDt = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(editedTrailDate); }
             catch (ParseException e) { e.printStackTrace(); }
-            editedTrailId = geTrailId(editedTrailCode.getText().toString(), editedTrailDt);
+            editedTrailId = geTrailId(editedTrailCode, editedTrailDt);
         }
         else editedView = null;
         initDialogBoxViews(passedView);

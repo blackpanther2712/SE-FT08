@@ -9,24 +9,25 @@ import java.util.Locale;
 
 public class Trail {
     private String module;
-    private Date trailDate;
+    private String trailDate;
     private String trailID;
     private String trailCode;
     private String trailName;
     private String userId;
+    private String trailKey;
     private ArrayList<Station> stations;
 
     public Trail(){
         stations = new ArrayList<Station> ();
     }
-    public Trail(String trailName, String trailCode, String module, Date trailDate, String addedBy) {
+
+    public Trail(String trailName, String trailCode, String module, String trailDate, String addedBy) {
         this.trailName = trailName;
         this.trailCode = trailCode;
         this.module = module;
         this.trailDate = trailDate;
         this.userId = addedBy;
-        DateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
-        this.trailID = formatter.format(trailDate)+"-"+trailCode;
+        this.trailID = convertFormat(trailDate) + "-" + trailCode;
         stations = new ArrayList<Station> ();
     }
 
@@ -54,11 +55,11 @@ public class Trail {
         this.module = module;
     }
 
-    public Date getTrailDate() {
+    public String getTrailDate() {
         return trailDate;
     }
 
-    public void setTrailDate(Date trailDate) {
+    public void setTrailDate(String trailDate) {
         this.trailDate = trailDate;
     }
 
@@ -76,6 +77,27 @@ public class Trail {
 
     public void setStations(ArrayList<Station> stations) {
         this.stations = stations;
+    }
+
+    @Override
+    public String toString() {
+        return getTrailName();
+    }
+
+    public String getuserId() {
+        return userId;
+    }
+
+    public void setUserId(String addedBy) {
+        this.userId = addedBy;
+    }
+
+    public String getTrailKey() {
+        return trailKey;
+    }
+
+    public void setTrailKey(String trailKey) {
+        this.trailKey = trailKey;
     }
 
     public Station addStation(int sequenceNum,String stationName, String instructions, String gps,String address) {
@@ -108,16 +130,28 @@ public class Trail {
         return station;
     }
 
-    @Override
-    public String toString() {
-        return getTrailName();
+    public void editTrail(String trailName, String code, String module, String trailDate, String newTrailId, String userId) {
+        setTrailName(trailName);
+        setTrailCode(code);
+        setModule(module);
+        setTrailDate(trailDate);
+        setTrailID(newTrailId);
+        setUserId(userId);
     }
 
-    public String getuserId() {
-        return userId;
-    }
-
-    public void setUserId(String addedBy) {
-        this.userId = addedBy;
+    public String convertFormat(String date) {
+        String formattedDate = "", temp = "";
+        for(int i = date.length() - 1; i >= 0; i--) {
+            if(date.charAt(i) != '-') {
+                temp += date.charAt(i);
+            }
+            else {
+                StringBuilder sb = new StringBuilder();
+                formattedDate += sb.append(temp).reverse();
+                temp = "";
+            }
+        }
+        formattedDate += (new StringBuilder()).append(temp).reverse();
+        return formattedDate;
     }
 }

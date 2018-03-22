@@ -38,17 +38,18 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
     private Context context;
     private ArrayList<Station> adaptstations = new ArrayList<Station>();
-    private String trailid;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private DatabaseReference tkref;
     private DatabaseReference sref;
+    private String trailid, trailKey;
 
 
-    public StationAdapter(Context context, String data, Activity activity) {
+    public StationAdapter(Context context, String data, String trailKey, Activity activity) {
         super(context, R.layout.trail_row_layout);
         this.context = context;
-        this.trailid=data;
+        this.trailid = data;
+        this.trailKey = trailKey;
         initFirebaseDatabaseRef();
         refreshStations();
     }
@@ -56,7 +57,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     public void initFirebaseDatabaseRef(){
         database = FirebaseDatabase.getInstance();
         myRef  = database.getReference("Trails");
-        tkref = myRef.child(trailid);
+        tkref = myRef.child(trailKey);
         sref = tkref.child("Stations");
     }
 
@@ -116,9 +117,11 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 Intent intent = new Intent(getContext(), SwipeTabsActivity.class);
                 intent.putExtra("stationId",station.getStationID());
                 intent.putExtra("trailId", trailid);
+                intent.putExtra("trailKey", trailKey);
                 intent.putExtra("stationName",station.getStationName());
                 intent.putExtra("stationInstructions",station.getInstructions());
                 intent.putExtra("stationLocation",station.getAddress());
+
                 getContext().startActivity(intent);
             }
         });
@@ -161,6 +164,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("stationId",station.getStationID());
                 intent.putExtra("trailId", trailid);
+                intent.putExtra("trailKey", trailKey);
                 getContext().startActivity(intent);
 
                 Trail trail = App.trainer.getTrail(trailid);

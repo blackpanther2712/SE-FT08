@@ -47,11 +47,10 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
         //--------
         Bundle savedDataFromPreviousActivity = getIntent().getExtras();
         setCalledStationId((String) savedDataFromPreviousActivity.get("stationId"));
-        setCalledTrailId((String) savedDataFromPreviousActivity.get("trailId"));
+        setCalledTrailId((String) savedDataFromPreviousActivity.get("trailKey"));
         setCalledStationName((String) savedDataFromPreviousActivity.get("stationName"));
         setCalledStationInstructions((String) savedDataFromPreviousActivity.get("stationInstructions"));
         setCalledStationLocation((String) savedDataFromPreviousActivity.get("stationLocation"));
-
 
     }
 
@@ -81,7 +80,6 @@ public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.O
     public static void setCalledStationLocation(String calledStationLocation) {
         SwipeTabsActivity.calledStationLocation = calledStationLocation;
     }
-
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }

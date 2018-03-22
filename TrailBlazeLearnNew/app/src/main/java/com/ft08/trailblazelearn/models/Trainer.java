@@ -1,5 +1,7 @@
 package com.ft08.trailblazelearn.models;
 
+import com.ft08.trailblazelearn.application.App;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +45,7 @@ public class Trainer extends User {
         trails.set(index, trail);
     }
 
-    public Trail addTrail(String trailName, String trailCode,String module, Date trailDate, String userId) {
+    public Trail addTrail(String trailName, String trailCode,String module, String trailDate, String userId) {
         Trail trail = new Trail(trailName, trailCode, module, trailDate, userId);
         trails.add(trail);
         return trail;
@@ -55,10 +57,7 @@ public class Trainer extends User {
         }
     }
 
-    public Trail editTrail(String trailName,String code, String module, Date trailDate,String trailID, String userId) {
-         removeTrail(trailID);
-         Trail trail = addTrail(trailName,code,module,trailDate, userId);
-         return trail;
-
+    public void editTrail(String trailName, String code, String module, String trailDate, String oldTrailID, String newTrailId, String userId) {
+         App.trainer.getTrail(oldTrailID).editTrail(trailName,code,module,trailDate,newTrailId,userId);
     }
 }

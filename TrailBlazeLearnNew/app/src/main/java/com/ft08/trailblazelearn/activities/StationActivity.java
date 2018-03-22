@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 public class StationActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private String trailID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +38,11 @@ public class StationActivity extends AppCompatActivity {
         setPager();
     }
 
-    public void getBundledData(){
+    public void getBundledData() {
         Bundle bundle = getIntent().getExtras();
-        trailID = bundle.getString("trailId");
-        StationFragment.newInstance(trailID);
+        final String trailID = bundle.getString("trailId");
+        final String trailKey = bundle.getString("trailKey");
+        StationFragment.newInstance(trailID, trailKey);
     }
 
     public void setPager(){
@@ -88,10 +90,7 @@ public class StationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-         if(App.user instanceof Participant){
-
-         }else{
-             super.onBackPressed();
-         }
+         if(App.user instanceof Participant){}
+         else { super.onBackPressed();}
     }
 }

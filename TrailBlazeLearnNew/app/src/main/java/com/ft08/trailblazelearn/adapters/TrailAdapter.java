@@ -88,7 +88,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         final Trail trail = getItem(position);
         viewHolder.trailName.setText(trail.toString());
         viewHolder.trailModule.setText(trail.getModule());
-        viewHolder.trailDate.setText(new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(trail.getTrailDate()));
+        viewHolder.trailDate.setText(trail.getTrailDate());
 
         if(position % 2 == 0) { convertView.setBackgroundColor(getContext().getResources().getColor(R.color.cardview_shadow_start_color));}
         else { convertView.setBackgroundColor(getContext().getResources().getColor(R.color.cardview_shadow_end_color)); }
@@ -98,6 +98,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), StationActivity.class);
                 intent.putExtra("trailId",trail.getTrailID());
+                intent.putExtra("trailKey", trail.getTrailKey());
                 getContext().startActivity(intent);
             }
         });
@@ -109,7 +110,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                rRef.child(trail.getTrailID()).removeValue();
+                                rRef.child(trail.getTrailKey()).removeValue();
                                 remove(trail);
                                 dialog.dismiss();
                                 break;
@@ -136,7 +137,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
                 ((EditText)view.findViewById(R.id.TrailNametxt)).setText(clickedTrail.getTrailName());
                 ((EditText)view.findViewById(R.id.TrailCodetxt)).setText(clickedTrail.getTrailCode());
                 ((EditText)view.findViewById(R.id.Moduletxt)).setText(clickedTrail.getModule());
-                ((EditText)view.findViewById(R.id.datetxt)).setText(new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(clickedTrail.getTrailDate()));
+                ((EditText)view.findViewById(R.id.datetxt)).setText(clickedTrail.getTrailDate());
                 currentTrailActivity.popUpDialogBox(view, 0);
             }
         });

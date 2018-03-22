@@ -9,8 +9,7 @@ public class Station {
     private String stationID;
     private String address;
 
-    public Station(){
-    }
+    public Station(){}
 
     public Station(int seqNum,String stationName, String instructions, String gps,String address) {
         this.seqNum = seqNum;
