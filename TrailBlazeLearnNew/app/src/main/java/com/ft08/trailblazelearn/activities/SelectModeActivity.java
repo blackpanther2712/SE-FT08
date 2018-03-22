@@ -111,7 +111,7 @@ public class SelectModeActivity extends AppCompatActivity {
         TextView nav_email = (TextView)hView.findViewById(R.id.mailtxt);
         if(acct!=null) {
             nav_user.setText(personGivenName);
-            nav_email.setText(personEmail+"jdfkd");
+            nav_email.setText(personEmail);
         }
         else{
             nav_user.setText(user.getDisplayName());
@@ -186,6 +186,7 @@ public class SelectModeActivity extends AppCompatActivity {
                                     intent.putExtra("trailKey", trailKey);
                                     intent.putExtra("trailId",traildId);
                                     startActivity(intent);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 }else{
                                     joiningTrailTxt.setError("Please enter correct and existing TrailID to join");
                                 }
@@ -199,6 +200,7 @@ public class SelectModeActivity extends AppCompatActivity {
                     userTrainer =new Trainer(user.getUid(),user.getDisplayName(),user.getPhotoUrl().toString());
                     new App(userTrainer);
                     startActivity(trails);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             }
         });
@@ -211,45 +213,7 @@ public class SelectModeActivity extends AppCompatActivity {
             }
         };
     }
-  /*  @Override
-        public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }*/
 
-
-
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.logoutBtn:
-                new AlertDialog.Builder(this)
-                        .setMessage("Are you sure you want to Logout?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                sendToLogin();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
-                break;
-            // action with ID action_settings was selected
-
-            default:
-                break;
-        }
-        return true;
-    }
-*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
