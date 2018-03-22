@@ -78,7 +78,7 @@ public class StationFragment extends Fragment {
     public void setUIComponents(){
         stationList = (ListView) fragmentView.findViewById(R.id.trail_list);
         stationEmpty = (TextView) fragmentView.findViewById(R.id.empty_value);
-        LocationsFragment.locationInstance(trailid);
+        LocationsFragment.locationInstance(trailid,trailKey);
         stationAdapter = new StationAdapter(getContext(),trailid, trailKey, getActivity());
         stationList.setAdapter(stationAdapter);
         stationList.setEmptyView(stationEmpty);
