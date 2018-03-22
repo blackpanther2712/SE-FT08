@@ -42,6 +42,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.*;
 
 public class ChooseContributedItemActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -59,8 +60,10 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     private Button uploadPdfButton;
     private Button uploadImageButton;
 
+
     private Uri fileUri;
     private Uri videoUri;
+    private String timestamp;
     private  String userName;
     private String mFileName =null;
     private static final int RC_IMAGE_PICKER=1;
@@ -76,6 +79,11 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
     private String currentTrailId;
     private String currentStationId;
+
+
+    float startX,startY,endX,endY,diffX,diffY;
+    boolean bClick;
+    Timer tmrClick;
 
     private void initFireBaseDatabase() {
 
@@ -105,11 +113,16 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
         //videoSelector = findViewById(R.id.videoView);
         mProgressDialog = new ProgressDialog(this);
+
+        timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        //mFileName = mFileName + "/recorded_audio.3gp";
-        mFileName = mFileName + "AUDIO_"+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".3gp";
+        mFileName = mFileName + "/AUD_" + timestamp + ".3gp";
+        System.out.println(mFileName);
+
+        //mFileName = mFileName + "AUDIO_"+ new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".3gp";
         userName = App.participant.getName();
         System.out.println(userName);
+
         Log.d("LIFECYCLE","initreferences completed");
         recordAudioButton.setOnTouchListener(this);
     }
@@ -147,17 +160,17 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
 
-                //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                //StrictMode.setVmPolicy(builder.build());
-                //uploadPdfButton.setEnabled(false);
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                uploadPdfButton.setEnabled(false);
 
-                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 File video_file = getFilepath();
                 videoUri  = Uri.fromFile(video_file);
                 System.out.println(videoUri);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
-                startActivityForResult(intent, RC_VIDEO_PICKER);
+                videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+                videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
+                startActivityForResult(videoIntent, RC_VIDEO_PICKER);
 
 
             }
@@ -244,11 +257,14 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
     private static File getFilepath(){
 
-        File folder = new File("sdcard/video_app");
+        String file_name= Environment.getExternalStorageDirectory().getAbsolutePath();
+        File folder = new File(file_name+"/video_library");
         if (!folder.exists()) {
             folder.mkdir();
             }
-        File video_file = new File(folder,"sample_video.mp4");
+        //File video_file = new File(folder,"sample_video.mp4");
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File video_file = new File(folder,"VID_" + timestamp + ".mp4");
 
         return video_file;
 
@@ -312,7 +328,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
                 fileSelector.setImageURI(fileUri);
 
-        } else if (requestCode == RC_VIDEO_PICKER && requestCode == RESULT_OK) {
+        } else if (requestCode == RC_VIDEO_PICKER && resultCode == RESULT_OK) {
 
             System.out.println("I am inside start activity on result");
 
@@ -321,7 +337,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                 System.out.println("Video uri is not null");
                 mProgressDialog.setMessage("Uploading Video...");
                 mProgressDialog.show();
-                StorageReference videoFilePath = storageReference.child("new_video.3gp");
+                StorageReference videoFilePath = storageReference.child("VIDEO_"+ timestamp +".mp4");
                 videoFilePath.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
                     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -429,15 +445,46 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
-            startRecording();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                recordAudioButton.setTooltipText("Recording started...");
-                Toast.makeText(ChooseContributedItemActivity.this,"Touch and hold the audio record button to start recording",Toast.LENGTH_LONG).show();
-            }
-        } else if (event.getAction() == MotionEvent.ACTION_UP){
-            stopRecording();
 
+
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            startX = event.getX();
+            startY = event.getY();
+            bClick = true;
+            tmrClick = new Timer();
+            tmrClick.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (bClick == true) {
+                        bClick = false;
+                        Log.d(LOG_TAG, "Hey, a long press event!");
+
+                        startRecording();
+                    }
+                }
+            }, 500);
+
+            return true;
+
+        } else if (event.getAction() == MotionEvent.ACTION_UP){
+            endX = event.getX();
+            endY = event.getY();
+            diffX = Math.abs(startX - endX);
+            diffY = Math.abs(startY - endY);
+
+            if (diffX <= 5 && diffY <= 5 && bClick == true) {
+                Log.d(LOG_TAG, "A click event!");
+                Toast.makeText(ChooseContributedItemActivity.this,"Touch and hold the audio record button to start recording", Toast.LENGTH_LONG).show();
+
+                bClick = false;
+
+            } else{
+
+                stopRecording();
+
+            }
+            return true;
         }
         return false;
     }
@@ -456,7 +503,8 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
         mProgressDialog.setMessage("Uploading Audio...");
         mProgressDialog.show();
-        StorageReference audioFilePath = storageReference.child("new_audio.3gp");
+        StorageReference audioFilePath = storageReference.child("AUDIO_" + timestamp + ".3gp");
+
         Uri uri = Uri.fromFile(new File(mFileName));
 
         audioFilePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -482,8 +530,8 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     }
 
     private void startRecording() {
-        uploadImageButton.setEnabled(false);
-        uploadPdfButton.setEnabled(false);
+        //uploadImageButton.setEnabled(false);
+        //uploadPdfButton.setEnabled(false);
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
