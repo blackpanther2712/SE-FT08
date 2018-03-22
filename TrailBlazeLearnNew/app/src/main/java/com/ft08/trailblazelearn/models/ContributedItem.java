@@ -15,6 +15,7 @@ public class ContributedItem {
     public static final int IMAGE_TYPE=0;
     public static final int AUDIO_TYPE=1;
     public static final int DOCUMENT_TYPE=2;
+    public static  final int VIDEO_TYPE=3;
 
     public ContributedItem(){
 
