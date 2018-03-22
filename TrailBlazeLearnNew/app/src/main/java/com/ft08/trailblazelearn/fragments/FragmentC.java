@@ -70,6 +70,7 @@ public class FragmentC extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(),ChooseContributedItemActivity.class));
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
         floatingActionButton.setVisibility((App.user instanceof Participant) ? View.VISIBLE : View.INVISIBLE);

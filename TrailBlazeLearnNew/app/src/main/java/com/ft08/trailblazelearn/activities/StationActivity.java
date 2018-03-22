@@ -75,6 +75,7 @@ public class StationActivity extends AppCompatActivity {
             case R.id.homebtn:
                 Intent intent = new Intent(StationActivity.this,SelectModeActivity.class);
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             default:
                 break;
