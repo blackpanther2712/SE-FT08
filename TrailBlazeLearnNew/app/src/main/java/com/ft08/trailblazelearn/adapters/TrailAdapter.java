@@ -60,7 +60,9 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         rRef = database.getReference("Trails");
     }
 
-
+    /*
+    * Initializing All Views In Trail Details Dialog Box
+    * */
     private ViewHolder getViewHolder(View convertView) {
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.trailName = (TextView) convertView.findViewById(R.id.trail_name);
@@ -71,21 +73,23 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         return viewHolder;
     }
 
-
+    //This where we take care of core business logic...
     @NonNull
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-
+        // Inflate the layout for this adapter
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.trail_row_layout, parent, false);
+            convertView = inflater.inflate(R.layout.trail_row_layout, parent, false);//This is related to view
             viewHolder = getViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
         else { viewHolder = (ViewHolder) convertView.getTag(); }
-
         final Trail trail = getItem(position);
+        /*
+        *Initializing All Views In TrailAdapter
+        **/
         viewHolder.trailName.setText(trail.toString());
         viewHolder.trailModule.setText(trail.getModule());
         viewHolder.trailDate.setText(trail.getTrailDate());
@@ -93,6 +97,10 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         if(position % 2 == 0) { convertView.setBackgroundColor(getContext().getResources().getColor(R.color.cardview_shadow_start_color));}
         else { convertView.setBackgroundColor(getContext().getResources().getColor(R.color.cardview_shadow_end_color)); }
 
+        /*
+        * On clicking the trail name, this listener navigated to StationActivity
+        * with necessary data
+        * */
         viewHolder.trailName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +111,9 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             }
         });
 
+        /*
+        * This listener handles removing trail functionality, from firebase and models
+        * */
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -127,6 +138,12 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
             }
         });
 
+        /*
+        *On clicking the edit button, this listener opens a dialog box
+        * with previous data and allows you to edit the values
+        * This listener handles editing trail functionality, in firebase and models
+        *
+        * */
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

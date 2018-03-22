@@ -54,6 +54,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
         refreshStations();
     }
 
+    /*
+    * Initializing All Firebase Instances
+    * */
     public void initFirebaseDatabaseRef(){
         database = FirebaseDatabase.getInstance();
         myRef  = database.getReference("Trails");
@@ -61,6 +64,10 @@ public class StationAdapter extends ArrayAdapter<Station> {
         sref = tkref.child("Stations");
     }
 
+    /*
+    * Refreshing the UI when there is some changes in station
+    * like adding,editing and removing
+    * */
     public void refreshStations() {
         sref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,16 +93,21 @@ public class StationAdapter extends ArrayAdapter<Station> {
         notifyDataSetChanged();
     }
 
+    //This where we take care of core business logic...
     @NonNull
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
         StationAdapter.ViewHolder viewHolder;
+
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            convertView = inflater != null ? inflater.inflate(R.layout.trail_row_layout, parent, false) : null;
+            // Inflate the layout for this adapter
+            convertView = inflater != null ? inflater.inflate(R.layout.trail_row_layout, parent, false) : null;//This is related to view
             viewHolder = new StationAdapter.ViewHolder();
+            /*
+            *Initializing All Views In StationAdapter
+            **/
             viewHolder.stationName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
@@ -110,6 +122,10 @@ public class StationAdapter extends ArrayAdapter<Station> {
         final Station station = getItem(position);
         viewHolder.stationName.setText(station.toString());
 
+        /*
+        * On clicking the station name, this listener navigated to SwipeActivity
+        * with necessary data
+        * */
         viewHolder.stationName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +143,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
             }
         });
 
+        /*
+        * This listener handles removing station functionality, from firebase and models
+        * */
         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -157,6 +176,12 @@ public class StationAdapter extends ArrayAdapter<Station> {
             }
         });
 
+        /*
+        *On clicking the edit button, this listener navigated to EditStationActivity
+        * with necessary data
+        * This listener handles editing station functionality, in firebase and models
+        *
+        * */
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

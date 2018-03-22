@@ -11,6 +11,7 @@ public class ContributedItem {
     private String title;
     private String description;
     public int type;
+    private String ownerProfilePhotoUrl;
 
     public static final int IMAGE_TYPE=0;
     public static final int AUDIO_TYPE=1;
@@ -21,14 +22,23 @@ public class ContributedItem {
 
     }
 
-    public ContributedItem (int type, String userName, String fileURL, String title, String description){
+    public ContributedItem (int type, String userName, String fileURL, String title, String description,String ownerProfilePhotoUrl){
 
         this.type = type;
         this.userName = userName;
         this.fileURL = fileURL;
         this.title = title;
         this.description = description;
+        this.ownerProfilePhotoUrl = ownerProfilePhotoUrl;
 
+    }
+
+    public String getOwnerProfilePhotoUrl() {
+        return ownerProfilePhotoUrl;
+    }
+
+    public void setOwnerProfilePhotoUrl(String ownerProfilePhotoUrl) {
+        this.ownerProfilePhotoUrl = ownerProfilePhotoUrl;
     }
 
     public String getFileURL() {

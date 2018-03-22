@@ -41,23 +41,25 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     private DatabaseReference dRef;
     private DatabaseReference gRef;
 
+    //Getting required data(TrailID & TrailKey) from StationFragment
     public static void locationInstance(String data,String key){
         trailID=data;
         trailKey = key;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    //This where we take care of core business logic...
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View fragmentView = inflater.inflate(R.layout.fragment_locations, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_locations, container, false);//This is related to view
         initFirebaseDatabaseRef();
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment=(SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         gRef.addValueEventListener(new ValueEventListener() {
@@ -80,11 +82,23 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         return fragmentView;
     }
 
+    /*
+    * Initializing All Firebase Instances
+    * */
     public void initFirebaseDatabaseRef(){
         dRef = FirebaseDatabase.getInstance().getReference("Trails");
         gRef=dRef.child(trailKey).child("Stations");
     }
 
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
     @Override
     public void onMapReady(GoogleMap goog) {
         googleMap = goog;
@@ -97,6 +111,7 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
                 double latitude = Double.parseDouble(loc[0]);
                 double longitutude = Double.parseDouble(loc[1]);
                 LatLng location = new LatLng(latitude, longitutude);
+                // Add a marker  and move the camera
                 googleMap.addMarker(new MarkerOptions().position(location).title("Station" + "-" + i).snippet(stationName.get(j)));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
                 i++;j++;
@@ -104,6 +119,9 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         }
     }
 
+    /**
+     * Trimming the GPS string to get exact latitude and Longitude
+     */
     public String trim(String place,String prefix,String suffix){
         int indexOfLast = place.lastIndexOf(suffix);
         place = place.substring(10, indexOfLast);
