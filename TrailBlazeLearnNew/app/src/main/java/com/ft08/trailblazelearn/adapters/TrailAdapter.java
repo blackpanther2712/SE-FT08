@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
     * */
     private ViewHolder getViewHolder(View convertView) {
         ViewHolder viewHolder = new ViewHolder();
+        viewHolder.linearLayout = (LinearLayout) convertView.findViewById(R.id.linearLayoutTrail);
         viewHolder.trailName = (TextView) convertView.findViewById(R.id.trail_name);
         viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
         viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
@@ -98,7 +100,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         * On clicking the trail name, this listener navigated to StationActivity
         * with necessary data
         * */
-        viewHolder.trailName.setOnClickListener(new View.OnClickListener() {
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), StationActivity.class);
@@ -162,6 +164,7 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         TextView trailName,trailModule,trailDate;
         ImageButton btnRemove;
         ImageButton btnEdit;
+        LinearLayout linearLayout;
     }
 }
 
