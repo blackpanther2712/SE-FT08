@@ -64,6 +64,13 @@ public class TrailTest {
     assertNotNull(stations.get(0));
     stations.clear();
     assertFalse(stations.contains(station1));
+    assertTrue(stations.isEmpty());
+    try{
+      Station station = stations.get(1);
+    }
+    catch (IndexOutOfBoundsException e){
+      System.out.println("station list index out of bound");
+    }
   }
 
   @Test

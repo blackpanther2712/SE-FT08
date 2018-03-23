@@ -26,5 +26,12 @@ public class TrainerTest {
         assertNotNull(trails.get(0));
         trails.clear();
         assertFalse(trails.contains(trail1));
+        assertTrue(trails.isEmpty());
+        try{
+            Trail trail = trails.get(1);
+        }
+        catch (IndexOutOfBoundsException e){
+            System.out.println("trail list index out of bound");
+        }
     }
 }
