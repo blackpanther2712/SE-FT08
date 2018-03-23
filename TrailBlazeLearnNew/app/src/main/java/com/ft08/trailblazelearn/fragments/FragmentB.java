@@ -205,7 +205,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT);
+                                Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnSuccessListener((SwipeTabsActivity)getContext(),
