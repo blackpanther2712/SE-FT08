@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ft08.trailblazelearn.R;
@@ -113,6 +114,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
             viewHolder.btnEdit.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
             viewHolder.btnRemove.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
+            viewHolder.linearLayout = (LinearLayout) convertView.findViewById(R.id.linearLayoutTrail);
 
             convertView.setTag(viewHolder);
         } else {
@@ -126,7 +128,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
         * On clicking the station name, this listener navigated to SwipeActivity
         * with necessary data
         * */
-        viewHolder.stationName.setOnClickListener(new View.OnClickListener() {
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -221,7 +223,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
         TextView stationName;
         ImageButton btnRemove;
         ImageButton btnEdit;
-
+        LinearLayout linearLayout;
     }
 
 }
