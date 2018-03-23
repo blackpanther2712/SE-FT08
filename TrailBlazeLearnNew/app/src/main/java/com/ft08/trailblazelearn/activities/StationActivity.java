@@ -29,7 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 public class StationActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
-    //This where we take care of core business logic...
+    /*
+    *This where we take care of core business logic...
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,9 @@ public class StationActivity extends AppCompatActivity {
         setPager();
     }
 
-    //Receiving data from TrailAdapter
+    /*
+    *Receiving data from TrailAdapter
+    */
     public void getBundledData() {
         Bundle bundle = getIntent().getExtras();
         final String trailID = bundle.getString("trailId");
@@ -47,7 +51,9 @@ public class StationActivity extends AppCompatActivity {
         StationFragment.newInstance(trailID, trailKey);
     }
 
-    //Setting Tabs for StationFragment and LocationsFragment
+    /*
+    *Setting Tabs for StationFragment and LocationsFragment
+    */
     public void setPager(){
         this.viewPager= (ViewPager) findViewById(R.id.pager);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), 2);

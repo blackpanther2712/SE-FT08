@@ -54,7 +54,9 @@ public class EditStationActivity extends AppCompatActivity {
         onClickAddButton();
     }
 
-    //Receiving data from StationAdapter and initializing it
+    /*
+    *Receiving data from StationAdapter and initializing it
+    */
     public void getBundledData(){
         Bundle bundle = getIntent().getExtras();
         stationID = bundle.getString("stationId");

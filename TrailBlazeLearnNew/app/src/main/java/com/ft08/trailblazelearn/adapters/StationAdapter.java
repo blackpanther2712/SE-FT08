@@ -94,7 +94,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
         notifyDataSetChanged();
     }
 
-    //This where we take care of core business logic...
+    /*
+    *This where we take care of core business logic...
+    */
     @NonNull
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -103,7 +105,9 @@ public class StationAdapter extends ArrayAdapter<Station> {
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            // Inflate the layout for this adapter
+            /*
+             *Inflate the layout for this adapter
+             */
             convertView = inflater != null ? inflater.inflate(R.layout.trail_row_layout, parent, false) : null;//This is related to view
             viewHolder = new StationAdapter.ViewHolder();
             /*

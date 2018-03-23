@@ -41,7 +41,9 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
     private DatabaseReference dRef;
     private DatabaseReference gRef;
 
-    //Getting required data(TrailID & TrailKey) from StationFragment
+    /*
+    *Getting required data(TrailID & TrailKey) from StationFragment
+    */
     public static void locationInstance(String data,String key){
         trailID=data;
         trailKey = key;
@@ -52,14 +54,20 @@ public class LocationsFragment extends Fragment implements OnMapReadyCallback{
         super.onCreate(savedInstanceState);
     }
 
-    //This where we take care of core business logic...
+    /*
+    *This where we take care of core business logic...
+    */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
+        /*
+         *Inflate the layout for this fragment
+         */
         View fragmentView = inflater.inflate(R.layout.fragment_locations, container, false);//This is related to view
         initFirebaseDatabaseRef();
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        /*
+         *Obtain the SupportMapFragment and get notified when the map is ready to be used.
+         */
         SupportMapFragment mapFragment=(SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         gRef.addValueEventListener(new ValueEventListener() {
