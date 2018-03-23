@@ -2,6 +2,7 @@ package com.ft08.trailblazelearn.models;
 
 /**
  * Created by neelimabenny on 21/3/18.
+ * This is a model class for contributed items.
  */
 
 public class ContributedItem {
@@ -14,18 +15,17 @@ public class ContributedItem {
     private String ownerProfilePhotoUrl;
     private String dateTime;
 
-    public static final int IMAGE_TYPE=0;
-    public static final int AUDIO_TYPE=1;
-    public static final int DOCUMENT_TYPE=2;
-    public static  final int VIDEO_TYPE=3;
+    public static final int IMAGE_TYPE = 0;
+    public static final int AUDIO_TYPE = 1;
+    public static final int DOCUMENT_TYPE = 2;
+    public static final int VIDEO_TYPE = 3;
 
 
-
-    public ContributedItem(){
+    public ContributedItem() {
 
     }
 
-    public ContributedItem (int type, String userName, String fileURL, String title, String description,String ownerProfilePhotoUrl, String dateTime){
+    public ContributedItem(int type, String userName, String fileURL, String title, String description, String ownerProfilePhotoUrl, String dateTime) {
 
         this.type = type;
         this.userName = userName;

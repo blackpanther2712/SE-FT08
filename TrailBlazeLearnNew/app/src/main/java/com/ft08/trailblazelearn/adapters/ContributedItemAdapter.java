@@ -5,39 +5,32 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.models.ContributedItem;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by neelimabenny on 20/3/18.
+ * This is an adapter class for recycler view of Contributed Items.
  */
 
-class ImageTypeViewHolder extends  RecyclerView.ViewHolder {
+
+//View holder for image files
+class ImageTypeViewHolder extends RecyclerView.ViewHolder {
 
     TextView userName;
     ImageView imageItem;
@@ -49,7 +42,7 @@ class ImageTypeViewHolder extends  RecyclerView.ViewHolder {
     TextView dateTime;
 
 
-    public ImageTypeViewHolder(View itemView){
+    public ImageTypeViewHolder(View itemView) {
         super(itemView);
 
         this.userName = (TextView) itemView.findViewById(R.id.user_name);
@@ -65,7 +58,8 @@ class ImageTypeViewHolder extends  RecyclerView.ViewHolder {
     }
 }
 
-class AudioTypeViewHolder extends RecyclerView.ViewHolder{
+//View holder for audio files
+class AudioTypeViewHolder extends RecyclerView.ViewHolder {
 
     TextView userName;
     FloatingActionButton floatingActionButton;
@@ -76,7 +70,7 @@ class AudioTypeViewHolder extends RecyclerView.ViewHolder{
     CardView cardView;
     TextView dateTime;
 
-    public  AudioTypeViewHolder (View itemView){
+    public AudioTypeViewHolder(View itemView) {
         super(itemView);
 
         this.userName = (TextView) itemView.findViewById(R.id.user_name);
@@ -90,7 +84,9 @@ class AudioTypeViewHolder extends RecyclerView.ViewHolder{
     }
 }
 
-class DocumentTypeViewHolder extends RecyclerView.ViewHolder{
+//View holder for document files
+class DocumentTypeViewHolder extends RecyclerView.ViewHolder {
+
     TextView userName;
     FloatingActionButton floatingActionButton;
     TextView title;
@@ -100,8 +96,9 @@ class DocumentTypeViewHolder extends RecyclerView.ViewHolder{
     CardView cardView;
     TextView dateTime;
 
-    public DocumentTypeViewHolder(View itemView){
+    public DocumentTypeViewHolder(View itemView) {
         super(itemView);
+
         this.userName = (TextView) itemView.findViewById(R.id.user_name);
         this.title = (TextView) itemView.findViewById(R.id.item_title);
         this.floatingActionButton = (FloatingActionButton) itemView.findViewById(R.id.floatingActionButton);
@@ -115,7 +112,9 @@ class DocumentTypeViewHolder extends RecyclerView.ViewHolder{
 
 }
 
-class VideoTypeViewHolder extends RecyclerView.ViewHolder{
+//View holder for video files
+class VideoTypeViewHolder extends RecyclerView.ViewHolder {
+
     TextView userName;
     ImageButton playVideoButton;
     TextView title;
@@ -125,8 +124,9 @@ class VideoTypeViewHolder extends RecyclerView.ViewHolder{
     CardView cardView;
     TextView dateTime;
 
-    public VideoTypeViewHolder(View itemView){
+    public VideoTypeViewHolder(View itemView) {
         super(itemView);
+
         this.userName = (TextView) itemView.findViewById(R.id.user_name);
         this.title = (TextView) itemView.findViewById(R.id.item_title);
         this.playVideoButton = (ImageButton) itemView.findViewById(R.id.video_button);
@@ -140,7 +140,6 @@ class VideoTypeViewHolder extends RecyclerView.ViewHolder{
 }
 
 
-
 public class ContributedItemAdapter extends RecyclerView.Adapter {
 
     private ArrayList<ContributedItem> dataSet;
@@ -151,11 +150,11 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
 
     public ContributedItemAdapter(ArrayList<ContributedItem> dataSet, Context context) {
         super();
+
         this.dataSet = dataSet;
         this.context = context;
         total_types = dataSet.size();
     }
-
 
 
     @Override
@@ -190,28 +189,29 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
             view = inflater.inflate(R.layout.image_blog_item, parent, false);
             return new ImageTypeViewHolder(view);
 
-        } else if (viewType == ContributedItem.AUDIO_TYPE){
+        } else if (viewType == ContributedItem.AUDIO_TYPE) {
 
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.audio_blog_item,parent,false);
-            return  new AudioTypeViewHolder(view);
+            view = inflater.inflate(R.layout.audio_blog_item, parent, false);
+            return new AudioTypeViewHolder(view);
 
-        } else if (viewType == ContributedItem.DOCUMENT_TYPE){
-
-            LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.document_blog_item,parent,false);
-            return  new DocumentTypeViewHolder(view);
-
-        } else if (viewType == ContributedItem.VIDEO_TYPE){
+        } else if (viewType == ContributedItem.DOCUMENT_TYPE) {
 
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.video_blog_item,parent,false);
-            return  new VideoTypeViewHolder(view);
+            view = inflater.inflate(R.layout.document_blog_item, parent, false);
+            return new DocumentTypeViewHolder(view);
+
+        } else if (viewType == ContributedItem.VIDEO_TYPE) {
+
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.video_blog_item, parent, false);
+            return new VideoTypeViewHolder(view);
 
         }
 
         return null;
     }
+
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
@@ -222,8 +222,6 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
 
                 case ContributedItem.IMAGE_TYPE:
 
-
-                    //holder.setIsRecyclable(false);
                     ((ImageTypeViewHolder) holder).userName.setText(object.getUserName());
                     Picasso.with(((ImageTypeViewHolder) holder).imageItem.getContext()).load(object.getFileURL()).into(((ImageTypeViewHolder) holder).imageItem);
                     Picasso.with(((ImageTypeViewHolder) holder).profilePicture.getContext()).load(object.getOwnerProfilePhotoUrl()).into(((ImageTypeViewHolder) holder).profilePicture);
@@ -235,8 +233,6 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
 
                 case ContributedItem.AUDIO_TYPE:
 
-
-                    //holder.setIsRecyclable(false);
                     ((AudioTypeViewHolder) holder).userName.setText(object.getUserName());
                     ((AudioTypeViewHolder) holder).title.setText(object.getTitle());
                     ((AudioTypeViewHolder) holder).description.setText(object.getDescription());
@@ -297,8 +293,6 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
 
                 case ContributedItem.DOCUMENT_TYPE:
 
-
-                    //holder.setIsRecyclable(false);
                     ((DocumentTypeViewHolder) holder).userName.setText(object.getUserName());
                     ((DocumentTypeViewHolder) holder).title.setText(object.getTitle());
                     ((DocumentTypeViewHolder) holder).description.setText(object.getDescription());
@@ -310,7 +304,7 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
 
                             ((DocumentTypeViewHolder) holder).floatingActionButton.setImageResource(R.drawable.ic_action_document_picture);
                             Uri fireBaseUrl = Uri.parse(object.getFileURL());
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW,fireBaseUrl);
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, fireBaseUrl);
                             context.startActivity(browserIntent);
 
                         }
@@ -330,7 +324,7 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
                         public void onClick(View v) {
                             ((VideoTypeViewHolder) holder).playVideoButton.setImageResource(R.drawable.ic_action_play_picture);
                             Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setDataAndType(Uri.parse(object.getFileURL()),"video/mp4");
+                            intent.setDataAndType(Uri.parse(object.getFileURL()), "video/mp4");
                             context.startActivity(intent);
 
                         }
