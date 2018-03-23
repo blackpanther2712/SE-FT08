@@ -94,9 +94,6 @@ public class TrailAdapter extends ArrayAdapter<Trail> {
         viewHolder.trailModule.setText(trail.getModule());
         viewHolder.trailDate.setText(trail.getTrailDate());
 
-        if(position % 2 == 0) { convertView.setBackgroundColor(getContext().getResources().getColor(R.color.cardview_shadow_start_color));}
-        else { convertView.setBackgroundColor(getContext().getResources().getColor(R.color.cardview_shadow_end_color)); }
-
         /*
         * On clicking the trail name, this listener navigated to StationActivity
         * with necessary data
