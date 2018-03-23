@@ -47,6 +47,7 @@ public class EditStationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_station_dialogbox);
+
         getBundledData();
         initFirebaseDatabaseRef();
         initUI();

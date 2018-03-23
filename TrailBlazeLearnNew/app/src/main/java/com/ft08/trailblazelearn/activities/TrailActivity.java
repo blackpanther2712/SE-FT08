@@ -55,7 +55,7 @@ public class TrailActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private Calendar calendar = Calendar.getInstance();
     private TrailAdapter trailAdapter;
-    private TextView trailEmptyText;
+    private TextView trailEmptyText,dialogText;
     private ArrayList<Trail> trails;
     private ArrayList<String> keys;
     public ListView trailListView;
@@ -352,6 +352,7 @@ public class TrailActivity extends AppCompatActivity {
             editedTrailModule = ((EditText) editedView.findViewById(R.id.Moduletxt)).getText().toString().trim();
             editedTrailCode = ((EditText) editedView.findViewById(R.id.TrailCodetxt)).getText().toString().trim();
             editedTrailDate = ((EditText) editedView.findViewById(R.id.datetxt)).getText().toString().trim();
+            ((TextView) editedView.findViewById(R.id.dialogTitle)).setText(getString(R.string.edittrail));
             try { editedTrailDt = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(editedTrailDate); }
             catch (ParseException e) { e.printStackTrace(); }
             editedTrailId = geTrailId(editedTrailCode, editedTrailDt);
