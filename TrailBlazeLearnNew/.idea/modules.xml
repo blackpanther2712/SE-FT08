@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TrailBlazeLearnNew.iml" filepath="$PROJECT_DIR$/TrailBlazeLearnNew.iml" />
+      <module fileurl="file://C:\Users\Gowtham\FT08\TrailBlazeLearnNew\TrailBlazeLearnNew.iml" filepath="C:\Users\Gowtham\FT08\TrailBlazeLearnNew\TrailBlazeLearnNew.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Gowtham\FT08\TrailBlazeLearnNew\app\app.iml" filepath="C:\Users\Gowtham\FT08\TrailBlazeLearnNew\app\app.iml" />
     </modules>
   </component>
 </project>
