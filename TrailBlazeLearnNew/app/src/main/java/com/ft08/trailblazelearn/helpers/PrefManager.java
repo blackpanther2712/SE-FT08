@@ -1,9 +1,5 @@
 package com.ft08.trailblazelearn.helpers;
 
-/**
- * Created by e0267624 on 25/2/2018.
- */
-
 import android.content.Context;
 import android.content.SharedPreferences;
 public class PrefManager

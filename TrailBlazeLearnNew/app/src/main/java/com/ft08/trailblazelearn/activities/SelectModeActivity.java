@@ -167,10 +167,10 @@ public class SelectModeActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             final String trailId = joiningTrailTxt.getText().toString().trim();
                             if(isValid()) {
-                                if(User.trailsKeyId.containsKey(trailId)) {
+                                if(App.trailsKeyId.containsKey(trailId)) {
                                     userParticipant.setTrailId(trailId);
                                     Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
-                                    final String trailKey = User.trailsKeyId.get(trailId);
+                                    final String trailKey = App.trailsKeyId.get(trailId);
                                     intent.putExtra("trailKey", trailKey);
                                     intent.putExtra("trailId",trailId);
                                     startActivity(intent);

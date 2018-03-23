@@ -62,6 +62,7 @@
     <string name="upload_image_photo">UPLOAD IMAGE/PHOTO</string>
     <string name="login_using">Login Using</string>
     <string name="todo">TODO</string>
+    <string name="edit_station">Edit Station</string>
 
 
 </resources>

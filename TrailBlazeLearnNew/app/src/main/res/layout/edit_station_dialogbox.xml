@@ -7,14 +7,27 @@
     android:layout_height="match_parent"
     tools:context="com.ft08.trailblazelearn.activities.EditStationActivity">
 
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:textAlignment="center"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Edit Station" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/dialogTitle"
+        android:id="@+id/scrollView2">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="20dp">
 
             <TextView
@@ -91,21 +104,19 @@
                 android:hint="instructions"
                 android:inputType=""
                 />
-            <Button
-                android:id="@+id/CreateBtn"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"
-                android:text="@string/save"
-                android:layout_below="@id/instructionsTxt"/>
-        </RelativeLayout>
 
+        </RelativeLayout>
     </ScrollView>
 
-
+    <Button
+        android:id="@+id/CreateBtn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollView2"
+        android:layout_marginTop="8dp"
+        android:layout_centerInParent="true"
+        android:text="@string/save" />
 
 
 </RelativeLayout>
