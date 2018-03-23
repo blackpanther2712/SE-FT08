@@ -30,6 +30,8 @@
     <string name="seq_num_validation_ms">Please fill in sequence number</string>
     <string name="location_validation_ms">Please fill in location</string>
     <string name="instruction_validation_ms">Please fill in instructions</string>
+    <string name="edittrail">Edit Trail</string>
+    <string name="editstation">Edit Station</string>
 
     //Welcome Activity
     <string name="next">NEXT</string>

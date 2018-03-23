@@ -100,7 +100,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     @NonNull
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
-        StationAdapter.ViewHolder viewHolder;
+        final StationAdapter.ViewHolder viewHolder;
 
         if (convertView == null) {
             LayoutInflater inflater =
@@ -193,7 +193,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getContext(),EditStationActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("stationId",station.getStationID());
