@@ -1,6 +1,7 @@
 package com.ft08.trailblazelearn.fragments;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,7 +51,8 @@ public class FragmentA extends Fragment implements View.OnClickListener {
         txtStationName.setText("Name: \n" + currentStationName);
         txtStationInstruction.setText(currentStationInstructions);
         txtTrailID.setText("Trail ID: \n" + currentTrailID);
-        txtStationLocation.setText("Venue: \n" + currentStationLocation);
+        txtStationLocation.setText( currentStationLocation);
+        txtStationLocation.setPaintFlags(txtStationLocation.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
         txtStationLocation.setOnClickListener(this);
     }
