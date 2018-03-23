@@ -1,5 +1,6 @@
 package com.ft08.trailblazelearn.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,6 +60,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     private String currentTrailKey;
     private String currentStationId;
     private ImageButton sendImageButton;
+    private ProgressDialog progressDialog;
 
     private DatabaseReference firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -104,6 +106,11 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         sendImageButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
         sendButton.setOnClickListener(this);
         sendImageButton.setOnClickListener(this);
+        progressDialog = new ProgressDialog((SwipeTabsActivity)getActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setTitle("Discussion Thread");
+        progressDialog.setMessage("Loading..");
+        progressDialog.show();
     }
 
 
@@ -170,6 +177,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
             childEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    progressDialog.dismiss();
                     Post post = dataSnapshot.getValue(Post.class);
                     postAdapter.add(post);
                     postAdapter.notifyDataSetChanged();
@@ -197,7 +205,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT);
+                                Toast.makeText((SwipeTabsActivity)getContext(), "Uploaded Failed!", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnSuccessListener((SwipeTabsActivity)getContext(),

@@ -47,6 +47,7 @@ public class EditStationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_station_dialogbox);
+
         getBundledData();
         initFirebaseDatabaseRef();
         initUI();
@@ -54,7 +55,9 @@ public class EditStationActivity extends AppCompatActivity {
         onClickAddButton();
     }
 
-    //Receiving data from StationAdapter and initializing it
+    /*
+    *Receiving data from StationAdapter and initializing it
+    */
     public void getBundledData(){
         Bundle bundle = getIntent().getExtras();
         stationID = bundle.getString("stationId");

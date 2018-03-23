@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ft08.trailblazelearn.R;
@@ -93,16 +94,20 @@ public class StationAdapter extends ArrayAdapter<Station> {
         notifyDataSetChanged();
     }
 
-    //This where we take care of core business logic...
+    /*
+    *This where we take care of core business logic...
+    */
     @NonNull
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
-        StationAdapter.ViewHolder viewHolder;
+        final StationAdapter.ViewHolder viewHolder;
 
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            // Inflate the layout for this adapter
+            /*
+             *Inflate the layout for this adapter
+             */
             convertView = inflater != null ? inflater.inflate(R.layout.trail_row_layout, parent, false) : null;//This is related to view
             viewHolder = new StationAdapter.ViewHolder();
             /*
@@ -111,8 +116,10 @@ public class StationAdapter extends ArrayAdapter<Station> {
             viewHolder.stationName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
+            viewHolder.address = (TextView) convertView.findViewById(R.id.trail_mod);
             viewHolder.btnEdit.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
             viewHolder.btnRemove.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
+            viewHolder.linearLayout = (LinearLayout) convertView.findViewById(R.id.linearLayoutTrail);
 
             convertView.setTag(viewHolder);
         } else {
@@ -121,12 +128,13 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
         final Station station = getItem(position);
         viewHolder.stationName.setText(station.toString());
+        viewHolder.address.setText(station.getAddress());
 
         /*
         * On clicking the station name, this listener navigated to SwipeActivity
         * with necessary data
         * */
-        viewHolder.stationName.setOnClickListener(new View.OnClickListener() {
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -185,7 +193,6 @@ public class StationAdapter extends ArrayAdapter<Station> {
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getContext(),EditStationActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("stationId",station.getStationID());
@@ -218,10 +225,10 @@ public class StationAdapter extends ArrayAdapter<Station> {
     }
 
     static class ViewHolder {
-        TextView stationName;
+        TextView stationName,address;
         ImageButton btnRemove;
         ImageButton btnEdit;
-
+        LinearLayout linearLayout;
     }
 
 }

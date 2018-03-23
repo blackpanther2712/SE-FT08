@@ -60,7 +60,9 @@ public class StationFragment extends Fragment {
     private DatabaseReference dRef = FirebaseDatabase.getInstance().getReference("Trails");
     private DatabaseReference tref=dRef.child(trailKey).getRef();
 
-    //Getting required data from StationActivity
+    /*
+    *Getting required data from StationActivity
+    */
     public static void newInstance(String data, String passedTrailKey) {
         trailKey = passedTrailKey;
         trailid = data;
@@ -71,9 +73,13 @@ public class StationFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    //This where we take care of core business logic...
+    /*
+    *This where we take care of core business logic...
+    */
     @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        /*
+         *Inflate the layout for this fragment
+         */
         fragmentView = inflater.inflate(R.layout.activity_trail, container, false);//This is related to view
         setUIComponents();
         onClickFab();

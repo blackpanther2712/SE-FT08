@@ -2,7 +2,6 @@ package com.ft08.trailblazelearn.models;
 
 /**
  * Created by neelimabenny on 21/3/18.
- * This is a model class for contributed items.
  */
 
 public class ContributedItem {

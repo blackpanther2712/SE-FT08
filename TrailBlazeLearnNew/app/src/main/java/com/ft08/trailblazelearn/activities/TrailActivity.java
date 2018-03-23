@@ -55,7 +55,7 @@ public class TrailActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private Calendar calendar = Calendar.getInstance();
     private TrailAdapter trailAdapter;
-    private TextView trailEmptyText;
+    private TextView trailEmptyText,dialogText;
     private ArrayList<Trail> trails;
     private ArrayList<String> keys;
     public ListView trailListView;
@@ -268,7 +268,7 @@ public class TrailActivity extends AppCompatActivity {
     * Checks For Correctness Of The Details Enters And Then Pushes To DB
     * */
     private void validateAndPushToDB(String name, String code, String traildate, String moduleText) {
-        if (isValid(name, code, traildate)) {
+        if (isValid(name, code,moduleText, traildate)) {
             Trail newTrail = new Trail(name, code, moduleText, traildate, user.getUid());
             String trailId = newTrail.getTrailID();
             addTrailToDB(trailId, newTrail);
@@ -352,6 +352,7 @@ public class TrailActivity extends AppCompatActivity {
             editedTrailModule = ((EditText) editedView.findViewById(R.id.Moduletxt)).getText().toString().trim();
             editedTrailCode = ((EditText) editedView.findViewById(R.id.TrailCodetxt)).getText().toString().trim();
             editedTrailDate = ((EditText) editedView.findViewById(R.id.datetxt)).getText().toString().trim();
+            ((TextView) editedView.findViewById(R.id.dialogTitle)).setText(getString(R.string.edittrail));
             try { editedTrailDt = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(editedTrailDate); }
             catch (ParseException e) { e.printStackTrace(); }
             editedTrailId = geTrailId(editedTrailCode, editedTrailDt);
@@ -384,13 +385,13 @@ public class TrailActivity extends AppCompatActivity {
     /*
     * Validates If All Trail Details Have Been Entered Correctly
     * */
-    private boolean isValid(String trailname, String trailcode, String traildate) {
+    private boolean isValid(String trailname, String trailcode,String moduleText, String traildate) {
         boolean isValid = true;
         if (TextUtils.isEmpty(trailname)) {
             trailName.setError(getString(R.string.trail_name_validation_ms));
             isValid = false;
         }
-        if (TextUtils.isEmpty(trailcode)) {
+        if (TextUtils.isEmpty(moduleText)) {
             module.setError(getString(R.string.module_validation_ms));
             isValid = false;
         }

@@ -12,68 +12,74 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="1dp"
-        app:cardElevation="2dp"
         app:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:padding="3dp"
             android:layout_marginLeft="8dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Trail Name"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/trail_name"
-            />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:id="@+id/linearLayoutTrail">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trail Name"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/trail_name"
+                    />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle=""
-            android:id="@+id/trail_mod"
-            android:textSize="14sp"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textStyle=""
+                    android:id="@+id/trail_mod"
+                    android:textSize="14sp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/trail_date"
-            android:text=""
-            android:textSize="13sp"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/trail_date"
+                    android:text=""
+                    android:textSize="13sp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+            </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btn_edit"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/trail_date"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:visibility="visible"
-            android:layout_toLeftOf="@+id/btn_remove"
-            android:layout_toStartOf="@+id/btn_remove"
-            android:src="@drawable/editor_icon" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+                <ImageButton
+                    android:id="@+id/btn_edit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@null"
+                    android:src="@mipmap/edit_green"
+                    android:layout_marginRight="10dp"/>
 
-        <ImageButton
-            android:id="@+id/btn_remove"
-            android:layout_width="60dp"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/btn_edit"
-            android:layout_marginEnd="49dp"
-            android:layout_marginRight="49dp"
-            android:src="@drawable/delete_icon" />
+                <ImageButton
+                    android:id="@+id/btn_remove"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/delete_green"
+                    android:background="@null"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
+

@@ -30,6 +30,8 @@
     <string name="seq_num_validation_ms">Please fill in sequence number</string>
     <string name="location_validation_ms">Please fill in location</string>
     <string name="instruction_validation_ms">Please fill in instructions</string>
+    <string name="edittrail">Edit Trail</string>
+    <string name="editstation">Edit Station</string>
 
     //Welcome Activity
     <string name="next">NEXT</string>
@@ -54,5 +56,13 @@
     <!-- Station detail screen-->
     <string name="station_detail_name">Station Name</string>
     <string name="welcome_to_trailblazelearning">Welcome to TrailBlazeLearning</string>
+    <string name="add_description">add description...</string>
+    <string name="upload_document">UPLOAD DOCUMENT</string>
+    <string name="return_to_list">Return to list</string>
+    <string name="upload_image_photo">UPLOAD IMAGE/PHOTO</string>
+    <string name="login_using">Login Using</string>
+    <string name="todo">TODO</string>
+    <string name="edit_station">Edit Station</string>
+
 
 </resources>
