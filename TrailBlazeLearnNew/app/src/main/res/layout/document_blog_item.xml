@@ -58,7 +58,7 @@
             android:padding="15dp"
             android:clickable="true"
             app:fabSize="mini"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@android:color/white"
             app:srcCompat="@drawable/ic_action_document_picture" android:focusable="true"/>
 
         <TextView
