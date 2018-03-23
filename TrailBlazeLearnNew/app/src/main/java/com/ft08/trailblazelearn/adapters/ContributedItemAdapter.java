@@ -26,7 +26,11 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +46,7 @@ class ImageTypeViewHolder extends  RecyclerView.ViewHolder {
     ImageView profilePicture;
     LinearLayout linearLayout;
     CardView cardView;
+    TextView dateTime;
 
 
     public ImageTypeViewHolder(View itemView){
@@ -54,6 +59,7 @@ class ImageTypeViewHolder extends  RecyclerView.ViewHolder {
         this.profilePicture = (ImageView) itemView.findViewById(R.id.profile_picture);
         this.linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
         this.cardView = (CardView) itemView.findViewById(R.id.card_view);
+        this.dateTime = (TextView) itemView.findViewById(R.id.date_time);
 
 
     }
@@ -68,6 +74,7 @@ class AudioTypeViewHolder extends RecyclerView.ViewHolder{
     ImageView profilePicture;
     LinearLayout linearLayout;
     CardView cardView;
+    TextView dateTime;
 
     public  AudioTypeViewHolder (View itemView){
         super(itemView);
@@ -79,6 +86,7 @@ class AudioTypeViewHolder extends RecyclerView.ViewHolder{
         this.profilePicture = (ImageView) itemView.findViewById(R.id.profile_picture);
         this.linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
         this.cardView = (CardView) itemView.findViewById(R.id.card_view);
+        this.dateTime = (TextView) itemView.findViewById(R.id.date_time);
     }
 }
 
@@ -90,6 +98,7 @@ class DocumentTypeViewHolder extends RecyclerView.ViewHolder{
     ImageView profilePicture;
     LinearLayout linearLayout;
     CardView cardView;
+    TextView dateTime;
 
     public DocumentTypeViewHolder(View itemView){
         super(itemView);
@@ -100,6 +109,7 @@ class DocumentTypeViewHolder extends RecyclerView.ViewHolder{
         this.profilePicture = (ImageView) itemView.findViewById(R.id.profile_picture);
         this.linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
         this.cardView = (CardView) itemView.findViewById(R.id.card_view);
+        this.dateTime = (TextView) itemView.findViewById(R.id.date_time);
 
     }
 
@@ -113,6 +123,7 @@ class VideoTypeViewHolder extends RecyclerView.ViewHolder{
     ImageView profilePicture;
     LinearLayout linearLayout;
     CardView cardView;
+    TextView dateTime;
 
     public VideoTypeViewHolder(View itemView){
         super(itemView);
@@ -123,6 +134,7 @@ class VideoTypeViewHolder extends RecyclerView.ViewHolder{
         this.profilePicture = (ImageView) itemView.findViewById(R.id.profile_picture);
         this.linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
         this.cardView = (CardView) itemView.findViewById(R.id.card_view);
+        this.dateTime = (TextView) itemView.findViewById(R.id.date_time);
     }
 
 }
@@ -217,6 +229,7 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
                     Picasso.with(((ImageTypeViewHolder) holder).profilePicture.getContext()).load(object.getOwnerProfilePhotoUrl()).into(((ImageTypeViewHolder) holder).profilePicture);
                     ((ImageTypeViewHolder) holder).title.setText(object.getTitle());
                     ((ImageTypeViewHolder) holder).description.setText(object.getDescription());
+                    ((ImageTypeViewHolder) holder).dateTime.setText(object.getDateTime());
 
                     break;
 
@@ -228,6 +241,7 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
                     ((AudioTypeViewHolder) holder).title.setText(object.getTitle());
                     ((AudioTypeViewHolder) holder).description.setText(object.getDescription());
                     Picasso.with(((AudioTypeViewHolder) holder).profilePicture.getContext()).load(object.getOwnerProfilePhotoUrl()).into(((AudioTypeViewHolder) holder).profilePicture);
+                    ((AudioTypeViewHolder) holder).dateTime.setText(object.getDateTime());
                     ((AudioTypeViewHolder) holder).floatingActionButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -288,12 +302,13 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
                     ((DocumentTypeViewHolder) holder).userName.setText(object.getUserName());
                     ((DocumentTypeViewHolder) holder).title.setText(object.getTitle());
                     ((DocumentTypeViewHolder) holder).description.setText(object.getDescription());
+                    ((DocumentTypeViewHolder) holder).dateTime.setText(object.getDateTime());
                     Picasso.with(((DocumentTypeViewHolder) holder).profilePicture.getContext()).load(object.getOwnerProfilePhotoUrl()).into(((DocumentTypeViewHolder) holder).profilePicture);
                     ((DocumentTypeViewHolder) holder).floatingActionButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            ((DocumentTypeViewHolder) holder).floatingActionButton.setImageResource(R.drawable.ic_action_document_icon);
+                            ((DocumentTypeViewHolder) holder).floatingActionButton.setImageResource(R.drawable.ic_action_document_picture);
                             Uri fireBaseUrl = Uri.parse(object.getFileURL());
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW,fireBaseUrl);
                             context.startActivity(browserIntent);
@@ -308,6 +323,7 @@ public class ContributedItemAdapter extends RecyclerView.Adapter {
                     ((VideoTypeViewHolder) holder).userName.setText(object.getUserName());
                     ((VideoTypeViewHolder) holder).title.setText(object.getTitle());
                     ((VideoTypeViewHolder) holder).description.setText(object.getDescription());
+                    ((VideoTypeViewHolder) holder).dateTime.setText(object.getDateTime());
                     Picasso.with(((VideoTypeViewHolder) holder).profilePicture.getContext()).load(object.getOwnerProfilePhotoUrl()).into(((VideoTypeViewHolder) holder).profilePicture);
                     ((VideoTypeViewHolder) holder).playVideoButton.setOnClickListener(new View.OnClickListener() {
                         @Override

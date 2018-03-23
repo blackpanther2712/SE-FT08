@@ -1,36 +1,28 @@
 package com.ft08.trailblazelearn.activities;
 
-import android.app.ActivityOptions;
+
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Parcelable;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
+
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
+
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+
 
 import com.bumptech.glide.Glide;
 import com.ft08.trailblazelearn.R;
@@ -46,13 +38,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 
 public class SelectModeActivity extends AppCompatActivity {
 
@@ -177,14 +165,14 @@ public class SelectModeActivity extends AppCompatActivity {
                     joinBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            final String traildId = joiningTrailTxt.getText().toString().trim();
+                            final String trailId = joiningTrailTxt.getText().toString().trim();
                             if(isValid()) {
-                                if(User.trailsKeyId.containsKey(traildId)) {
-                                    userParticipant.setTrailId(traildId);
+                                if(User.trailsKeyId.containsKey(trailId)) {
+                                    userParticipant.setTrailId(trailId);
                                     Intent intent = new Intent(SelectModeActivity.this, StationActivity.class);
-                                    final String trailKey = User.trailsKeyId.get(traildId);
+                                    final String trailKey = User.trailsKeyId.get(trailId);
                                     intent.putExtra("trailKey", trailKey);
-                                    intent.putExtra("trailId",traildId);
+                                    intent.putExtra("trailId",trailId);
                                     startActivity(intent);
                                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 }else{
@@ -214,11 +202,11 @@ public class SelectModeActivity extends AppCompatActivity {
         };
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
-    private void sendToLogin() { //funtion
+
+
+
+    private void sendToLogin() {
+
         GoogleSignInClient mGoogleSignInClient ;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -238,6 +226,8 @@ public class SelectModeActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
     private boolean isValid () {
         boolean isValid = true;
         if (TextUtils.isEmpty(joiningTrailTxt.getText().toString().trim())) {
@@ -246,4 +236,11 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         return isValid;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+
 }
