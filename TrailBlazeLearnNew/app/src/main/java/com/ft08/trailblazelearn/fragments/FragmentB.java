@@ -106,17 +106,17 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         sendImageButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
         sendButton.setOnClickListener(this);
         sendImageButton.setOnClickListener(this);
+        progressDialog = new ProgressDialog((SwipeTabsActivity)getActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setTitle("Discussion Thread");
+        progressDialog.setMessage("Loading..");
+        progressDialog.show();
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        progressDialog = new ProgressDialog((SwipeTabsActivity)getActivity());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setTitle("Discussion Thread");
-        progressDialog.setMessage("Loading..");
-        progressDialog.show();
         initReferences();
     }
 
