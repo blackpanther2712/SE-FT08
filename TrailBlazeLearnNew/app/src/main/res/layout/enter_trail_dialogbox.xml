@@ -4,18 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
-        android:id="@+id/joinBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_below="@+id/etPasswordLayout"
-        android:layout_marginLeft="136dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="45dp"
-        android:text="Join" />
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/etPasswordLayout"
@@ -31,4 +20,15 @@
             android:hint="Enter the trail ID"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/joinBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_below="@+id/etPasswordLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:text="Join" />
+
 </RelativeLayout>
