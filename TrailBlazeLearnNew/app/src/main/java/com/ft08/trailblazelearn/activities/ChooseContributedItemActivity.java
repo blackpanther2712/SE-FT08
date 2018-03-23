@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
@@ -62,6 +63,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
     private Button uploadPdfButton;
     private Button uploadImageButton;
     private FirebaseUser user;
+    private String currentDate;
 
 
     private Uri fileUri;
@@ -102,6 +104,10 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
 
     private void initReferences() {
 
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date today = Calendar.getInstance().getTime();
+        currentDate = df.format(today);
         fileSelector = (ImageView)findViewById(R.id.imageView);
         singleLineTextEditor = (EditText)findViewById(R.id.editTitleText);
         multiLineTextEditor = (EditText)findViewById(R.id.editBodyText);
@@ -321,7 +327,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
             try{
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fileUri);
                 fileSelector.setImageBitmap(bm);
-                fileSelector.setImageResource(R.drawable.ic_action_document_icon);
+                fileSelector.setImageResource(R.drawable.ic_action_document_picture);
 
             } catch (FileNotFoundException e){
                 e.printStackTrace();
@@ -354,7 +360,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                         System.out.println(downloadUri.toString());
                         System.out.println(ContributedItem.VIDEO_TYPE);
 
-                        ContributedItem item =new ContributedItem(ContributedItem.VIDEO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
+                        ContributedItem item =new ContributedItem(ContributedItem.VIDEO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString(),currentDate);
                         databaseReference.push().setValue(item);
 
 
@@ -396,7 +402,8 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
                     System.out.println(downloadUri.toString());
                     System.out.println(ContributedItem.IMAGE_TYPE);
-                    ContributedItem item =new ContributedItem(ContributedItem.IMAGE_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
+
+                    ContributedItem item =new ContributedItem(ContributedItem.IMAGE_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString(),currentDate);
                     databaseReference.push().setValue(item);
 
                 }
@@ -426,7 +433,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
                     System.out.println(downloadUri.toString());
                     System.out.println(ContributedItem.DOCUMENT_TYPE);
-                    ContributedItem item =new ContributedItem(ContributedItem.DOCUMENT_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
+                    ContributedItem item =new ContributedItem(ContributedItem.DOCUMENT_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString(),currentDate);
                     databaseReference.push().setValue(item);
 
                 }
@@ -523,7 +530,7 @@ public class ChooseContributedItemActivity extends AppCompatActivity implements 
                 System.out.println(downloadUri.toString());
                 System.out.println(ContributedItem.AUDIO_TYPE);
 
-                ContributedItem item =new ContributedItem(ContributedItem.AUDIO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString());
+                ContributedItem item =new ContributedItem(ContributedItem.AUDIO_TYPE,userName,downloadUri.toString(),singleLineTextEditor.getText().toString(),multiLineTextEditor.getText().toString(),user.getPhotoUrl().toString(),currentDate);
                 databaseReference.push().setValue(item);
 
 

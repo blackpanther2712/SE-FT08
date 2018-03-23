@@ -12,17 +12,20 @@ public class ContributedItem {
     private String description;
     public int type;
     private String ownerProfilePhotoUrl;
+    private String dateTime;
 
     public static final int IMAGE_TYPE=0;
     public static final int AUDIO_TYPE=1;
     public static final int DOCUMENT_TYPE=2;
     public static  final int VIDEO_TYPE=3;
 
+
+
     public ContributedItem(){
 
     }
 
-    public ContributedItem (int type, String userName, String fileURL, String title, String description,String ownerProfilePhotoUrl){
+    public ContributedItem (int type, String userName, String fileURL, String title, String description,String ownerProfilePhotoUrl, String dateTime){
 
         this.type = type;
         this.userName = userName;
@@ -30,7 +33,16 @@ public class ContributedItem {
         this.title = title;
         this.description = description;
         this.ownerProfilePhotoUrl = ownerProfilePhotoUrl;
+        this.dateTime = dateTime;
 
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getOwnerProfilePhotoUrl() {
