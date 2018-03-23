@@ -112,6 +112,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
             viewHolder.stationName = (TextView) convertView.findViewById(R.id.trail_name);
             viewHolder.btnRemove = (ImageButton) convertView.findViewById(R.id.btn_remove);
             viewHolder.btnEdit = (ImageButton) convertView.findViewById(R.id.btn_edit);
+            viewHolder.address = (TextView) convertView.findViewById(R.id.trail_mod);
             viewHolder.btnEdit.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
             viewHolder.btnRemove.setVisibility((App.user instanceof Participant) ? View.INVISIBLE : View.VISIBLE);
             viewHolder.linearLayout = (LinearLayout) convertView.findViewById(R.id.linearLayoutTrail);
@@ -123,6 +124,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
 
         final Station station = getItem(position);
         viewHolder.stationName.setText(station.toString());
+        viewHolder.address.setText(station.getAddress());
 
         /*
         * On clicking the station name, this listener navigated to SwipeActivity
@@ -220,7 +222,7 @@ public class StationAdapter extends ArrayAdapter<Station> {
     }
 
     static class ViewHolder {
-        TextView stationName;
+        TextView stationName,address;
         ImageButton btnRemove;
         ImageButton btnEdit;
         LinearLayout linearLayout;

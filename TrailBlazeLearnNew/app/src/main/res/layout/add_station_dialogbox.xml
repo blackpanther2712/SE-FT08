@@ -42,7 +42,7 @@
                 android:layout_below="@id/stationName"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
-                android:hint="station name"
+                android:hint="Station Name"
                 android:inputType=""/>
             <TextView
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_below="@id/instructions"
-                android:hint="instructions"
+                android:hint="Instructions"
                 android:inputType=""
                 />
         </RelativeLayout>
