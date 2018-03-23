@@ -33,14 +33,25 @@
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
             android:layout_marginLeft="60dp"
             android:textAllCaps="true"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="15dp"
+            android:paddingBottom="35dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
         <ImageButton
             android:id="@+id/video_button"
-            android:layout_width="56dp"
+            android:layout_width="156dp"
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:padding="15dp"
