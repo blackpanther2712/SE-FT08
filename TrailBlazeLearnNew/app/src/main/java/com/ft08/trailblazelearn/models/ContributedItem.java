@@ -1,9 +1,5 @@
 package com.ft08.trailblazelearn.models;
 
-/**
- * Created by neelimabenny on 21/3/18.
- */
-
 public class ContributedItem {
 
     private String fileURL;
