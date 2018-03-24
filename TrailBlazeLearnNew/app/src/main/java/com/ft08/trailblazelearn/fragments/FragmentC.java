@@ -1,7 +1,8 @@
 package com.ft08.trailblazelearn.fragments;
 
 /**
- * Created by afaqueahmad on 17/3/18.
+ * Created by neelimabenny on 17/3/18.
+ * This is a fragment for Contributed Items.
  */
 
 import android.app.ProgressDialog;
@@ -12,11 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,12 +29,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+
 
 public class FragmentC extends Fragment {
 
@@ -45,16 +39,14 @@ public class FragmentC extends Fragment {
     private ContributedItemAdapter contributedItemAdapter;
     private DatabaseReference firebaseDatabase;
     private DatabaseReference databaseReference;
-    private FirebaseStorage firebaseStorage;
-    private StorageReference storageReference;
     private ChildEventListener childEventListener;
     private LinearLayoutManager linearLayoutManager;
     private FloatingActionButton floatingActionButton;
-    private ProgressDialog mProgressDialog;
     private RecyclerView blogList;
     private ArrayList<ContributedItem> contributedItem;
     private String currentTrailId;
     private String currentStationId;
+    private ProgressDialog mProgressDialog;
 
 
     public FragmentC() {
@@ -63,64 +55,72 @@ public class FragmentC extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         initFirebaseDatabase();
-        fragmentView= inflater.inflate(R.layout.fragment_c, container, false);
+
+        fragmentView = inflater.inflate(R.layout.fragment_c, container, false);
         floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),ChooseContributedItemActivity.class));
+
+                startActivity(new Intent(getContext(), ChooseContributedItemActivity.class));
                 getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
             }
         });
         floatingActionButton.setVisibility((App.user instanceof Participant) ? View.VISIBLE : View.INVISIBLE);
+
         return fragmentView;
     }
 
+    //Firebase Initialisation
+
     private void initFirebaseDatabase() {
-        currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
-        currentTrailId = ((SwipeTabsActivity)getActivity()).getCalledTrailKey();
-        System.out.println (currentStationId);
-        System.out.println (currentTrailId);
+
+        currentStationId = ((SwipeTabsActivity) getActivity()).getCalledStationId();
+        currentTrailId = ((SwipeTabsActivity) getActivity()).getCalledTrailKey();
+        System.out.println(currentStationId);
+        System.out.println(currentTrailId);
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
         databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
+
     }
 
     private void initReferences() {
 
         contributedItem = new ArrayList<>();
-        contributedItemAdapter = new ContributedItemAdapter(contributedItem,getContext());
-
-        linearLayoutManager=new LinearLayoutManager(this.getContext());
+        contributedItemAdapter = new ContributedItemAdapter(contributedItem, getContext());
+        linearLayoutManager = new LinearLayoutManager(this.getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         blogList = (RecyclerView) fragmentView.findViewById(R.id.blog_list);
+        mProgressDialog = new ProgressDialog(((SwipeTabsActivity) getActivity()));
+        mProgressDialog.setMessage("Please wait while loading the list..");
+        mProgressDialog.show();
         blogList.setAdapter(contributedItemAdapter);
         blogList.setLayoutManager(linearLayoutManager);
         blogList.setHasFixedSize(true);
 
     }
 
-    /*private void detachDatabaseListener() {
-        if(childEventListener != null) {
-            databaseReference.removeEventListener(childEventListener);
-            childEventListener = null;
-        }
-    }*/
+    // Database Listener
 
     private void attachDatabaseListener() {
-
-        System.out.println("I am inside attach database listener");
 
         if (childEventListener == null) {
 
             childEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.d("LIFECYCLE","onchildAdded triggered");
+
+                    mProgressDialog.dismiss();
                     ContributedItem cItem = dataSnapshot.getValue(ContributedItem.class);
                     contributedItem.add(cItem);
                     contributedItemAdapter.notifyDataSetChanged();
+
                 }
 
                 @Override
@@ -146,22 +146,8 @@ public class FragmentC extends Fragment {
 
             databaseReference.addChildEventListener(childEventListener);
 
-
-
-
-
         }
     }
-
-
-    /*@Override
-    public void onStart(){
-        super.onStart();
-
-
-
-
-    }*/
 
     @Override
     public void onResume() {
@@ -174,40 +160,8 @@ public class FragmentC extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         initReferences();
-        //attachDatabaseListener();
+
 
     }
-
-    /*@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        initReferences();
-        attachDatabaseListener();
-        blogList.setAdapter(contributedItemAdapter);
-
-    }*/
-
-
-//
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        // Inflate the menu items for use in the action bar
-//        inflater.inflate(R.menu.main_menu, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == R.id.add_action){
-//            Log.d("LIFECYCLE","+ button clicked");
-//            startActivity(new Intent(this.getContext(),ChooseContributedItemActivity.class));
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
-
 }
 

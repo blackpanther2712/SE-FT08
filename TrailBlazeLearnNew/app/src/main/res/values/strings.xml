@@ -62,7 +62,21 @@
     <string name="upload_image_photo">UPLOAD IMAGE/PHOTO</string>
     <string name="login_using">Login Using</string>
     <string name="todo">TODO</string>
+
+    <string name="WARNING_MSG">Are you sure you want to Logout?</string>
+    <string name="AS_A_TRAINER">I\'m a Trainer</string>
+    <string name="AS_A_PARTICIPANT">I\'m a Participant</string>
+    <string name="Hello_Main">Hello </string>
+    <string name="logOut">Logged Out</string>
+    <string name="enterTrailMsg">Please fill in TrailID</string>
+    <string name="JoinTrailError">Please enter correct and existing TrailID to join</string>
+
     <string name="edit_station">Edit Station</string>
+    <string name="Join_the_trail_id">Enter the trail ID</string>
+    <string name="joinTrail">Join</string>
+    <string name="add_title">add title...</string>
+    <string name="proceed">Proceed</string>
+    <string name="trailblazeicon">TrailBlazeIcon</string>
 
 
 </resources>
