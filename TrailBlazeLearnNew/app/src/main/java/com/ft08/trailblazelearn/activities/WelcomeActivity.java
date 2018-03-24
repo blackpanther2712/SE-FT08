@@ -20,6 +20,12 @@ import android.widget.TextView;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.helpers.PrefManager;
 
+
+
+/*
+    This class is used to navigate between 3 fragments in the activity
+ */
+
 public class WelcomeActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -46,8 +52,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
-        //setContentView(R.layout.activity_trail);
-        //setContentView(R.layout.activity_welcome);
+
         setContentView(R.layout.activity_welcome);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);

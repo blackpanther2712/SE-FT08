@@ -23,6 +23,10 @@ import com.ft08.trailblazelearn.fragments.FragmentA;
 import com.ft08.trailblazelearn.fragments.FragmentB;
 import com.ft08.trailblazelearn.fragments.FragmentC;
 
+
+/*
+    This class is used to navigate between 3 fragments in the activity
+ */
 public class SwipeTabsActivity  extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private TabLayout tabLayout;

@@ -72,6 +72,11 @@
     <string name="JoinTrailError">Please enter correct and existing TrailID to join</string>
 
     <string name="edit_station">Edit Station</string>
+    <string name="Join_the_trail_id">Enter the trail ID</string>
+    <string name="joinTrail">Join</string>
+    <string name="add_title">add title...</string>
+    <string name="proceed">Proceed</string>
+    <string name="trailblazeicon">TrailBlazeIcon</string>
 
 
 </resources>

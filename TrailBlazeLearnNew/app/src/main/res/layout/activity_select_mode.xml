@@ -23,7 +23,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:text="TextView"
-            android:textSize="30dp"
+            android:textSize="30sp"
             />
 
         <ImageView
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:text="Proceed" />
+            android:text="@string/proceed" />
 
         <Switch
             android:id="@+id/switchId"
@@ -62,7 +62,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:text="I'm a Trainer"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

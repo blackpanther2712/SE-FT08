@@ -26,13 +26,13 @@ public class FragmentA extends Fragment implements View.OnClickListener {
 
     private View fragmentView;
 
-    private TextView txtStationLocation,txtStationName,txtStationInstruction,txtTrailID;
+    private TextView txtStationLocation, txtStationName, txtStationInstruction, txtTrailID;
 
-    public FragmentA() {}
+    public FragmentA() {
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_a, container, false);
         initFirebaseDatabase();
 
@@ -40,44 +40,42 @@ public class FragmentA extends Fragment implements View.OnClickListener {
         return fragmentView;
     }
 
-    public void initUserInterfaceComponents()
-    {
-        txtStationName =(TextView)fragmentView.findViewById(R.id.station_name_label);
-        txtStationLocation =(TextView)fragmentView.findViewById(R.id.location_label);
-        txtStationInstruction =(TextView)fragmentView.findViewById(R.id.instructions_detail);
-        txtTrailID =(TextView)fragmentView.findViewById(R.id.trail_label);
+    public void initUserInterfaceComponents() {
+        txtStationName = (TextView) fragmentView.findViewById(R.id.station_name_label);
+        txtStationLocation = (TextView) fragmentView.findViewById(R.id.location_label);
+        txtStationInstruction = (TextView) fragmentView.findViewById(R.id.instructions_detail);
+        txtTrailID = (TextView) fragmentView.findViewById(R.id.trail_label);
 
 
         txtStationName.setText("Name: \n" + currentStationName);
         txtStationInstruction.setText(currentStationInstructions);
         txtTrailID.setText("Trail ID: \n" + currentTrailID);
-        txtStationLocation.setText( currentStationLocation);
-        txtStationLocation.setPaintFlags(txtStationLocation.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        txtStationLocation.setText(currentStationLocation);
+        txtStationLocation.setPaintFlags(txtStationLocation.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         txtStationLocation.setOnClickListener(this);
     }
+
     private void initFirebaseDatabase() {
 
 
-        currentStationId = ((SwipeTabsActivity)getActivity()).getCalledStationId();
-        System.out.println (currentStationId);
+        currentStationId = ((SwipeTabsActivity) getActivity()).getCalledStationId();
+        System.out.println(currentStationId);
 
-        currentStationName = ((SwipeTabsActivity)getActivity()).getCalledStationName();
-        System.out.println (currentStationName);
+        currentStationName = ((SwipeTabsActivity) getActivity()).getCalledStationName();
+        System.out.println(currentStationName);
 
-        currentStationInstructions = ((SwipeTabsActivity)getActivity()).getCalledStationInstructions();
-        System.out.println (currentStationInstructions);
+        currentStationInstructions = ((SwipeTabsActivity) getActivity()).getCalledStationInstructions();
+        System.out.println(currentStationInstructions);
 
-        currentStationLocation = ((SwipeTabsActivity)getActivity()).getCalledStationLocation() ;
-        System.out.println (currentStationLocation);
+        currentStationLocation = ((SwipeTabsActivity) getActivity()).getCalledStationLocation();
+        System.out.println(currentStationLocation);
 
-        currentTrailID =  ((SwipeTabsActivity)getActivity()).getCalledTrailId();
-        System.out.println (currentTrailID);
+        currentTrailID = ((SwipeTabsActivity) getActivity()).getCalledTrailId();
+        System.out.println(currentTrailID);
 
         initUserInterfaceComponents();
 
-        //firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
-        //databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
     }
 
     @Override
@@ -85,12 +83,13 @@ public class FragmentA extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         initUserInterfaceComponents();
     }
+
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.location_label) {
+        if (v.getId() == R.id.location_label) {
             // Create a Uri from an intent string. Use the result to create an Intent.
-            Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + currentStationLocation+ "&travelmode=driving");
+            Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + currentStationLocation + "&travelmode=driving");
 
 // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);

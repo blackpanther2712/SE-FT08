@@ -209,14 +209,14 @@ public class FragmentB extends Fragment implements View.OnClickListener {
                             }
                         })
                         .addOnSuccessListener((SwipeTabsActivity)getContext(),
-                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                        Post post = new Post(null, userName, downloadUrl.toString(), user.getPhotoUrl().toString());
-                                        databaseReference.push().setValue(post);
-                                    }
-                                });
+                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                    Post post = new Post(null, userName, downloadUrl.toString(), user.getPhotoUrl().toString());
+                                    databaseReference.push().setValue(post);
+                                }
+                            });
             }
         }
     }

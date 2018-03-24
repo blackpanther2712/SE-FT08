@@ -17,7 +17,7 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:hint="Enter the trail ID"
+            android:hint="@string/Join_the_trail_id"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
@@ -29,6 +29,6 @@
         android:layout_below="@+id/etPasswordLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
-        android:text="Join" />
+        android:text="@string/joinTrail" />
 
 </RelativeLayout>
