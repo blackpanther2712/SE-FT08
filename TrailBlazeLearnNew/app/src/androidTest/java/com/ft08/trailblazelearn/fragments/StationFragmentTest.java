@@ -21,9 +21,6 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
-/**
- * Created by keerthanadevi on 24/3/18.
- */
 public class StationFragmentTest {
 
     Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(SwipeTabsActivity.class.getName(),null,false);
@@ -39,25 +36,7 @@ public class StationFragmentTest {
     }
 
     @Test
-    public void testLaunch(){
-        String name = "empty";
-        RelativeLayout rContainer = (RelativeLayout) stationActivity.findViewById(R.id.test_container);
-        assertNotNull(rContainer);
-        StationFragment stationFragment = new StationFragment();
-        //stationActivity.getFragmentManager().beginTransaction().add(rContainer.getId(),stationFragment).commitAllowingStateLoss();
-        getInstrumentation().waitForIdleSync();
-        View view = stationFragment.getView().findViewById(R.id.trail_list);
-        assertNotNull(view);
-       Espresso.onView(withId(R.id.empty_value)).perform(typeText(name));
-        Espresso.closeSoftKeyboard();
 
-//        assertNotNull(stationActivity.findViewById(R.id.fab));
-//        Espresso.onView(withId(R.id.fab)).perform(click());
-//        Activity nextActivity = getInstrumentation().waitForMonitorWithTimeout(monitor,5000);
-//        assertNotNull(nextActivity);
-//        nextActivity.finish();
-
-    }
 
     @After
     public void tearDown() throws Exception {

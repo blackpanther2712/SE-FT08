@@ -12,25 +12,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by keerthanadevi on 24/3/18.
- */
 public class EditStationActivityTest {
 
-    /*
-    * This test rule enables launching of the activity
-    * */
     @Rule
     public ActivityTestRule<EditStationActivity> editStationActivityActivityTestRule = new ActivityTestRule<EditStationActivity>(EditStationActivity.class);
 
-    /*
-    * Creating a reference to the activity to be tested
-    * */
     private EditStationActivity editStationActivity = null;
 
-    /*
-   * This method runs before all the tests are run
-   * */
     @Before
     public void setUp() throws Exception {
         editStationActivity = editStationActivityActivityTestRule.getActivity();
@@ -39,24 +27,17 @@ public class EditStationActivityTest {
     @Test
     public void testViewsRef() {
         View view1 = editStationActivity.findViewById(R.id.dialogStation);
-        assertNotNull(view1);
-
         View view2 = editStationActivity.findViewById(R.id.stationName);
-        assertNotNull(view2);
-
         View view3 = editStationActivity.findViewById(R.id.gps);
-        assertNotNull(view3);
-
         View view4 = editStationActivity.findViewById(R.id.instructions);
-        assertNotNull(view4);
-
         View view5 = editStationActivity.findViewById(R.id.CreateBtn);
+        assertNotNull(view1);
+        assertNotNull(view2);
+        assertNotNull(view3);
+        assertNotNull(view4);
         assertNotNull(view5);
     }
 
-    /*
-   * This method runs after all the tests are complete
-   * */
     @After
     public void tearDown() throws Exception {
         editStationActivityActivityTestRule = null;
