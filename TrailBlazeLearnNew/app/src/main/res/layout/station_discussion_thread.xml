@@ -46,6 +46,8 @@
             android:text="Send"
             style="@style/Widget.AppCompat.Button.Colored"
             android:onClick="onClick"
+            android:enabled="false"
+            android:textColor="@android:color/black"
             android:id="@+id/sendButton"/>
     </LinearLayout>
 
