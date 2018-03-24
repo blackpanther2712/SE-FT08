@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class FragmentC extends Fragment {
+public class StationContributedItemFragment extends Fragment {
 
     private View fragmentView;
     private ContributedItemAdapter contributedItemAdapter;
@@ -41,12 +41,12 @@ public class FragmentC extends Fragment {
     private String currentTrailId;
     private String currentStationId;
 
-    public FragmentC() {}
+    public StationContributedItemFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initFirebaseDatabase();
-        fragmentView = inflater.inflate(R.layout.fragment_c, container, false);
+        fragmentView = inflater.inflate(R.layout.station_contributed_items, container, false);
         floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

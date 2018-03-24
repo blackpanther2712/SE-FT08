@@ -26,7 +26,6 @@ import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.adapters.PostAdapter;
 import com.ft08.trailblazelearn.application.App;
-import com.ft08.trailblazelearn.models.Participant;
 import com.ft08.trailblazelearn.models.Post;
 import com.ft08.trailblazelearn.models.Trainer;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,7 +46,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FragmentB extends Fragment implements View.OnClickListener {
+public class StationDiscussionFragment extends Fragment implements View.OnClickListener {
 
     private static final int RC_PHOTO_PICKER =  1;
 
@@ -69,13 +68,13 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     private ChildEventListener childEventListener;
     private FirebaseUser user;
 
-    public FragmentB() {}
+    public StationDiscussionFragment() {}
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initFirebaseDatabase();
-        fragmentView = inflater.inflate(R.layout.fragment_b, container, false);
+        fragmentView = inflater.inflate(R.layout.station_discussion_thread, container, false);
         return fragmentView;
     }
 

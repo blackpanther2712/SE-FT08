@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.ft08.trailblazelearn.fragments.FragmentA;
-import com.ft08.trailblazelearn.fragments.FragmentB;
-import com.ft08.trailblazelearn.fragments.FragmentC;
+import com.ft08.trailblazelearn.fragments.StationDetailsFragment;
+import com.ft08.trailblazelearn.fragments.StationDiscussionFragment;
+import com.ft08.trailblazelearn.fragments.StationContributedItemFragment;
 
 public class SwipeTabAdapter extends FragmentPagerAdapter {
 
@@ -21,13 +21,13 @@ public class SwipeTabAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new FragmentA();
+                fragment = new StationDetailsFragment();
                 break;
             case 1:
-                fragment = new FragmentB();
+                fragment = new StationDiscussionFragment();
                 break;
             case 2:
-                fragment = new FragmentC();
+                fragment = new StationContributedItemFragment();
                 break;
         }
         return fragment;
