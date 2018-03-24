@@ -217,7 +217,10 @@ public class SelectModeActivity extends AppCompatActivity {
                             })
                             .show();
                 }
-
+                if (id == R.id.aboutus) {
+                    Intent setupIntent = new Intent(getBaseContext(),About_US.class);
+                    startActivity(setupIntent);
+                }
                 return true;
             }
         });

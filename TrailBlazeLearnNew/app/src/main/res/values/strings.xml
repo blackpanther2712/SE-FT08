@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TrailBlazeLearn</string>
+    <string name="app_name">TrailBlaze</string>
     <string name="facebook_app_id">745081585696907</string>
     <string name="fb_login_protocol_scheme">fb745081585696907</string>
 
@@ -78,6 +78,7 @@
     <string name="proceed">Proceed</string>
     <string name="trailblazeicon">TrailBlazeIcon</string>
     <string name="version_1_0">Version 1.0</string>
+    <string name="aboutus">Welcome to Trail Blaze Learning,    Smartrain is a large training company that provides global training services in the United States and Asia Pacific Region.   This application gives a unique experience to users to learn outside of classroom.     This application serves the purpose of courses that can be primarily conducted outdoor and designed as a learning activity. This application complements the teaching of Character and Consumer courses. For example, participants need to understand and be aware that they need to play a part and take action to keep the environment clean. The application will complement the learning by taking the participants on an experiential learning trail to observe, understand and initiate actions on their part to keep the environment clean. In the learning trail process, participants can use the application to record their learning experience using photos captured along the trail, capture their learning points or write a short learning reflection about the learning trail.</string>
 
 
 </resources>

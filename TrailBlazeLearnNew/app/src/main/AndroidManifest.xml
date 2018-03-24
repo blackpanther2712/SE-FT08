@@ -27,7 +27,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.SplashActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,7 +68,8 @@
 
         <activity android:name=".activities.EditStationActivity" />
         <activity android:name=".activities.ChooseContributedItemActivity" />
-        <activity android:name=".activities.WelcomeActivity"></activity>
+        <activity android:name=".activities.WelcomeActivity" />
+        <activity android:name=".activities.About_US"></activity>
     </application>
 
 </manifest>
