@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -37,13 +38,13 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageButton GButton;
+    private Button GButton;
     private static final int RC_SIGN_IN = 1;
     private GoogleApiClient mGoogleSignInClient;
     private static final String TAG = "Main_Activity";
     private FirebaseAuth mAuth;
     private CallbackManager mCallbackManager;
-    private ImageButton fbBtn;
+    private Button fbBtn;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
@@ -74,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
     private void initReferences() {
         mAuth = FirebaseAuth.getInstance();
         mCallbackManager = CallbackManager.Factory.create();
-        GButton = (ImageButton) findViewById(R.id.GoogleBtn);
-        fbBtn = (ImageButton) findViewById(R.id.facebookBtn);
+        GButton = (Button) findViewById(R.id.GoogleBtn);
+        fbBtn = (Button) findViewById(R.id.facebookBtn);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
