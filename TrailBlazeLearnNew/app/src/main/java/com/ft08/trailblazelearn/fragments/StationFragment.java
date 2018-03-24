@@ -56,6 +56,7 @@ public class StationFragment extends Fragment {
     private static String trailid, trailKey;
     private FloatingActionButton floatingActionButton;
     private String latLong,locationAddress;
+    private static int REQ_CODE=1;
 
     /*
     * Initializing All Firebase Instances
@@ -145,7 +146,7 @@ public class StationFragment extends Fragment {
                 try {
                     Intent intent;
                     intent = builder.build(getActivity());
-                    startActivityForResult(intent, 1);
+                    startActivityForResult(intent, REQ_CODE);
                     getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
