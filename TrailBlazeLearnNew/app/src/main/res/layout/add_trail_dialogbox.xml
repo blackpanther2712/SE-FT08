@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:id="@+id/add_trail_dialog_box">
     <TextView
         android:id="@+id/dialogTitle"
         android:layout_width="match_parent"
@@ -15,6 +15,7 @@
         android:textAlignment="center"
         style="@style/Widget.AppCompat.Button.Colored"
         android:text="Add Trail" />
+
     <ScrollView
         android:id="@+id/scrollAddTrail"
         android:layout_width="match_parent"
