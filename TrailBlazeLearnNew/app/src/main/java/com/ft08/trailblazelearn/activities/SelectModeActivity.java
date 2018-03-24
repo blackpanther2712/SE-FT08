@@ -146,8 +146,6 @@ public class SelectModeActivity extends AppCompatActivity {
     }
 
 
-
-
     /* Initializing All FireBase Instances
      * Initializing All Views in Main Activity
      */
@@ -233,10 +231,9 @@ public class SelectModeActivity extends AppCompatActivity {
    */
 
     private void mainBodyView() {
-        if(acct!=null) {
+        if (acct != null) {
             currentUser.setText(getString(R.string.Hello_Main) + " " + personGivenName + "!!");
-        }
-        else{
+        } else {
             currentUser.setText(getString(R.string.Hello_Main) + " " + user.getDisplayName() + "!!");
         }
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -306,4 +303,37 @@ public class SelectModeActivity extends AppCompatActivity {
     }
 
 
+     /*
+     * Called when Back button is pressed from this activity
+     * It exists the app when yes is pressed in Prompt
+     */
+
+    private void exit() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                SelectModeActivity.this);
+
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+            }
+        });
+
+        alertDialog.setNegativeButton("No", null);
+
+        alertDialog.setMessage("Do you want to exit?");
+        alertDialog.setTitle("TrailBlaze");
+        alertDialog.show();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
 }
