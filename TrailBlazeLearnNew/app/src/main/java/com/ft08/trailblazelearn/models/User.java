@@ -7,12 +7,9 @@ public class User {
     private String name;
     private String image;
 
-
     /*Default Constructor
      */
-    public User() {
-
-    }
+    public User() {}
 
     /*Constructor with userId,Name and Image as Parameter
      */
@@ -21,7 +18,6 @@ public class User {
         this.name = name;
         this.image = image;
     }
-
 
 
     /*

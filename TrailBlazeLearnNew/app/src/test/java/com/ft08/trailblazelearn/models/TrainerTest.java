@@ -6,9 +6,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by keerthanadevi on 24/3/18.
- */
+
 public class TrainerTest {
 
     @Test
