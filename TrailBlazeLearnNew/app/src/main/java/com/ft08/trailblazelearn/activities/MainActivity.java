@@ -1,7 +1,9 @@
 package com.ft08.trailblazelearn.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private CallbackManager mCallbackManager;
     private ImageButton fbBtn;
-
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
@@ -51,10 +52,55 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+        initReferences();
+        checkAlreadyLoggedIn();
+        GButton.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
+        faceBookLogIn();
 
 
+    }
+
+
+    /*
+    * Initializing All Views of the activity and getting google Token
+    * */
+    private void initReferences() {
         mAuth = FirebaseAuth.getInstance();
+        mCallbackManager = CallbackManager.Factory.create();
         GButton = (ImageButton) findViewById(R.id.GoogleBtn);
+        fbBtn = (ImageButton) findViewById(R.id.facebookBtn);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = new GoogleApiClient.Builder(
+
+                getApplicationContext())
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    }
+
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+
+    }
+
+
+    /* Login user directly if they are already authenticated
+     */
+    private void checkAlreadyLoggedIn() {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -64,45 +110,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
 
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+    /* On click of facebook Button
+     */
 
-        mGoogleSignInClient = new GoogleApiClient.Builder(
-
-                getApplicationContext())
-                .
-
-                        enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                            @Override
-                            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
-                            }
-
-                        })
-                .
-
-                        addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .
-
-                        build();
-
-        GButton.setOnClickListener(new View.OnClickListener()
-
-        {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
-
-
-        // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create();
-        fbBtn = (ImageButton)findViewById(R.id.facebookBtn);
+    private void faceBookLogIn() {
         fbBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,20 +124,17 @@ public class MainActivity extends AppCompatActivity {
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
                         handleFacebookAccessToken(loginResult.getAccessToken());
                     }
 
                     @Override
                     public void onCancel() {
-                        Log.d(TAG, "facebook:onCancel");
-                        // ...
+
                     }
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.d(TAG, "facebook:onError", error);
-                        // ...
+
                     }
                 });
             }
@@ -131,39 +142,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
+    /* SignIn using which Google account prompt
+    */
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleSignInClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        /* Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);*/
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
+                /*Google Sign In is successful, authenticate with FireBase*/
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("Google sign in failed", e);
-                // ...
+                Log.d(TAG, "onActivityResult: ",e);
             }
         }
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         mAuth.addAuthStateListener(mAuthListener);
     }
+
+
+    /* Add Facebook details into fireBase on successful SignIn
+     */
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
@@ -190,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+
+    /* Add Google details into fireBase on successful SignIn
+     */
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 
@@ -213,6 +230,40 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+
+    /*
+    * Called when Back button is pressed from this activity
+    * It exists the app when yes is pressed in Prompt
+    */
+    private void exit() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                MainActivity.this);
+
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+            }
+        });
+
+        alertDialog.setNegativeButton("No", null);
+
+        alertDialog.setMessage("Do you want to exit?");
+        alertDialog.setTitle("TrailBlaze");
+        alertDialog.show();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        exit();
     }
 
 }

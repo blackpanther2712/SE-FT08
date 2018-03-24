@@ -73,7 +73,7 @@ public class Station {
      */
     @Override
     public String toString() {
-        return (getSeqNum()+ " - " +getStationName());
+        return (getSeqNum()+ ". " +getStationName());
     }
 }
 
