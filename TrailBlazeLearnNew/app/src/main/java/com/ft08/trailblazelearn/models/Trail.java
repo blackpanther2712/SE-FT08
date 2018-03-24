@@ -8,19 +8,25 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Trail {
+    private String trailName;
     private String module;
     private String trailDate;
     private String trailID;
     private String trailCode;
-    private String trailName;
     private String userId;
     private String trailKey;
     private ArrayList<Station> stations;
 
+
+    /*Default Constructor
+    */
     public Trail(){
         stations = new ArrayList<Station> ();
     }
 
+
+    /*Constructor with Parameter
+     */
     public Trail(String trailName, String trailCode, String module, String trailDate, String addedBy) {
         this.trailName = trailName;
         this.trailCode = trailCode;
@@ -31,88 +37,87 @@ public class Trail {
         stations = new ArrayList<Station> ();
     }
 
+
+        /*
+        Getters and setters for private variables
+        1.TrailName,2.TrailCode,3.Module,4.trailDate,5.trailID,6.Stations<Station>
+         */
     public String getTrailName() {
         return trailName;
     }
-
     public void setTrailName(String trailName) {
         this.trailName = trailName;
     }
 
+
     public String getModule() {
         return module;
     }
-
-    public String getTrailCode() {
-        return trailCode;
-    }
-
-    public void setTrailCode(String trailCode) {
-        this.trailCode = trailCode;
-    }
-
     public void setModule(String module) {
         this.module = module;
     }
 
+
+    public String getTrailCode() {
+        return trailCode;
+    }
+    public void setTrailCode(String trailCode) {
+        this.trailCode = trailCode;
+    }
+
+
     public String getTrailDate() {
         return trailDate;
     }
-
     public void setTrailDate(String trailDate) {
         this.trailDate = trailDate;
     }
 
+
     public String getTrailID() {
         return trailID;
     }
-
     public void setTrailID(String trailID) {
         this.trailID = trailID;
     }
 
+
     public List<Station> getStations() {
         return stations;
     }
-
     public void setStations(ArrayList<Station> stations) {
         this.stations = stations;
     }
 
+
+    public String getuserId() {
+        return userId;
+    }
+    public void setUserId(String addedBy) {
+        this.userId = addedBy;
+    }
+
+
+    public String getTrailKey() {
+        return trailKey;
+    }
+    public void setTrailKey(String trailKey) {
+        this.trailKey = trailKey;
+    }
+
+
+    /*
+   ToString method for trailName
+     */
     @Override
     public String toString() {
         return getTrailName();
     }
 
-    public String getuserId() {
-        return userId;
-    }
 
-    public void setUserId(String addedBy) {
-        this.userId = addedBy;
-    }
-
-    public String getTrailKey() {
-        return trailKey;
-    }
-
-    public void setTrailKey(String trailKey) {
-        this.trailKey = trailKey;
-    }
-
-    public Station addStation(int sequenceNum,String stationName, String instructions, String gps,String address) {
-        Station station = new Station(sequenceNum,stationName, instructions, gps,address);
-        stations.add(station);
-        return station;
-    }
-
-    public void removeStation(String stationID) {
-        Station station = getStation(stationID);
-        if(station != null) {
-            stations.remove(station);
-        }
-    }
-
+    /*
+ getting a individual station from the stationList
+  */
     public Station getStation(String stationID) {
         for (Station station : stations) {
             if (station.getStationID().equals(stationID)) {
@@ -122,6 +127,20 @@ public class Trail {
         return null;
     }
 
+    /*
+    Adding a station
+     */
+    public Station addStation(int sequenceNum,String stationName, String instructions, String gps,String address) {
+        Station station = new Station(sequenceNum,stationName, instructions, gps,address);
+        stations.add(station);
+        return station;
+    }
+
+
+
+    /*
+  Updating a station
+   */
     public Station editStation(String stationName, String instructions, String gps,String stationID,String address) {
         Station station = getStation(stationID);
         if(station!=null){
@@ -129,6 +148,22 @@ public class Trail {
         }
         return station;
     }
+
+
+     /*
+    Deleting a station
+     */
+    public void removeStation(String stationID) {
+        Station station = getStation(stationID);
+        if(station != null) {
+            stations.remove(station);
+        }
+    }
+
+
+     /*
+    Editing a Trail
+     */
 
     public void editTrail(String trailName, String code, String module, String trailDate, String newTrailId, String userId) {
         setTrailName(trailName);
@@ -139,6 +174,10 @@ public class Trail {
         setUserId(userId);
     }
 
+
+    /*
+   Customised Conversion of date format
+    */
     public String convertFormat(String date) {
         String formattedDate = "", temp = "";
         for(int i = date.length() - 1; i >= 0; i--) {
