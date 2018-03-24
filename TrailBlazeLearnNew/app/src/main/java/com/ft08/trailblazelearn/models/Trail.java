@@ -25,7 +25,7 @@ public class Trail {
     }
 
 
-    /*Constructor with Parameter
+    /*Constructor with Parameters
      */
     public Trail(String trailName, String trailCode, String module, String trailDate, String addedBy) {
         this.trailName = trailName;
@@ -38,10 +38,10 @@ public class Trail {
     }
 
 
-        /*
-        Getters and setters for private variables
-        1.TrailName,2.TrailCode,3.Module,4.trailDate,5.trailID,6.Stations<Station>
-         */
+    /*
+      Getters and setters for private variables
+      1.TrailName,2.TrailCode,3.Module,4.trailDate,5.trailID,6.Station,7.userId,8.TrailKey
+     */
     public String getTrailName() {
         return trailName;
     }
@@ -162,9 +162,8 @@ public class Trail {
 
 
      /*
-    Editing a Trail
+    Editing a Trail value passed from trainer class
      */
-
     public void editTrail(String trailName, String code, String module, String trailDate, String newTrailId, String userId) {
         setTrailName(trailName);
         setTrailCode(code);
