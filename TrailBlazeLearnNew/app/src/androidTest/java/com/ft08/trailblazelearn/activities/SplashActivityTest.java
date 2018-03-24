@@ -12,24 +12,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by keerthanadevi on 24/3/18.
- */
 public class SplashActivityTest {
-    /*
-    * This test rule enables launching of the activity
-    * */
+
     @Rule
     public ActivityTestRule<SplashActivity> splashActivityActivityTestRule = new ActivityTestRule<SplashActivity>(SplashActivity.class);
 
-    /*
-    * Creating a reference to the activity to be tested
-    * */
     private SplashActivity splashActivity = null;
 
-    /*
-   * This method runs before all the tests are run
-   * */
     @Before
     public void setUp() throws Exception {
         splashActivity = splashActivityActivityTestRule.getActivity();
@@ -41,12 +30,9 @@ public class SplashActivityTest {
         assertNotNull(view);
     }
 
-    /*
-   * This method runs after all the tests are complete
-   * */
     @After
     public void tearDown() throws Exception {
         splashActivityActivityTestRule = null;
     }
 
-    }
+}
