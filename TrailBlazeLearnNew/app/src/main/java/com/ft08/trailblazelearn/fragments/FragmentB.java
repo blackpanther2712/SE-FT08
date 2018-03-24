@@ -1,6 +1,6 @@
 package com.ft08.trailblazelearn.fragments;
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,18 +9,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.adapters.PostAdapter;
@@ -60,7 +60,6 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     private String currentTrailKey;
     private String currentStationId;
     private ImageButton sendImageButton;
-    private ProgressDialog progressDialog;
 
     private DatabaseReference firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -101,16 +100,8 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         writeMessageEditText = (EditText) fragmentView.findViewById(R.id.writeMessageEditText);
         sendButton = (Button) fragmentView.findViewById(R.id.sendButton);
         sendImageButton = (ImageButton) fragmentView.findViewById(R.id.sendImageButton);
-        writeMessageEditText.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
-        sendButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
-        sendImageButton.setVisibility(App.user instanceof Participant ? View.VISIBLE : View.GONE);
         sendButton.setOnClickListener(this);
         sendImageButton.setOnClickListener(this);
-        progressDialog = new ProgressDialog((SwipeTabsActivity)getActivity());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setTitle("Discussion Thread");
-        progressDialog.setMessage("Loading..");
-        progressDialog.show();
     }
 
 
@@ -177,7 +168,6 @@ public class FragmentB extends Fragment implements View.OnClickListener {
             childEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    progressDialog.dismiss();
                     Post post = dataSnapshot.getValue(Post.class);
                     postAdapter.add(post);
                     postAdapter.notifyDataSetChanged();

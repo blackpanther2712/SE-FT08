@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ft08.trailblazelearn.activities.SplashActivity"
-    android:background="@drawable/splash">
+    tools:context="com.ft08.trailblazelearn.activities.SplashActivity">
 
 
     <ImageView
@@ -16,5 +15,16 @@
         android:layout_centerInParent="true"
         app:srcCompat="@drawable/trailblazesplash"
         android:contentDescription="@string/trailblazeicon" />
+
+    <TextView
+        android:id="@+id/versionId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/version_1_0">
+
+    </TextView>
+
 
 </RelativeLayout>
