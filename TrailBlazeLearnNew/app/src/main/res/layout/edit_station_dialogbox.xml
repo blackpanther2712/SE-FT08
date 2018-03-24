@@ -20,7 +20,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_below="@+id/dialogTitle"
         android:id="@+id/scrollView2">
@@ -104,19 +104,19 @@
                 android:hint="instructions"
                 android:inputType=""
                 />
-
+            <Button
+                android:id="@+id/CreateBtn"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:layout_below="@id/instructionsTxt"
+                android:text="@string/save" />
         </RelativeLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/CreateBtn"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/scrollView2"
-        android:layout_marginTop="8dp"
-        android:layout_centerInParent="true"
-        android:text="@string/save" />
+
 
 
 </RelativeLayout>
