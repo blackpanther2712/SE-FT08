@@ -2,6 +2,7 @@ package com.ft08.trailblazelearn.fragments;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -109,6 +110,7 @@ public class FragmentB extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initReferences();
+        attachTextChangedEventListener();
     }
 
 
@@ -116,8 +118,11 @@ public class FragmentB extends Fragment implements View.OnClickListener {
         writeMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.toString().trim().length() > 0) { sendButton.setEnabled(true);}
-                else { sendButton.setEnabled(false);}
+                if(writeMessageEditText.getText().toString().trim().length() > 0) { sendButton.setEnabled(true);}
+                else {
+                    sendButton.setEnabled(false);
+                    sendButton.setTextColor(Color.BLACK);
+                }
             }
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             public void afterTextChanged(Editable editable) {}
