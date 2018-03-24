@@ -1,10 +1,5 @@
 package com.ft08.trailblazelearn.fragments;
 
-/**
- * Created by neelimabenny on 17/3/18.
- * This is a fragment for Contributed Items.
- */
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-
 public class FragmentC extends Fragment {
 
     private View fragmentView;
@@ -48,49 +42,35 @@ public class FragmentC extends Fragment {
     private String currentStationId;
     private ProgressDialog mProgressDialog;
 
-
-    public FragmentC() {
-
-    }
+    public FragmentC() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         initFirebaseDatabase();
-
         fragmentView = inflater.inflate(R.layout.fragment_c, container, false);
         floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(getContext(), ChooseContributedItemActivity.class));
                 getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
             }
         });
         floatingActionButton.setVisibility((App.user instanceof Participant) ? View.VISIBLE : View.INVISIBLE);
-
         return fragmentView;
     }
 
-    //Firebase Initialisation
 
     private void initFirebaseDatabase() {
-
         currentStationId = ((SwipeTabsActivity) getActivity()).getCalledStationId();
         currentTrailId = ((SwipeTabsActivity) getActivity()).getCalledTrailKey();
         System.out.println(currentStationId);
         System.out.println(currentTrailId);
         firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Trails");
         databaseReference = firebaseDatabase.child(currentTrailId).child("Stations").child(currentStationId).child("contributedItems");
-
     }
 
     private void initReferences() {
-
         contributedItem = new ArrayList<>();
         contributedItemAdapter = new ContributedItemAdapter(contributedItem, getContext());
         linearLayoutManager = new LinearLayoutManager(this.getContext());
@@ -106,46 +86,25 @@ public class FragmentC extends Fragment {
 
     }
 
-    // Database Listener
-
     private void attachDatabaseListener() {
-
         if (childEventListener == null) {
-
             childEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                    mProgressDialog.dismiss();
                     ContributedItem cItem = dataSnapshot.getValue(ContributedItem.class);
                     contributedItem.add(cItem);
                     contributedItemAdapter.notifyDataSetChanged();
-
                 }
-
                 @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
                 @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
+                public void onChildRemoved(DataSnapshot dataSnapshot) {}
                 @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
+                public void onCancelled(DatabaseError databaseError) {}
             };
-
             databaseReference.addChildEventListener(childEventListener);
-
         }
     }
 
@@ -160,8 +119,6 @@ public class FragmentC extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         initReferences();
-
-
     }
 }
 
