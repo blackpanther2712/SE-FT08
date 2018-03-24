@@ -218,8 +218,20 @@ public class SelectModeActivity extends AppCompatActivity {
                             .show();
                 }
                 if (id == R.id.aboutus) {
-                    Intent setupIntent = new Intent(getBaseContext(),About_US.class);
+                    Intent setupIntent = new Intent(getBaseContext(),AboutUsActivity.class);
                     startActivity(setupIntent);
+                }
+                if(id==R.id.help){
+                    new AlertDialog.Builder(SelectModeActivity.this)
+                            .setMessage(R.string.contact)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+
+                            .show();
+
                 }
                 return true;
             }

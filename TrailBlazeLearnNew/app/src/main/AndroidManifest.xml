@@ -69,7 +69,7 @@
         <activity android:name=".activities.EditStationActivity" />
         <activity android:name=".activities.ChooseContributedItemActivity" />
         <activity android:name=".activities.WelcomeActivity" />
-        <activity android:name=".activities.About_US"></activity>
+        <activity android:name=".activities.AboutUsActivity"></activity>
     </application>
 
 </manifest>
