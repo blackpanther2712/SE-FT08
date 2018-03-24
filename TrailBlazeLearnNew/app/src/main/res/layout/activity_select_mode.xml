@@ -10,7 +10,6 @@
     tools:context="com.ft08.trailblazelearn.activities.SelectModeActivity">
 
 
-
     <RelativeLayout
 
         android:layout_width="match_parent"

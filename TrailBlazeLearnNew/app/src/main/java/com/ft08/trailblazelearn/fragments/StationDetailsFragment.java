@@ -13,10 +13,8 @@ import android.widget.TextView;
 
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
-import com.ft08.trailblazelearn.models.Post;
-import com.google.firebase.database.FirebaseDatabase;
 
-public class FragmentA extends Fragment implements View.OnClickListener {
+public class StationDetailsFragment extends Fragment implements View.OnClickListener {
 
     private static String currentStationId;
     private static String currentStationName;
@@ -28,12 +26,12 @@ public class FragmentA extends Fragment implements View.OnClickListener {
 
     private TextView txtStationLocation, txtStationName, txtStationInstruction, txtTrailID;
 
-    public FragmentA() {
+    public StationDetailsFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.fragment_a, container, false);
+        fragmentView = inflater.inflate(R.layout.station_details, container, false);
         initFirebaseDatabase();
 
 

@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -24,6 +25,8 @@ import static org.junit.Assert.*;
 public class StationFragmentTest {
 
     Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(SwipeTabsActivity.class.getName(),null,false);
+    private String trailKey = "-L8GwWWec3XIregbYHw4";
+    private String trailId = "20180323-Tc";
 
     @Rule
     public ActivityTestRule<StationActivity> sActivityTestRule = new ActivityTestRule<StationActivity>(StationActivity.class);
@@ -36,7 +39,11 @@ public class StationFragmentTest {
     }
 
     @Test
-
+    public void testFabActionButton() {
+        StationFragment stationFragment = new StationFragment();
+        sActivityTestRule.getActivity().getSupportFragmentManager().beginTransaction().add(R.id.trail_activity, stationFragment);
+        onView(withId(R.id.fab)).perform(click());
+    }
 
     @After
     public void tearDown() throws Exception {
