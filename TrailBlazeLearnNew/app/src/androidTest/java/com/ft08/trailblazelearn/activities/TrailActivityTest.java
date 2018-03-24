@@ -76,6 +76,11 @@ public class TrailActivityTest {
         onView(withId(R.id.CreateBtn)).perform(click());
     }
 
+    @Test
+    public void testTrailListView() {
+        onView(withId(R.id.trail_list)).check(matches(isDisplayed()));
+    }
+
     @After
     public void tearDown() throws Exception {
         trailActivityActivityTestRule = null;
