@@ -1,6 +1,6 @@
 package com.ft08.trailblazelearn.fragments;
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,7 +40,6 @@ public class FragmentC extends Fragment {
     private ArrayList<ContributedItem> contributedItem;
     private String currentTrailId;
     private String currentStationId;
-    private ProgressDialog mProgressDialog;
 
     public FragmentC() {}
 
@@ -77,9 +76,6 @@ public class FragmentC extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         blogList = (RecyclerView) fragmentView.findViewById(R.id.blog_list);
-        mProgressDialog = new ProgressDialog(((SwipeTabsActivity) getActivity()));
-        mProgressDialog.setMessage("Please wait while loading the list..");
-        mProgressDialog.show();
         blogList.setAdapter(contributedItemAdapter);
         blogList.setLayoutManager(linearLayoutManager);
         blogList.setHasFixedSize(true);
