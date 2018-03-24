@@ -1,5 +1,6 @@
 package com.ft08.trailblazelearn.fragments;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ft08.trailblazelearn.R;
+import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.adapters.StationAdapter;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.Participant;
@@ -54,6 +56,7 @@ public class StationFragment extends Fragment {
     private static String trailid, trailKey;
     private FloatingActionButton floatingActionButton;
     private String latLong,locationAddress;
+
     /*
     * Initializing All Firebase Instances
     * */
@@ -99,6 +102,7 @@ public class StationFragment extends Fragment {
         stationList.setEmptyView(stationEmpty);
         floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
         floatingActionButton.setVisibility(App.user instanceof Participant ? View.GONE : View.VISIBLE);
+
     }
 
     /*
