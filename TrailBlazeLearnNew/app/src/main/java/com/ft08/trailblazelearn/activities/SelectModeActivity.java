@@ -60,6 +60,7 @@ public class SelectModeActivity extends AppCompatActivity {
     private DatabaseReference myRef = database.child("Trails");
     private String personGivenName, personEmail;
     private FirebaseAuth.AuthStateListener mListener;
+    private GoogleSignInAccount acct;
 
     @Override
     public void onStart() {
@@ -167,7 +168,7 @@ public class SelectModeActivity extends AppCompatActivity {
      */
     private void navigationDrawer() {
 
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(SelectModeActivity.this);
+        acct = GoogleSignIn.getLastSignedInAccount(SelectModeActivity.this);
 
         if (acct != null) {
             personGivenName = acct.getGivenName();
@@ -232,7 +233,12 @@ public class SelectModeActivity extends AppCompatActivity {
    */
 
     private void mainBodyView() {
-        currentUser.setText(getString(R.string.Hello_Main) + " " + user.getDisplayName() + "!!");
+        if(acct!=null) {
+            currentUser.setText(getString(R.string.Hello_Main) + " " + personGivenName + "!!");
+        }
+        else{
+            currentUser.setText(getString(R.string.Hello_Main) + " " + user.getDisplayName() + "!!");
+        }
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
