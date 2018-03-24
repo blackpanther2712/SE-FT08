@@ -2,12 +2,15 @@ package com.ft08.trailblazelearn.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.app.ProgressDialog;
+import android.widget.ProgressBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +21,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import com.ft08.trailblazelearn.fragments.StationFragment;
 import com.ft08.trailblazelearn.R;
 import com.ft08.trailblazelearn.activities.EditStationActivity;
+import com.ft08.trailblazelearn.activities.StationActivity;
 import com.ft08.trailblazelearn.activities.SwipeTabsActivity;
 import com.ft08.trailblazelearn.application.App;
 import com.ft08.trailblazelearn.models.Participant;
@@ -124,11 +128,14 @@ public class StationAdapter extends ArrayAdapter<Station> {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (StationAdapter.ViewHolder) convertView.getTag();
+
+
         }
 
         final Station station = getItem(position);
         viewHolder.stationName.setText(station.toString());
         viewHolder.address.setText(station.getAddress());
+
 
         /*
         * On clicking the station name, this listener navigated to SwipeActivity
