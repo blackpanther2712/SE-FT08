@@ -8,6 +8,9 @@ import android.os.Bundle;
 import com.ft08.trailblazelearn.R;
 
 public class SplashActivity extends AppCompatActivity {
+    /* Splashes screen for 4 seconds
+       Intents to the Welcome after that
+     */
     private static int SPLASH_TIME_OUT = 4000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
