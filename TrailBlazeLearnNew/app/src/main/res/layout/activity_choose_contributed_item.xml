@@ -32,25 +32,13 @@
         android:layout_below="@+id/returnButton"/>
 
     <Button
-        android:id="@+id/uploadButton"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="23dp"
-        android:onClick="buttonUploadImageClick"
-        android:text="UPLOAD IMAGE/PHOTO">
-
-    </Button>
-
-    <Button
         android:id="@+id/returnButton"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="returnHome"
-        android:text="Return to list" />
+        android:text="Return to contributed list"
+        android:textSize="12sp"/>
 
     <EditText
         android:id="@+id/editBodyText"
@@ -68,6 +56,20 @@
         tools:ignore="DuplicateIds" />
 
     <Button
+        android:id="@+id/uploadButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="23dp"
+        android:onClick="buttonUploadImageClick"
+        android:text="UPLOAD IMAGE/PHOTO"
+        android:textSize="12sp"/>
+
+
+
+    <Button
         android:id="@+id/uploadPdfButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,7 +78,9 @@
         android:layout_alignEnd="@+id/editBodyText"
         android:onClick="buttonUploadDocumentClick"
         android:text="UPLOAD DOCUMENT"
+        android:textSize="12sp"
         style="@style/Widget.AppCompat.Button.Colored"/>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -91,6 +95,7 @@
             android:layout_marginLeft="20dp"
             android:layout_below="@+id/imageView"
             android:adjustViewBounds="true"
+            android:paddingBottom="50dp"
             android:onClick="buttonAttachImageClick"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:srcCompat="@drawable/ic_action_gallery_picture" />
@@ -101,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_below="@+id/imageView"
+            android:paddingBottom="50dp"
             android:adjustViewBounds="true"
             android:layout_toEndOf="@+id/imageGalleryButton"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -111,6 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:paddingBottom="50dp"
             android:layout_below="@+id/imageView"
             android:adjustViewBounds="true"
             android:layout_toEndOf="@+id/takePhotoButton"
@@ -122,6 +129,7 @@
             android:layout_width="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_height="wrap_content"
+            android:paddingBottom="50dp"
             android:layout_marginStart="20dp"
             android:layout_below="@+id/imageView"
             android:adjustViewBounds="true"
@@ -135,6 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_below="@+id/imageView"
+            android:paddingBottom="50dp"
             android:adjustViewBounds="true"
             android:layout_toEndOf="@+id/audioButton"
             android:onClick="buttonAttachDocumentClick"
